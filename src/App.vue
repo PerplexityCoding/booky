@@ -12,7 +12,7 @@
         <dnd-grid-box
           v-for="list in lists"
           :key="'dnd-box-' + list.id"
-          :box-id="'box-' + list.id"
+          :box-id="list.id"
           :resizable="true"
           drag-selector="header"
           class="box-item"
@@ -23,8 +23,8 @@
           </header>
           <smooth-dnd-container
             group-name="tabs"
-            @drop="(e) => onCardDrop(list.id, e)"
             :get-child-payload="getCardPayload(list.id)"
+            @drop="(e) => onCardDrop(list.id, e)"
           >
             <smooth-dnd-draggable
               v-for="item in list.items"
@@ -39,7 +39,12 @@
       </dnd-grid-container>
     </div>
     <div>
-      <smooth-dnd-container behaviour="copy" group-name="tabs" :should-accept-drop="() => false" :get-child-payload="getCardPayloadFromTabsList()">
+      <smooth-dnd-container
+        behaviour="copy"
+        group-name="tabs"
+        :should-accept-drop="() => false"
+        :get-child-payload="getCardPayloadFromTabsList()"
+      >
         <smooth-dnd-draggable
           v-for="tab in tabs"
           :key="`tab-${tab.id}`"
@@ -58,7 +63,6 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
-import data from "./sample.json";
 import { uuidv4 } from "./utils";
 
 export const applyDrag = (arr, dragResult) => {
@@ -91,7 +95,7 @@ export default {
     return {
       loaded: false,
       tabs: [],
-      lists: data,
+      lists: [],
       layout: [],
       cellSize: {
         h: 100,
@@ -107,8 +111,8 @@ export default {
       deep: true,
       handler() {
         this.save();
-      }
-    }
+      },
+    },
   },
   async mounted() {
     const chromeTabs = await this.getTabs();
@@ -116,7 +120,7 @@ export default {
       id: uuidv4(),
       tabId: tab.id,
       body: tab.title,
-      href: tab.url
+      href: tab.url,
     }));
 
     chrome.storage.sync.get(["layout", "lists"], (value) => {
@@ -126,9 +130,17 @@ export default {
     });
   },
   methods: {
+    cleanupLayout() {
+      const listById = this.lists.reduce((acc, value) => {
+        if (value.id) acc[value.id] = value;
+        return acc;
+      });
+      return this.layout.filter((l) => listById[l.id] != null);
+    },
     save() {
+      const layout = this.cleanupLayout();
       const data = {
-        layout: this.layout,
+        layout,
         lists: this.lists,
       };
       chrome.storage.sync.set(data, () => {
@@ -155,6 +167,7 @@ export default {
     deleteList(id) {
       this.lists = this.lists.filter((i) => i.id != id);
       this.layout = this.layout.filter((i) => i.id != id);
+      console.log(this.layout);
     },
     addItem(list, item) {
       if (!item) {
@@ -191,7 +204,7 @@ export default {
       return (index) => {
         return this.tabs[index];
       };
-    }
+    },
   },
 };
 </script>
