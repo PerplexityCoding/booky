@@ -2,6 +2,7 @@
   <smooth-dnd-container
     behaviour="copy"
     group-name="tabs"
+    class="side-bar-container"
     :should-accept-drop="() => false"
     :get-child-payload="getCardPayloadFromTabsList()"
   >
@@ -11,8 +12,8 @@
       class="tab-item"
     >
       <img v-if="tab.icon" :src="tab.icon" />
-      <box-icon v-else />
-      <span>{{ tab.body }}</span>
+      <box-icon size="34" v-else />
+      <span class="tab-item-text">{{ tab.body }}</span>
     </smooth-dnd-draggable>
   </smooth-dnd-container>
 </template>
@@ -48,6 +49,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.side-bar-container {
+  height: calc(100vh - 30px);
+  overflow: auto;
+}
+
 .tab-item {
   background-color: #2c3e50;
   color: white;
@@ -58,5 +64,31 @@ export default {
   display: flex !important;
   border-radius: 2px;
   cursor: pointer;
+  align-items: center;
+
+  img,
+  svg {
+    min-width: 34px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.tab-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 16px;
+  margin: 0 3px;
+  width: 100%;
+  text-align: left;
 }
 </style>
