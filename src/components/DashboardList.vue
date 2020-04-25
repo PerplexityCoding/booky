@@ -21,9 +21,7 @@
         class="dashboard-item"
       >
         <a :href="item.href">
-          <img v-if="item.icon" :src="item.icon" />
-          <box-icon v-else />
-          <span>{{ item.body }}</span>
+          <item :item="item" />
         </a>
       </smooth-dnd-draggable>
     </smooth-dnd-container>
@@ -38,15 +36,15 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
-import { BoxIcon } from 'vue-feather-icons'
+import Item from './Item';
 
 export default {
   name: "DashboardList",
   components: {
-    BoxIcon,
     DndGridBox,
     SmoothDndContainer,
     SmoothDndDraggable,
+    Item,
   },
   props: {
     list: {
