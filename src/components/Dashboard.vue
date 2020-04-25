@@ -2,8 +2,8 @@
   <dnd-grid-container
     :layout.sync="myLayout"
     :cell-size="cellSize"
-    :max-column-count="12"
-    :outer-margin="5"
+    :max-column-count="maxColumnCount"
+    :outer-margin="0"
     class="grid-container"
   >
     <dashboard-list
@@ -39,9 +39,14 @@ export default {
     return {
       myLayout: this.layout,
       cellSize: {
-        h: 100,
-        w: 200,
+        h: 40,
+        w: 205,
       },
+      defaultSize: {
+        w: 1,
+        h: 2,
+      },
+      maxColumnCount: 8,
     };
   },
   watch: {

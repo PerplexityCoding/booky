@@ -2,10 +2,10 @@
   <section v-if="loaded" id="app">
     <header>
       Quick Access
+      <button>Add new list</button>
     </header>
     <section class="box-container">
       <dashboard :lists.sync="lists" :layout.sync="layout" />
-      <button @click="addList">Add new list</button>
       <aside>
         <side-bar :tabs="tabs" />
       </aside>
@@ -32,10 +32,6 @@ export default {
       tabs: [],
       lists: [],
       layout: [],
-      cellSize: {
-        h: 100,
-        w: 200,
-      },
     };
   },
   watch: {
@@ -62,8 +58,8 @@ export default {
 
     const value = await storageGet(["layout", "lists"]);
     this.loaded = true;
-    this.layout = value.layout;
-    this.lists = value.lists;
+    this.layout = value.layout || [];
+    this.lists = value.lists || [];
   },
   methods: {
     cleanupLayout() {
@@ -93,6 +89,10 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: white;
   margin: 0;
@@ -112,9 +112,37 @@ body {
 .dnd-grid-box {
   z-index: initial;
 }
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255,0,0,0.8);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255,0,0,0.4);
+}
 </style>
 
 <style lang="scss" scoped>
+aside {
+  width: calc(100vw - 1695px);
+  padding-right: 5px;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

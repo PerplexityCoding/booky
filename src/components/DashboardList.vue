@@ -3,7 +3,7 @@
     :box-id="list.id"
     :resizable="true"
     drag-selector="header"
-    class="box-item"
+    class="dashboard-list"
   >
     <header>
       {{ list.title }}
@@ -25,7 +25,6 @@
         </a>
       </smooth-dnd-draggable>
     </smooth-dnd-container>
-    <button @click="addItem()">Add new empty item</button>
   </dnd-grid-box>
 </template>
 
@@ -82,15 +81,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box-item {
-  height: 100px;
-  width: 100px;
+.dashboard-list {
   background-color: grey;
+  padding: 5px;
+  border-radius: 2px;
+
+  & header {
+    display: block;
+    height: 25px;
+  }
 }
 
 .dashboard-item {
-  background-color: #4A4A4A;
-  margin: 5px;
+  padding-top: 5px;
   border-radius: 2px;
   color: white;
 

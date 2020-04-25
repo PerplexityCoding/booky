@@ -38,6 +38,7 @@ export default {
   img,
   svg {
     min-width: 34px;
+    max-width: 34px;
   }
 }
 
