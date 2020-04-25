@@ -7,41 +7,24 @@
       <dashboard :lists.sync="lists" :layout.sync="layout" />
       <button @click="addList">Add new list</button>
       <aside>
-        <smooth-dnd-container
-          behaviour="copy"
-          group-name="tabs"
-          :should-accept-drop="() => false"
-          :get-child-payload="getCardPayloadFromTabsList()"
-        >
-          <smooth-dnd-draggable
-            v-for="tab in tabs"
-            :key="`tab-${tab.id}`"
-            class="tab-item"
-          >
-            {{ tab.body }}
-          </smooth-dnd-draggable>
-        </smooth-dnd-container>
+        <side-bar :tabs="tabs" />
       </aside>
     </section>
   </section>
 </template>
 
 <script>
-import {
-  Container as SmoothDndContainer,
-  Draggable as SmoothDndDraggable,
-} from "vue-smooth-dnd";
 import { uuidv4 } from "./utils/utils";
 import { getTabs } from "./services/chrome/tabs";
 import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
+import SideBar from "./components/SideBar";
 
 export default {
   name: "App",
   components: {
+    SideBar,
     Dashboard,
-    SmoothDndContainer,
-    SmoothDndDraggable,
   },
   data() {
     return {
@@ -103,11 +86,6 @@ export default {
         title: "New list",
         items: [],
       });
-    },
-    getCardPayloadFromTabsList() {
-      return (index) => {
-        return this.tabs[index];
-      };
     },
   },
 };
