@@ -1,7 +1,9 @@
 <template>
-  <div v-if="loaded" id="app">
-    <div class="box-container">
-      <button @click="addList">Add new list</button>
+  <section v-if="loaded" id="app">
+    <header>
+      Quick Access
+    </header>
+    <section class="box-container">
       <dnd-grid-container
         :layout.sync="layout"
         :cell-size="cellSize"
@@ -24,6 +26,7 @@
           <smooth-dnd-container
             group-name="tabs"
             :get-child-payload="getCardPayload(list.id)"
+            drop-placeholder
             @drop="(e) => onCardDrop(list.id, e)"
           >
             <smooth-dnd-draggable
@@ -37,33 +40,37 @@
           <button @click="addItem(list)">Add new empty item</button>
         </dnd-grid-box>
       </dnd-grid-container>
-    </div>
-    <div>
-      <smooth-dnd-container
-        behaviour="copy"
-        group-name="tabs"
-        :should-accept-drop="() => false"
-        :get-child-payload="getCardPayloadFromTabsList()"
-      >
-        <smooth-dnd-draggable
-          v-for="tab in tabs"
-          :key="`tab-${tab.id}`"
-          class="tab-item"
+      <button @click="addList">Add new list</button>
+      <aside>
+        <smooth-dnd-container
+          behaviour="copy"
+          group-name="tabs"
+          :should-accept-drop="() => false"
+          :get-child-payload="getCardPayloadFromTabsList()"
         >
-          {{ tab.body }}
-        </smooth-dnd-draggable>
-      </smooth-dnd-container>
-    </div>
-  </div>
+          <smooth-dnd-draggable
+            v-for="tab in tabs"
+            :key="`tab-${tab.id}`"
+            class="tab-item"
+          >
+            {{ tab.body }}
+          </smooth-dnd-draggable>
+        </smooth-dnd-container>
+      </aside>
+    </section>
+  </section>
 </template>
 
 <script>
-import { Container as DndGridContainer, Box as DndGridBox } from "./dnd-grid";
+import {
+  Container as DndGridContainer,
+  Box as DndGridBox,
+} from "./components/dnd-grid";
 import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
-import { uuidv4 } from "./utils";
+import { uuidv4 } from "./utils/utils";
 
 export const applyDrag = (arr, dragResult) => {
   const { removedIndex, addedIndex, payload } = dragResult;
@@ -239,9 +246,15 @@ body {
   text-align: center;
   color: #2c3e50;
   display: flex;
+  flex-direction: column;
 }
 
 .box-container {
+  flex: 1;
+  display: flex;
+}
+
+.grid-container {
   flex: 1;
 }
 
