@@ -71,6 +71,8 @@ import {
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
 import { uuidv4 } from "./utils/utils";
+import { getTabs } from "./services/chrome/tabs";
+import {storageGet, storageSet} from "./services/chrome/storage";
 
 export const applyDrag = (arr, dragResult) => {
   const { removedIndex, addedIndex, payload } = dragResult;
@@ -122,7 +124,7 @@ export default {
     },
   },
   async mounted() {
-    const chromeTabs = await this.getTabs();
+    const chromeTabs = await getTabs();
     this.tabs = chromeTabs.map((tab) => ({
       id: uuidv4(),
       tabId: tab.id,
@@ -130,11 +132,10 @@ export default {
       href: tab.url,
     }));
 
-    chrome.storage.sync.get(["layout", "lists"], (value) => {
-      this.loaded = true;
-      this.layout = value.layout;
-      this.lists = value.lists;
-    });
+    const value = await storageGet(["layout", "lists"]);
+    this.loaded = true;
+    this.layout = value.layout;
+    this.lists = value.lists;
   },
   methods: {
     cleanupLayout() {
@@ -144,25 +145,13 @@ export default {
       });
       return this.layout.filter((l) => listById[l.id] != null);
     },
-    save() {
+    async save() {
       const layout = this.cleanupLayout();
       const data = {
         layout,
         lists: this.lists,
       };
-      chrome.storage.sync.set(data, () => {
-        console.log("Value is set to " + data);
-      });
-    },
-    getTabs() {
-      return new Promise((resolve, reject) => {
-        chrome.tabs.query(
-          {
-            currentWindow: true,
-          },
-          resolve
-        );
-      });
+      await storageSet(data);
     },
     addList() {
       this.lists.push({
@@ -174,7 +163,6 @@ export default {
     deleteList(id) {
       this.lists = this.lists.filter((i) => i.id != id);
       this.layout = this.layout.filter((i) => i.id != id);
-      console.log(this.layout);
     },
     addItem(list, item) {
       if (!item) {
