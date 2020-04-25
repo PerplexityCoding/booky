@@ -57,6 +57,7 @@ export default {
       tabId: tab.id,
       body: tab.title,
       href: tab.url,
+      icon: tab.favIconUrl,
     }));
 
     const value = await storageGet(["layout", "lists"]);
