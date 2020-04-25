@@ -88,7 +88,7 @@ export default {
           //transform: `translate(${pixelPosition.x}px, ${pixelPosition.y}px)`,
           left: `${pixelPosition.x}px`,
           top: `${pixelPosition.y}px`,
-          position: "absolute"
+          position: "absolute",
         };
       }
 
