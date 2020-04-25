@@ -4,42 +4,7 @@
       Quick Access
     </header>
     <section class="box-container">
-      <dnd-grid-container
-        :layout.sync="layout"
-        :cell-size="cellSize"
-        :max-column-count="12"
-        :outer-margin="5"
-        class="grid-container"
-      >
-        <dnd-grid-box
-          v-for="list in lists"
-          :key="'dnd-box-' + list.id"
-          :box-id="list.id"
-          :resizable="true"
-          drag-selector="header"
-          class="box-item"
-        >
-          <header>
-            {{ list.title }}
-            <button @click="deleteList(list.id)">Delete list</button>
-          </header>
-          <smooth-dnd-container
-            group-name="tabs"
-            :get-child-payload="getCardPayload(list.id)"
-            drop-placeholder
-            @drop="(e) => onCardDrop(list.id, e)"
-          >
-            <smooth-dnd-draggable
-              v-for="item in list.items"
-              :key="item.id"
-              class="tab-item"
-            >
-              <a :href="item.href">{{ item.body }}</a>
-            </smooth-dnd-draggable>
-          </smooth-dnd-container>
-          <button @click="addItem(list)">Add new empty item</button>
-        </dnd-grid-box>
-      </dnd-grid-container>
+      <dashboard :lists.sync="lists" :layout.sync="layout" />
       <button @click="addList">Add new list</button>
       <aside>
         <smooth-dnd-container
@@ -63,40 +28,18 @@
 
 <script>
 import {
-  Container as DndGridContainer,
-  Box as DndGridBox,
-} from "./components/dnd-grid";
-import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
 import { uuidv4 } from "./utils/utils";
 import { getTabs } from "./services/chrome/tabs";
-import {storageGet, storageSet} from "./services/chrome/storage";
-
-export const applyDrag = (arr, dragResult) => {
-  const { removedIndex, addedIndex, payload } = dragResult;
-  if (removedIndex === null && addedIndex === null) return arr;
-
-  const result = [...arr];
-  let itemToAdd = payload;
-
-  if (removedIndex !== null) {
-    itemToAdd = result.splice(removedIndex, 1)[0];
-  }
-
-  if (addedIndex !== null) {
-    result.splice(addedIndex, 0, itemToAdd);
-  }
-
-  return result;
-};
+import { storageGet, storageSet } from "./services/chrome/storage";
+import Dashboard from "./components/Dashboard";
 
 export default {
   name: "App",
   components: {
-    DndGridContainer,
-    DndGridBox,
+    Dashboard,
     SmoothDndContainer,
     SmoothDndDraggable,
   },
@@ -119,6 +62,7 @@ export default {
     lists: {
       deep: true,
       handler() {
+        console.log(this.lists);
         this.save();
       },
     },
@@ -159,41 +103,6 @@ export default {
         title: "New list",
         items: [],
       });
-    },
-    deleteList(id) {
-      this.lists = this.lists.filter((i) => i.id != id);
-      this.layout = this.layout.filter((i) => i.id != id);
-    },
-    addItem(list, item) {
-      if (!item) {
-        item = {
-          id: uuidv4(),
-          body: "Empty",
-        };
-      }
-
-      if (!list.items) {
-        list.items = [];
-      }
-
-      list.items.push(item);
-
-      this.save();
-    },
-    getList(listId) {
-      return this.lists.filter((list) => list.id === listId)[0];
-    },
-    onCardDrop(listId, dropResult) {
-      if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-        let list = this.getList(listId);
-        list.items = applyDrag(list.items, dropResult);
-      }
-    },
-    getCardPayload(listId) {
-      return (index) => {
-        let list = this.getList(listId);
-        return list.items[index];
-      };
     },
     getCardPayloadFromTabsList() {
       return (index) => {
@@ -242,19 +151,9 @@ body {
   display: flex;
 }
 
-.grid-container {
-  flex: 1;
-}
-
 .tab-item {
   background-color: #2c3e50;
   color: white;
   padding: 0.2rem;
-}
-
-.box-item {
-  height: 100px;
-  width: 100px;
-  background-color: grey;
 }
 </style>
