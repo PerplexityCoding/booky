@@ -1,7 +1,7 @@
 <template>
   <div ref="dragHandle" :class="classes" :style="style">
     <slot></slot>
-    <div ref="resizeHandle" class="resize-handle"></div>
+    <div v-if="resizable" ref="resizeHandle" class="resize-handle"></div>
   </div>
 </template>
 
@@ -65,6 +65,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    resizable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -110,48 +114,50 @@ export default {
     // moving
     this.$dragHandle = this.$el || this.$refs.dragHandle;
 
-    const startEvent = (evt) => {
-      if (!utils.matchesSelector(evt.target, this.dragSelector)) {
-        return;
-      }
+    if (this.$dragHandle) {
+      const startEvent = (evt) => {
+        if (!utils.matchesSelector(evt.target, this.dragSelector)) {
+          return;
+        }
 
-      evt.preventDefault();
-      this.dragging = true;
-      this.$emit("dragStart");
-      let positionX = evt.clientX || evt.touches[0].pageX;
-      let positionY = evt.clientY || evt.touches[0].pageY;
+        evt.preventDefault();
+        this.dragging = true;
+        this.$emit("dragStart");
+        let positionX = evt.clientX || evt.touches[0].pageX;
+        let positionY = evt.clientY || evt.touches[0].pageY;
 
-      const handleEndDrag = (evt) => {
-        window.removeEventListener("mouseup", handleEndDrag, true);
-        window.removeEventListener("touchend", handleEndDrag, true);
-        window.removeEventListener("mousemove", handleMoveDrag, true);
-        window.removeEventListener("touchmove", handleMoveDrag, true);
+        const handleEndDrag = (evt) => {
+          window.removeEventListener("mouseup", handleEndDrag, true);
+          window.removeEventListener("touchend", handleEndDrag, true);
+          window.removeEventListener("mousemove", handleMoveDrag, true);
+          window.removeEventListener("touchmove", handleMoveDrag, true);
 
-        this.dragging = false;
+          this.dragging = false;
 
-        var offset = {
-          x: (evt.clientX || evt.changedTouches[0].pageX) - positionX,
-          y: (evt.clientY || evt.changedTouches[0].pageY) - positionY,
+          var offset = {
+            x: (evt.clientX || evt.changedTouches[0].pageX) - positionX,
+            y: (evt.clientY || evt.changedTouches[0].pageY) - positionY,
+          };
+          this.$emit("dragEnd", { offset });
         };
-        this.$emit("dragEnd", { offset });
+
+        const handleMoveDrag = (evt) => {
+          var offset = {
+            x: (evt.clientX || evt.touches[0].pageX) - positionX,
+            y: (evt.clientY || evt.touches[0].pageY) - positionY,
+          };
+          this.$emit("dragUpdate", { offset });
+        };
+
+        window.addEventListener("mouseup", handleEndDrag, true);
+        window.addEventListener("touchend", handleEndDrag, true);
+        window.addEventListener("mousemove", handleMoveDrag, true);
+        window.addEventListener("touchmove", handleMoveDrag, true);
       };
 
-      const handleMoveDrag = (evt) => {
-        var offset = {
-          x: (evt.clientX || evt.touches[0].pageX) - positionX,
-          y: (evt.clientY || evt.touches[0].pageY) - positionY,
-        };
-        this.$emit("dragUpdate", { offset });
-      };
-
-      window.addEventListener("mouseup", handleEndDrag, true);
-      window.addEventListener("touchend", handleEndDrag, true);
-      window.addEventListener("mousemove", handleMoveDrag, true);
-      window.addEventListener("touchmove", handleMoveDrag, true);
-    };
-
-    this.$dragHandle.addEventListener("mousedown", startEvent);
-    this.$dragHandle.addEventListener("touchstart", startEvent);
+      this.$dragHandle.addEventListener("mousedown", startEvent);
+      this.$dragHandle.addEventListener("touchstart", startEvent);
+    }
 
     // resizing
     this.$resizeHandle = this.$refs.resizeHandle;

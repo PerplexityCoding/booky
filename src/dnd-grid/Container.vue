@@ -13,8 +13,12 @@
 
 .dnd-grid-container .dnd-grid-box.placeholder {
   border: 1px dashed #000;
-  background: none;
-  z-index: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dnd-grid-container .dnd-grid-box.placeholder {
+    border: 1px dashed #fff;
+  }
 }
 
 .dnd-grid-container .dnd-grid-box.placeholder {
