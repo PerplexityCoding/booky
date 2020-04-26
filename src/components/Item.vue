@@ -1,18 +1,18 @@
 <template>
   <div class="item">
     <img v-if="item.icon" :src="item.icon" />
-    <box-icon size="34" v-else />
+    <box-icon v-else size="34" />
     <span class="item-text">{{ item.body }}</span>
   </div>
 </template>
 
 <script>
-import { BoxIcon } from 'vue-feather-icons'
+import { BoxIcon } from "vue-feather-icons";
 
 export default {
   name: "Item",
   components: {
-    BoxIcon
+    BoxIcon,
   },
   props: {
     item: {
@@ -27,8 +27,8 @@ export default {
 .item {
   background-color: #2c3e50;
   color: white;
-  padding: 0.2rem;
-  width: 200px;
+  padding: 0.3rem;
+  width: 100%;
   height: 40px;
   display: flex !important;
   border-radius: 2px;

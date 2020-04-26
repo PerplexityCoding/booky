@@ -21,14 +21,14 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
-import Item from './Item';
+import Item from "./Item";
 
 export default {
   name: "SideBar",
   components: {
     SmoothDndContainer,
     SmoothDndDraggable,
-    Item
+    Item,
   },
   props: {
     tabs: {

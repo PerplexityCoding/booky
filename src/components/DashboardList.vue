@@ -12,13 +12,13 @@
     <smooth-dnd-container
       group-name="tabs"
       :get-child-payload="getCardPayload"
-      drop-placeholder
+      :drop-placeholder="upperDropPlaceholderOptions"
       @drop="onCardDrop"
     >
       <smooth-dnd-draggable
         v-for="item in list.items"
         :key="item.id"
-        class="dashboard-item"
+        class="dashboard-draggable-item"
       >
         <a :href="item.href">
           <item :item="item" />
@@ -35,7 +35,7 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
-import Item from './Item';
+import Item from "./Item";
 
 export default {
   name: "DashboardList",
@@ -51,6 +51,15 @@ export default {
       required: true,
     },
   },
+  data: function () {
+    return {
+      upperDropPlaceholderOptions: {
+        className: "cards-drop-preview",
+        animationDuration: "150",
+        showOnTop: true,
+      },
+    };
+  },
   methods: {
     getCardPayload(index) {
       return this.list.items[index];
@@ -59,6 +68,7 @@ export default {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
         let list = this.list;
         list.items = applyDrag(list.items, dropResult);
+        this.$emit('card-drop', list);
       }
     },
     addItem(item) {
@@ -80,6 +90,14 @@ export default {
 };
 </script>
 
+<style>
+.cards-drop-preview {
+  background-color: rgba(150, 150, 200, 0.1);
+  border: 1px dashed #abc;
+  margin-top: 5px;
+}
+</style>
+
 <style lang="scss" scoped>
 .dashboard-list {
   background-color: grey;
@@ -92,10 +110,10 @@ export default {
   }
 }
 
-.dashboard-item {
-  padding-top: 5px;
+.dashboard-draggable-item {
   border-radius: 2px;
   color: white;
+  padding-top: 5px;
 
   a {
     color: white;

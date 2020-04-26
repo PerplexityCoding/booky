@@ -4,12 +4,14 @@
     :cell-size="cellSize"
     :max-column-count="maxColumnCount"
     :outer-margin="0"
+    :default-size="defaultSize"
     class="grid-container"
   >
     <dashboard-list
       v-for="list in lists"
       :key="'dnd-box-' + list.id"
       :list="list"
+      @card-drop="cardDrop"
       @delete-list="deleteList"
     />
   </dnd-grid-container>
@@ -18,6 +20,7 @@
 <script>
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
+import {fixLayout} from "./dnd-grid/utils";
 
 export default {
   name: "Dashboard",
@@ -56,14 +59,20 @@ export default {
   },
   methods: {
     deleteList(id) {
-      const lists = this.lists.filter((i) => i.id != id);
+      const lists = this.lists.filter((i) => i.id !== id);
       this.saveLists(lists);
 
-      const newLayout = this.layout.filter((i) => i.id != id);
-      this.$emit("update:layout", newLayout);
+      this.myLayout = this.myLayout.filter((i) => i.id !== id);
+      this.$emit("update:layout", this.myLayout);
     },
     saveLists(lists = this.lists) {
       this.$emit("update:lists", lists);
+    },
+    cardDrop(list) {
+      const listLayout = this.myLayout.filter((i) => i.id === list.id)[0];
+      listLayout.position.h = Math.max(list.items.length + 1, 2);
+      this.myLayout = fixLayout(this.myLayout);
+      this.$emit("update:layout", this.myLayout);
     },
   },
 };
