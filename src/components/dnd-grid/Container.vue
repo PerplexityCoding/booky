@@ -1,7 +1,7 @@
 <template>
   <div class="dnd-grid-container" :style="style">
     <slot></slot>
-    <box class="placeholder" box-id="::placeholder::"></box>
+    <box class="placeholder" box-id="::placeholder::" :resizable="resizable"></box>
   </div>
 </template>
 
@@ -87,6 +87,11 @@ export default {
       },
     },
     fixLayoutOnLoad: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    resizable: {
       type: Boolean,
       required: false,
       default: true,
@@ -223,7 +228,9 @@ export default {
       this.$emit("update:layout", layout);
     },
     registerBox(box) {
-      this.enableResizing(box);
+      if (this.resizable) {
+        this.enableResizing(box);
+      }
       this.enableDragging(box);
       if (this.isMounted && this.autoAddLayoutForNewBox) {
         this.createBoxLayout(box.$props.boxId);
@@ -274,7 +281,7 @@ export default {
         // clone layout
         initialLayout = utils.sortLayout(this.layout);
 
-        this.$emit("drag:start", initialLayout);
+        this.$emit("drag-start", initialLayout);
       });
 
       box.$on("dragUpdate", (evt) => {
@@ -330,7 +337,7 @@ export default {
         }
         this.updateLayout(newLayout);
 
-        this.$emit("drag:update", newLayout);
+        this.$emit("drag-update", newLayout);
       });
 
       box.$on("dragEnd", (evt) => {
@@ -386,7 +393,7 @@ export default {
         this.placeholder.hidden = true;
         isDragging = false;
 
-        this.$emit("drag:end", newLayout);
+        this.$emit("drag-end", newLayout);
       });
     },
     enableResizing(box) {

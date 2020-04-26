@@ -5,7 +5,7 @@
       <plus-circle-icon />
       <span>Add new List</span>
     </button>
-    <h1> | Book-keeper </h1>
+    <h1>| Book-keeper</h1>
   </header>
 </template>
 
@@ -33,6 +33,7 @@ export default {
         },
       ];
       this.$emit("update:lists", lists);
+      this.$emit("change");
     },
   },
 };

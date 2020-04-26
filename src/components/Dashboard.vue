@@ -6,7 +6,9 @@
     :outer-margin="10"
     :default-size="defaultSize"
     :bubble-up="bubbleUp"
+    :resizable="false"
     class="dashboard"
+    @drag-end="$emit('change')"
   >
     <dashboard-list
       v-for="list in lists"
@@ -64,22 +66,26 @@ export default {
       this.$emit("update:layout", this.myLayout);
     },
   },
+  mounted() {
+    this.backupLayout();
+  },
   methods: {
     backupLayout() {
-      this.originalLayout = JSON.parse(JSON.stringify(this.layout));
+      this.originalLayout = JSON.parse(JSON.stringify(this.myLayout));
     },
     deleteList(id) {
       const lists = this.lists.filter((i) => i.id !== id);
-      this.saveLists(lists);
+      this.$emit("update:lists", lists);
 
       this.myLayout = this.myLayout.filter((i) => i.id !== id);
       this.$emit("update:layout", this.myLayout);
-    },
-    saveLists(lists = this.lists) {
-      this.$emit("update:lists", lists);
+      this.$emit("change");
+      this.backupLayout();
     },
     cardDrop(list) {
       this.updateLayout(list, 1);
+      this.$emit("change");
+      this.backupLayout();
     },
     cardEnter(list, isDraggingSource) {
       this.updateLayout(list, isDraggingSource ? 1 : 2);

@@ -1,7 +1,7 @@
 <template>
   <dnd-grid-box
     :box-id="list.id"
-    :resizable="true"
+    :resizable="false"
     drag-selector=".drag-handle"
     class="dashboard-list"
   >
@@ -78,7 +78,11 @@ export default {
       }
     },
     getCardPayload(index) {
-      return this.list.items[index];
+      const item = this.list.items[index];
+      return {
+        ...item,
+        id: uuidv4()
+      };
     },
     onCardDrop(dropResult) {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {

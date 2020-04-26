@@ -1,8 +1,8 @@
 <template>
   <section v-if="loaded" id="app">
-    <header-bar :lists.sync="lists" />
+    <header-bar :lists.sync="lists" @change="save()" />
     <section class="box-container">
-      <dashboard :lists.sync="lists" :layout.sync="layout" />
+      <dashboard :lists.sync="lists" :layout.sync="layout" @change="save()" />
       <aside>
         <side-bar :tabs="tabs" />
       </aside>
@@ -33,17 +33,6 @@ export default {
       layout: [],
     };
   },
-  watch: {
-    layout() {
-      this.save();
-    },
-    lists: {
-      deep: true,
-      handler() {
-        this.save();
-      },
-    },
-  },
   async mounted() {
     const chromeTabs = await getTabs();
     this.tabs = chromeTabs.map((tab) => ({
@@ -61,6 +50,7 @@ export default {
   },
   methods: {
     async save() {
+      await this.$nextTick();
       const data = {
         layout: this.layout,
         lists: this.lists,

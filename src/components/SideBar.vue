@@ -5,6 +5,7 @@
     class="side-bar-container"
     :should-accept-drop="() => false"
     :get-child-payload="getCardPayloadFromTabsList()"
+    @
   >
     <smooth-dnd-draggable
       v-for="tab in tabs"
