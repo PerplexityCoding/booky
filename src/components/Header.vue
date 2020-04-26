@@ -1,24 +1,35 @@
 <template>
   <header>
-    <div class="main-area"></div>
-    <button class="add-btn" @click="addList">
-      <plus-circle-icon />
-      <span>Add new List</span>
+    <div class="main-area">
+      <button class="add-btn" @click="addList">
+        <plus-circle-icon />
+        <span>Add new List</span>
+      </button>
+    </div>
+
+    <button class="lock-btn" @click="toogleLock">
+      <lock-icon v-if="locked" />
+      <unlock-icon v-else />
     </button>
-    <h1>| Book-keeper</h1>
+
+    <h1>Book-keeper</h1>
   </header>
 </template>
 
 <script>
 import { uuidv4 } from "../utils/utils";
-import { PlusCircleIcon } from "vue-feather-icons";
+import { PlusCircleIcon, LockIcon, UnlockIcon } from "vue-feather-icons";
 
 export default {
   name: "HeaderBar",
-  components: { PlusCircleIcon },
+  components: { PlusCircleIcon, LockIcon, UnlockIcon },
   props: {
     lists: {
       type: Array,
+      required: true,
+    },
+    locked: {
+      type: Boolean,
       required: true,
     },
   },
@@ -34,6 +45,10 @@ export default {
       ];
       this.$emit("update:lists", lists);
       this.$emit("change");
+    },
+    toogleLock() {
+      this.locked = !this.locked;
+      this.$emit("update:locked", this.locked);
     },
   },
 };
@@ -51,6 +66,7 @@ header {
   padding: 5px 10px;
 }
 
+.lock-btn,
 .add-btn {
   color: $white;
   padding: 0 5px;

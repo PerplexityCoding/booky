@@ -3,21 +3,33 @@
     <img v-if="item.icon" :src="item.icon" />
     <box-icon v-else size="34" />
     <span class="item-text">{{ item.body }}</span>
+    <button
+      v-if="displayDeleteBtn"
+      class="delete-btn"
+      @click.prevent.stop="$emit('delete-item', item)"
+    >
+      <x-circle-icon />
+    </button>
   </div>
 </template>
 
 <script>
-import { BoxIcon } from "vue-feather-icons";
+import { BoxIcon, XCircleIcon } from "vue-feather-icons";
 
 export default {
   name: "Item",
   components: {
     BoxIcon,
+    XCircleIcon,
   },
   props: {
     item: {
       type: Object,
       required: true,
+    },
+    displayDeleteBtn: {
+      type: Boolean,
+      default: false,
     },
   },
 };
@@ -54,5 +66,13 @@ export default {
   margin: 0 3px;
   width: 100%;
   text-align: left;
+}
+
+.delete-btn {
+  color: $white;
+
+  &:hover {
+    color: #ff3c3f;
+  }
 }
 </style>

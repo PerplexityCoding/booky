@@ -1,7 +1,11 @@
 <template>
   <div class="dnd-grid-container" :style="style">
     <slot></slot>
-    <box class="placeholder" box-id="::placeholder::" :resizable="resizable"></box>
+    <box
+      class="placeholder"
+      box-id="::placeholder::"
+      :resizable="resizable"
+    ></box>
   </div>
 </template>
 
@@ -281,7 +285,7 @@ export default {
         // clone layout
         initialLayout = utils.sortLayout(this.layout);
 
-        this.$emit("drag-start", initialLayout);
+        this.$emit("drag:start", initialLayout);
       });
 
       box.$on("dragUpdate", (evt) => {
@@ -337,7 +341,7 @@ export default {
         }
         this.updateLayout(newLayout);
 
-        this.$emit("drag-update", newLayout);
+        this.$emit("drag:update", newLayout);
       });
 
       box.$on("dragEnd", (evt) => {
@@ -393,7 +397,7 @@ export default {
         this.placeholder.hidden = true;
         isDragging = false;
 
-        this.$emit("drag-end", newLayout);
+        this.$emit("drag:end", newLayout);
       });
     },
     enableResizing(box) {

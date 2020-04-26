@@ -8,17 +8,19 @@
     :bubble-up="bubbleUp"
     :resizable="false"
     class="dashboard"
-    @drag-end="$emit('change')"
+    @drag:end="$emit('change')"
   >
     <dashboard-list
-      v-for="list in lists"
+      v-for="(list, index) in lists"
       :key="'dnd-box-' + list.id"
-      :list="list"
+      :list.sync="lists[index]"
+      :locked="locked"
       @card-drop="cardDrop"
       @card-enter="cardEnter"
       @card-leave="cardLeave"
       @drag-start="backupLayout"
       @delete-list="deleteList"
+      @change="onChange"
     />
   </dnd-grid-container>
 </template>
@@ -41,6 +43,10 @@ export default {
     },
     lists: {
       type: Array,
+      required: true,
+    },
+    locked: {
+      type: Boolean,
       required: true,
     },
   },
@@ -100,6 +106,12 @@ export default {
 
       this.myLayout = fixLayout(this.originalLayout);
       this.$emit("update:layout", this.myLayout);
+    },
+    async onChange({ list, deleteItem } = {}) {
+      if (deleteItem && list) {
+        this.updateLayout(list, 0);
+      }
+      this.$emit("change");
     },
   },
 };

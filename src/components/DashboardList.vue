@@ -7,20 +7,29 @@
   >
     <header>
       <div class="item-title-text drag-handle">
-        {{ list.title }}
+        <text-input :value.sync="list.title" @update:value="$emit('change')" />
       </div>
-      <button class="delete-btn" @click="$emit('delete-list', list.id)">
+      <button
+        v-if="!locked"
+        class="delete-btn"
+        @click="$emit('delete-list', list.id)"
+      >
         <x-circle-icon />
       </button>
     </header>
+    <div v-if="list.items.length === 0 && !dragItemIn" class="empty-placeholder">
+      Drag your book here !
+    </div>
     <smooth-dnd-container
       group-name="tabs"
       :get-child-payload="getCardPayload"
       :drop-placeholder="upperDropPlaceholderOptions"
+      class="dnd-list-container"
       @drop="onCardDrop"
       @drag-start="onDragStart"
-      @drag-enter="$emit('card-enter', list, isDraggingSource)"
-      @drag-leave="$emit('card-leave', list, isDraggingSource)"
+      @drag-enter="onDragEnter"
+      @drag-leave="onDragLeave"
+      @drag-end="dragItemIn = false"
     >
       <smooth-dnd-draggable
         v-for="item in list.items"
@@ -28,7 +37,11 @@
         class="dashboard-draggable-item"
       >
         <a :href="item.href">
-          <item :item="item" />
+          <item
+            :item="item"
+            :display-delete-btn="!locked"
+            @delete-item="deleteItem"
+          />
         </a>
       </smooth-dnd-draggable>
     </smooth-dnd-container>
@@ -44,10 +57,12 @@ import {
 } from "vue-smooth-dnd";
 import { XCircleIcon } from "vue-feather-icons";
 import Item from "./Item";
+import TextInput from "./atoms/TextInput";
 
 export default {
   name: "DashboardList",
   components: {
+    TextInput,
     DndGridBox,
     SmoothDndContainer,
     SmoothDndDraggable,
@@ -59,9 +74,14 @@ export default {
       type: Object,
       required: true,
     },
+    locked: {
+      type: Boolean,
+      required: true,
+    },
   },
   data: function () {
     return {
+      dragItemIn: false,
       isDraggingSource: false,
       upperDropPlaceholderOptions: {
         className: "cards-drop-preview",
@@ -71,6 +91,14 @@ export default {
     };
   },
   methods: {
+    onDragEnter() {
+      this.dragItemIn = true;
+      this.$emit('card-enter', this.list, this.isDraggingSource);
+    },
+    onDragLeave() {
+      this.dragItemIn = false;
+      this.$emit('card-leave', this.list, this.isDraggingSource);
+    },
     onDragStart(dragResult) {
       this.isDraggingSource = dragResult.isSource;
       if (dragResult.isSource) {
@@ -81,7 +109,7 @@ export default {
       const item = this.list.items[index];
       return {
         ...item,
-        id: uuidv4()
+        id: uuidv4(),
       };
     },
     onCardDrop(dropResult) {
@@ -91,14 +119,26 @@ export default {
         this.$emit("card-drop", list);
       }
     },
+    deleteItem(item) {
+      const items = this.list.items.filter((i) => i.id !== item.id);
+      const newList = {
+        ...this.list,
+        items,
+      };
+
+      this.$emit("update:list", newList);
+      this.$emit("change", { list: newList, deleteItem: true });
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "../styles/colors.scss";
+
 .cards-drop-preview {
-  background-color: rgba(150, 150, 200, 0.1);
-  border: 1px dashed #abc;
+  background-color: lighten($purpleColor4, 10%);
+  border: 1px dashed $white;
   margin-top: 5px;
 }
 </style>
@@ -111,6 +151,10 @@ export default {
   padding: 5px;
   border-radius: 2px;
 
+  .dnd-list-container {
+    min-height: 45px;
+  }
+
   & header {
     height: 25px;
     display: flex;
@@ -121,6 +165,7 @@ export default {
       line-height: 25px;
       font-size: 14px;
       color: $purpleColor5;
+      width: 100%;
     }
 
     & .delete-btn {
@@ -145,6 +190,16 @@ export default {
 
   .grid-container {
     flex: 1;
+  }
+
+  .empty-placeholder {
+    border: 1px dashed $white;
+    height: 39px;
+    line-height: 36px;
+    font-size: 15px;
+    margin-top: 5px;
+    position: absolute;
+    width: 195px;
   }
 }
 </style>

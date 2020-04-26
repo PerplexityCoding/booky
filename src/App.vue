@@ -1,8 +1,13 @@
 <template>
   <section v-if="loaded" id="app">
-    <header-bar :lists.sync="lists" @change="save()" />
+    <header-bar :lists.sync="lists" :locked.sync="locked" @change="save()" />
     <section class="box-container">
-      <dashboard :lists.sync="lists" :layout.sync="layout" @change="save()" />
+      <dashboard
+        :lists.sync="lists"
+        :layout.sync="layout"
+        :locked="locked"
+        @change="save"
+      />
       <aside>
         <side-bar :tabs="tabs" />
       </aside>
@@ -28,10 +33,16 @@ export default {
   data() {
     return {
       loaded: false,
+      locked: false,
       tabs: [],
       lists: [],
       layout: [],
     };
+  },
+  watch: {
+    locked() {
+      this.saveLocked();
+    },
   },
   async mounted() {
     const chromeTabs = await getTabs();
@@ -43,10 +54,11 @@ export default {
       icon: tab.favIconUrl,
     }));
 
-    const value = await storageGet(["layout", "lists"]);
+    const value = await storageGet(["layout", "lists", "locked"]);
     this.loaded = true;
     this.layout = value.layout || [];
     this.lists = value.lists || [];
+    this.locked = value.locked;
   },
   methods: {
     async save() {
@@ -56,6 +68,11 @@ export default {
         lists: this.lists,
       };
       await storageSet(data);
+    },
+    async saveLocked() {
+      await storageSet({
+        locked: this.locked,
+      });
     },
   },
 };
