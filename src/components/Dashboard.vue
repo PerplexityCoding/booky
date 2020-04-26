@@ -1,6 +1,6 @@
 <template>
   <dnd-grid-container
-    :layout.sync="myLayout"
+    :layout="myLayout"
     :cell-size="cellSize"
     :max-column-count="maxColumnCount"
     :outer-margin="10"
@@ -10,6 +10,7 @@
     class="dashboard"
     @drag:start="onDragStart"
     @drag:end="onDragEnd"
+    @update:layout="onUpdateLayout"
   >
     <dashboard-list
       v-for="(list, index) in lists"
@@ -31,7 +32,7 @@
 <script>
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
-import { fixLayout } from "./dnd-grid/utils";
+import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
 
 export default {
   name: "Dashboard",
@@ -71,24 +72,25 @@ export default {
       maxColumnCount: 8,
     };
   },
-  watch: {
-    myLayout() {
-      console.log(this.myLayout);
-      this.$emit("update:layout", this.myLayout);
-    },
-  },
   mounted() {
     this.backupLayout();
   },
   methods: {
+    onUpdateLayout(value) {
+      console.log(value);
+      this.myLayout = value;
+      this.$emit("update:layout", value);
+    },
     onDragStart() {
       this.isDragging = true;
+      this.backupLayout();
     },
     async onDragEnd() {
       setTimeout(() => {
         this.isDragging = false;
       });
-      this.$emit('change');
+      this.$emit("change");
+      this.backupLayout();
     },
     backupLayout() {
       this.originalLayout = JSON.parse(JSON.stringify(this.myLayout));
@@ -98,32 +100,33 @@ export default {
       this.$emit("update:lists", lists);
 
       this.myLayout = this.myLayout.filter((i) => i.id !== id);
+      if (this.bubbleUp) {
+        this.myLayout = layoutBubbleUp(this.myLayout);
+      }
       this.$emit("update:layout", this.myLayout);
       this.$emit("change");
-      this.backupLayout();
     },
     cardDrop(list) {
-      this.updateLayout(list, 1);
+      this.updateLayout(list, this.myLayout, 1);
       this.$emit("change");
-      this.backupLayout();
     },
     cardEnter(list, isDraggingSource) {
-      this.updateLayout(list, isDraggingSource ? 1 : 2);
+      this.updateLayout(list, this.originalLayout, isDraggingSource ? 1 : 2);
     },
     cardLeave(list, isDraggingSource) {
-      this.updateLayout(list, isDraggingSource ? 0 : 1);
+      this.updateLayout(list, this.originalLayout,isDraggingSource ? 0 : 1);
     },
-    updateLayout(list, inc) {
-      const listLayout = this.originalLayout.filter((i) => i.id === list.id)[0];
+    updateLayout(list, layout, inc) {
+      const listLayout = layout.filter((i) => i.id === list.id)[0];
       const height = list.items.length + inc;
       listLayout.position.h = Math.max(height, 2);
 
-      this.myLayout = fixLayout(this.originalLayout);
+      this.myLayout = fixLayout(layout);
       this.$emit("update:layout", this.myLayout);
     },
     async onChange({ list, deleteItem } = {}) {
       if (deleteItem && list) {
-        this.updateLayout(list, 0);
+        this.updateLayout(list, this.myLayout, 1);
       }
       this.$emit("change");
     },

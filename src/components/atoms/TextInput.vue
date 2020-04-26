@@ -1,7 +1,7 @@
 <template>
   <span
     ref="input"
-    :class="['input', {'input-editable': editable}]"
+    :class="['input', { 'input-editable': editable }]"
     :contenteditable="editable"
     role="textbox"
     :aria-multiline="multiline"
@@ -20,7 +20,7 @@ import {
   clearSelection,
   placeCaretAtEnd,
   stripHtmlToText,
-  placeCaretAtStart
+  placeCaretAtStart,
 } from "../../utils/input-utils";
 
 export default {

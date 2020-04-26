@@ -7,7 +7,11 @@
   >
     <header class="drag-handle">
       <div class="item-title-text">
-        <text-input :value.sync="list.title" @update:value="$emit('change')" :shouldBeEditable="() => !isDragging" />
+        <text-input
+          :value.sync="list.title"
+          :should-be-editable="() => !isDragging"
+          @update:value="$emit('change')"
+        />
       </div>
       <button
         v-if="!locked"
@@ -17,7 +21,10 @@
         <x-circle-icon />
       </button>
     </header>
-    <div v-if="list.items.length === 0 && !dragItemIn" class="empty-placeholder">
+    <div
+      v-if="list.items.length === 0 && !dragItemIn"
+      class="empty-placeholder"
+    >
       Drag your book here !
     </div>
     <smooth-dnd-container
@@ -101,11 +108,11 @@ export default {
   methods: {
     onDragEnter() {
       this.dragItemIn = true;
-      this.$emit('card-enter', this.list, this.isDraggingSource);
+      this.$emit("card-enter", this.list, this.isDraggingSource);
     },
     onDragLeave() {
       this.dragItemIn = false;
-      this.$emit('card-leave', this.list, this.isDraggingSource);
+      this.$emit("card-leave", this.list, this.isDraggingSource);
     },
     onDragStart(dragResult) {
       this.isDraggingSource = dragResult.isSource;
