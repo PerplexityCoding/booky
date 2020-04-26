@@ -24,9 +24,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/colors.scss";
+
 .item {
-  background-color: #2c3e50;
-  color: white;
+  background-color: darken($purpleColor2, 12%);
+  color: $white;
   padding: 0.3rem;
   width: 100%;
   height: 40px;

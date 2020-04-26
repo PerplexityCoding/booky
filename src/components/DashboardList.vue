@@ -87,21 +87,6 @@ export default {
         this.$emit("card-drop", list);
       }
     },
-    addItem(item) {
-      const list = this.list;
-      if (!item) {
-        item = {
-          id: uuidv4(),
-          body: "Empty",
-        };
-      }
-
-      if (!list.items) {
-        list.items = [];
-      }
-
-      list.items.push(item);
-    },
   },
 };
 </script>
@@ -115,8 +100,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import "../styles/colors.scss";
+
 .dashboard-list {
-  background-color: grey;
+  background-color: lighten($purpleColor4, 15%);
   padding: 5px;
   border-radius: 2px;
 
@@ -128,15 +115,12 @@ export default {
       flex: 1;
       text-align: left;
       line-height: 25px;
+      font-size: 14px;
+      color: $purpleColor5;
     }
 
     & .delete-btn {
-      cursor: pointer;
-      border: none;
-      background: none;
-      display: inline;
-      padding: 0;
-      margin: 0;
+      color: $white;
 
       &:hover {
         color: #ff3c3f;
@@ -146,11 +130,12 @@ export default {
 
   .dashboard-draggable-item {
     border-radius: 2px;
-    color: white;
+    color: $white;
     padding-top: 5px;
 
     a {
-      color: white;
+      color: $white;
+      text-decoration: none;
     }
   }
 

@@ -1,7 +1,7 @@
 function storageGet(values) {
   return new Promise((resolve) => {
     chrome.storage.sync.get(values, (data) => {
-      // console.log("Get Value ", data);
+      console.log("Get Value ", data);
       resolve(data);
     });
   });

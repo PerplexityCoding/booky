@@ -1,9 +1,6 @@
 <template>
   <section v-if="loaded" id="app">
-    <header>
-      Quick Access
-      <button @click="addList">Add new list</button>
-    </header>
+    <header-bar :lists.sync="lists" />
     <section class="box-container">
       <dashboard :lists.sync="lists" :layout.sync="layout" />
       <aside>
@@ -19,10 +16,12 @@ import { getTabs } from "./services/chrome/tabs";
 import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
+import HeaderBar from "./components/Header";
 
 export default {
   name: "App",
   components: {
+    HeaderBar,
     SideBar,
     Dashboard,
   },
@@ -41,7 +40,6 @@ export default {
     lists: {
       deep: true,
       handler() {
-        console.log(this.lists);
         this.save();
       },
     },
@@ -62,49 +60,45 @@ export default {
     this.lists = value.lists || [];
   },
   methods: {
-    cleanupLayout() {
-      if (this.lists.length > 0) {
-        const listById = this.lists.reduce((acc, value) => {
-          if (value.id) acc[value.id] = value;
-          return acc;
-        });
-        return this.layout.filter((l) => listById[l.id] != null);
-      }
-      return [];
-    },
     async save() {
-      //const layout = this.cleanupLayout();
       const data = {
         layout: this.layout,
         lists: this.lists,
       };
       await storageSet(data);
     },
-    addList() {
-      this.lists.push({
-        id: uuidv4(),
-        title: "New list",
-        items: [],
-      });
-    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "./styles/colors.scss";
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: white;
+  background-color: $white;
+  color: black;
   margin: 0;
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: black;
+    background-color: $purpleColor4;
+    color: $white;
   }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  display: inline;
+  padding: 0;
+  margin: 0;
 }
 
 .dnd-grid-box {
@@ -132,6 +126,8 @@ body {
 </style>
 
 <style lang="scss" scoped>
+@import "./styles/colors.scss";
+
 aside {
   width: calc(100vw - 1705px);
 }
@@ -141,19 +137,18 @@ aside {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .box-container {
   flex: 1;
   display: flex;
-}
-
-.tab-item {
-  background-color: #2c3e50;
-  color: white;
-  padding: 0.2rem;
+  padding: 5px;
 }
 </style>

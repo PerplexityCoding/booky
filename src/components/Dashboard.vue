@@ -3,10 +3,10 @@
     :layout.sync="myLayout"
     :cell-size="cellSize"
     :max-column-count="maxColumnCount"
-    :outer-margin="0"
+    :outer-margin="10"
     :default-size="defaultSize"
     :bubble-up="bubbleUp"
-    class="grid-container"
+    class="dashboard"
   >
     <dashboard-list
       v-for="list in lists"
@@ -100,13 +100,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/colors.scss";
+
 .box-item {
   height: 100px;
   width: 100px;
   background-color: grey;
 }
 
-.grid-container {
+.dashboard {
   flex: 1;
+  background-color: darken($purpleColor4, 2%);
 }
 </style>
