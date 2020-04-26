@@ -5,6 +5,7 @@
     :max-column-count="maxColumnCount"
     :outer-margin="0"
     :default-size="defaultSize"
+    :bubble-up="bubbleUp"
     class="grid-container"
   >
     <dashboard-list
@@ -43,6 +44,8 @@ export default {
   },
   data() {
     return {
+      bubbleUp: true,
+      topLayout: true,
       originalLayout: null,
       myLayout: this.layout,
       cellSize: {
