@@ -1,32 +1,34 @@
 <template>
-  <dnd-grid-container
-    :layout="myLayout"
-    :cell-size="cellSize"
-    :max-column-count="maxColumnCount"
-    :outer-margin="10"
-    :default-size="defaultSize"
-    :bubble-up="bubbleUp"
-    :resizable="false"
-    class="dashboard"
-    @drag:start="onDragStart"
-    @drag:end="onDragEnd"
-    @update:layout="onUpdateLayout"
-  >
-    <dashboard-list
-      v-for="(list, index) in lists"
-      :key="'dnd-box-' + list.id"
-      :box-id="list.id"
-      :list.sync="lists[index]"
-      :locked="locked"
-      :is-dragging="isDragging"
-      @card-drop="cardDrop"
-      @card-enter="cardEnter"
-      @card-leave="cardLeave"
-      @drag-start="backupLayout"
-      @delete-list="deleteList"
-      @change="onChange"
-    />
-  </dnd-grid-container>
+  <div class="dashboard">
+    <dnd-grid-container
+      :layout="myLayout"
+      :cell-size="cellSize"
+      :max-column-count="maxColumnCount"
+      :outer-margin="10"
+      :margin="5"
+      :default-size="defaultSize"
+      :bubble-up="bubbleUp"
+      :resizable="false"
+      @drag:start="onDragStart"
+      @drag:end="onDragEnd"
+      @update:layout="onUpdateLayout"
+    >
+      <dashboard-list
+        v-for="(list, index) in lists"
+        :key="'dnd-box-' + list.id"
+        :box-id="list.id"
+        :list.sync="lists[index]"
+        :locked="locked"
+        :is-dragging="isDragging"
+        @card-drop="cardDrop"
+        @card-enter="cardEnter"
+        @card-leave="cardLeave"
+        @drag-start="backupLayout"
+        @delete-list="deleteList"
+        @change="onChange"
+      />
+    </dnd-grid-container>
+  </div>
 </template>
 
 <script>
@@ -146,5 +148,7 @@ export default {
 .dashboard {
   flex: 1;
   background-color: darken($purpleColor4, 2%);
+  height: 100%;
+  overflow: auto;
 }
 </style>

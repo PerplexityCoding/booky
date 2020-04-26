@@ -166,6 +166,8 @@ aside {
 .box-container {
   flex: 1;
   display: flex;
-  padding: 5px;
+  padding: 5px 5px 0 0;
+  position: relative;
+  height: calc(100vh - 35px);
 }
 </style>
