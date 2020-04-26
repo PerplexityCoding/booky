@@ -2,12 +2,16 @@
   <dnd-grid-box
     :box-id="list.id"
     :resizable="true"
-    drag-selector="header"
+    drag-selector=".drag-handle"
     class="dashboard-list"
   >
     <header>
-      {{ list.title }}
-      <button @click="$emit('delete-list', list.id)">Delete list</button>
+      <div class="item-title-text drag-handle">
+        {{ list.title }}
+      </div>
+      <button class="delete-btn" @click="$emit('delete-list', list.id)">
+        <x-circle-icon />
+      </button>
     </header>
     <smooth-dnd-container
       group-name="tabs"
@@ -35,6 +39,7 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
+import { XCircleIcon } from "vue-feather-icons";
 import Item from "./Item";
 
 export default {
@@ -44,6 +49,7 @@ export default {
     SmoothDndContainer,
     SmoothDndDraggable,
     Item,
+    XCircleIcon,
   },
   props: {
     list: {
@@ -68,7 +74,7 @@ export default {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
         let list = this.list;
         list.items = applyDrag(list.items, dropResult);
-        this.$emit('card-drop', list);
+        this.$emit("card-drop", list);
       }
     },
     addItem(item) {
@@ -105,22 +111,41 @@ export default {
   border-radius: 2px;
 
   & header {
-    display: block;
     height: 25px;
+    display: flex;
+
+    & .item-title-text {
+      flex: 1;
+      text-align: left;
+      line-height: 25px;
+    }
+
+    & .delete-btn {
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: inline;
+      padding: 0;
+      margin: 0;
+
+      &:hover {
+        color: #ff3c3f;
+      }
+    }
   }
-}
 
-.dashboard-draggable-item {
-  border-radius: 2px;
-  color: white;
-  padding-top: 5px;
-
-  a {
+  .dashboard-draggable-item {
+    border-radius: 2px;
     color: white;
-  }
-}
+    padding-top: 5px;
 
-.grid-container {
-  flex: 1;
+    a {
+      color: white;
+    }
+  }
+
+  .grid-container {
+    flex: 1;
+  }
 }
 </style>
