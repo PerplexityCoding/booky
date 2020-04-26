@@ -13,6 +13,7 @@
     <dashboard-list
       v-for="(list, index) in lists"
       :key="'dnd-box-' + list.id"
+      :box-id="list.id"
       :list.sync="lists[index]"
       :locked="locked"
       @card-drop="cardDrop"
@@ -69,6 +70,7 @@ export default {
   },
   watch: {
     myLayout() {
+      console.log(this.myLayout);
       this.$emit("update:layout", this.myLayout);
     },
   },

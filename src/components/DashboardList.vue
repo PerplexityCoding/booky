@@ -78,6 +78,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    boxId: {
+      type: String,
+      required: true,
+    },
   },
   data: function () {
     return {

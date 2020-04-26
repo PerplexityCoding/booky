@@ -9,6 +9,7 @@
         @change="save"
       />
       <aside>
+        <button @click="reset">Reset</button>
         <side-bar :tabs="tabs" />
       </aside>
     </section>
@@ -44,7 +45,7 @@ export default {
       this.saveLocked();
     },
   },
-  async mounted() {
+  async created() {
     const chromeTabs = await getTabs();
     this.tabs = chromeTabs.map((tab) => ({
       id: uuidv4(),
@@ -55,19 +56,29 @@ export default {
     }));
 
     const value = await storageGet(["layout", "lists", "locked"]);
-    this.loaded = true;
     this.layout = value.layout || [];
-    this.lists = value.lists || [];
+    this.lists =
+      value.lists && value.lists.length > 0
+        ? value.lists
+        : [{ id: uuidv4(), title: "Edit this list", items: [] }];
     this.locked = value.locked;
+    this.loaded = true;
   },
   methods: {
     async save() {
       await this.$nextTick();
+      console.log(this.layout, this.lists);
+
       const data = {
         layout: this.layout,
         lists: this.lists,
       };
       await storageSet(data);
+    },
+    reset() {
+      this.layout = [];
+      this.lists = [];
+      this.save();
     },
     async saveLocked() {
       await storageSet({
