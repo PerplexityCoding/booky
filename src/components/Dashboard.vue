@@ -8,7 +8,8 @@
     :bubble-up="bubbleUp"
     :resizable="false"
     class="dashboard"
-    @drag:end="$emit('change')"
+    @drag:start="onDragStart"
+    @drag:end="onDragEnd"
   >
     <dashboard-list
       v-for="(list, index) in lists"
@@ -16,6 +17,7 @@
       :box-id="list.id"
       :list.sync="lists[index]"
       :locked="locked"
+      :is-dragging="isDragging"
       @card-drop="cardDrop"
       @card-enter="cardEnter"
       @card-leave="cardLeave"
@@ -53,6 +55,7 @@ export default {
   },
   data() {
     return {
+      isDragging: false,
       bubbleUp: true,
       topLayout: true,
       originalLayout: null,
@@ -78,6 +81,15 @@ export default {
     this.backupLayout();
   },
   methods: {
+    onDragStart() {
+      this.isDragging = true;
+    },
+    async onDragEnd() {
+      setTimeout(() => {
+        this.isDragging = false;
+      });
+      this.$emit('change');
+    },
     backupLayout() {
       this.originalLayout = JSON.parse(JSON.stringify(this.myLayout));
     },

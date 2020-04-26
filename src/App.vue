@@ -9,7 +9,6 @@
         @change="save"
       />
       <aside>
-        <button @click="reset">Reset</button>
         <side-bar :tabs="tabs" />
       </aside>
     </section>

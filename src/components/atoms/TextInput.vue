@@ -38,6 +38,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    shouldBeEditable: {
+      type: Function,
+      default: () => true,
+    },
   },
   data() {
     return {
@@ -54,10 +58,6 @@ export default {
   methods: {
     input() {
       return this.$refs.input;
-    },
-
-    shouldBeEditable() {
-      return true;
     },
 
     onBlur() {

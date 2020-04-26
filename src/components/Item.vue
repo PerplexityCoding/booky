@@ -63,7 +63,7 @@ export default {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-height: 16px;
-  margin: 0 3px;
+  margin: 0 3px 0 5px;
   width: 100%;
   text-align: left;
 }

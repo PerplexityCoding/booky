@@ -57,6 +57,10 @@ export default {
       type: String,
       required: true,
     },
+    dragOffsetThreshold: {
+      type: Number,
+      default: 5,
+    },
     dragSelector: {
       type: String,
       default: "*",
@@ -124,8 +128,6 @@ export default {
         }
 
         evt.preventDefault();
-        this.dragging = true;
-        this.$emit("dragStart");
         let positionX = evt.clientX || evt.touches[0].pageX;
         let positionY = evt.clientY || evt.touches[0].pageY;
 
@@ -149,6 +151,16 @@ export default {
             x: (evt.clientX || evt.touches[0].pageX) - positionX,
             y: (evt.clientY || evt.touches[0].pageY) - positionY,
           };
+
+          if (
+            !this.dragging &&
+            (Math.abs(offset.x) > this.dragOffsetThreshold ||
+              Math.abs(offset.y) > this.dragOffsetThreshold)
+          ) {
+            this.dragging = true;
+            this.$emit("dragStart");
+          }
+
           this.$emit("dragUpdate", { offset });
         };
 

@@ -2,12 +2,12 @@
   <dnd-grid-box
     :box-id="list.id"
     :resizable="false"
-    drag-selector=".drag-handle"
+    drag-selector=".drag-handle *"
     class="dashboard-list"
   >
-    <header>
-      <div class="item-title-text drag-handle">
-        <text-input :value.sync="list.title" @update:value="$emit('change')" />
+    <header class="drag-handle">
+      <div class="item-title-text">
+        <text-input :value.sync="list.title" @update:value="$emit('change')" :shouldBeEditable="() => !isDragging" />
       </div>
       <button
         v-if="!locked"
@@ -29,7 +29,7 @@
       @drag-start="onDragStart"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
-      @drag-end="dragItemIn = false"
+      @drag-end="onDragEnd"
     >
       <smooth-dnd-draggable
         v-for="item in list.items"
@@ -82,6 +82,10 @@ export default {
       type: String,
       required: true,
     },
+    isDragging: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: function () {
     return {
@@ -108,6 +112,9 @@ export default {
       if (dragResult.isSource) {
         this.$emit("drag-start");
       }
+    },
+    onDragEnd() {
+      this.dragItemIn = false;
     },
     getCardPayload(index) {
       const item = this.list.items[index];
@@ -162,6 +169,7 @@ export default {
   & header {
     height: 25px;
     display: flex;
+    cursor: grab;
 
     & .item-title-text {
       flex: 1;
