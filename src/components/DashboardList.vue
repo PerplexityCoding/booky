@@ -18,6 +18,9 @@
       :get-child-payload="getCardPayload"
       :drop-placeholder="upperDropPlaceholderOptions"
       @drop="onCardDrop"
+      @drag-start="onDragStart"
+      @drag-enter="$emit('card-enter', list, isDraggingSource)"
+      @drag-leave="$emit('card-leave', list, isDraggingSource)"
     >
       <smooth-dnd-draggable
         v-for="item in list.items"
@@ -59,6 +62,7 @@ export default {
   },
   data: function () {
     return {
+      isDraggingSource: false,
       upperDropPlaceholderOptions: {
         className: "cards-drop-preview",
         animationDuration: "150",
@@ -67,6 +71,12 @@ export default {
     };
   },
   methods: {
+    onDragStart(dragResult) {
+      this.isDraggingSource = dragResult.isSource;
+      if (dragResult.isSource) {
+        this.$emit("drag-start");
+      }
+    },
     getCardPayload(index) {
       return this.list.items[index];
     },

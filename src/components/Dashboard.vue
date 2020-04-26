@@ -12,6 +12,9 @@
       :key="'dnd-box-' + list.id"
       :list="list"
       @card-drop="cardDrop"
+      @card-enter="cardEnter"
+      @card-leave="cardLeave"
+      @drag-start="backupLayout"
       @delete-list="deleteList"
     />
   </dnd-grid-container>
@@ -20,7 +23,7 @@
 <script>
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
-import {fixLayout} from "./dnd-grid/utils";
+import { fixLayout } from "./dnd-grid/utils";
 
 export default {
   name: "Dashboard",
@@ -40,6 +43,7 @@ export default {
   },
   data() {
     return {
+      originalLayout: null,
       myLayout: this.layout,
       cellSize: {
         h: 40,
@@ -58,6 +62,9 @@ export default {
     },
   },
   methods: {
+    backupLayout() {
+      this.originalLayout = JSON.parse(JSON.stringify(this.layout));
+    },
     deleteList(id) {
       const lists = this.lists.filter((i) => i.id !== id);
       this.saveLists(lists);
@@ -69,9 +76,20 @@ export default {
       this.$emit("update:lists", lists);
     },
     cardDrop(list) {
-      const listLayout = this.myLayout.filter((i) => i.id === list.id)[0];
-      listLayout.position.h = Math.max(list.items.length + 1, 2);
-      this.myLayout = fixLayout(this.myLayout);
+      this.updateLayout(list, 1);
+    },
+    cardEnter(list, isDraggingSource) {
+      this.updateLayout(list, isDraggingSource ? 1 : 2);
+    },
+    cardLeave(list, isDraggingSource) {
+      this.updateLayout(list, isDraggingSource ? 0 : 1);
+    },
+    updateLayout(list, inc) {
+      const listLayout = this.originalLayout.filter((i) => i.id === list.id)[0];
+      const height = list.items.length + inc;
+      listLayout.position.h = Math.max(height, 2);
+
+      this.myLayout = fixLayout(this.originalLayout);
       this.$emit("update:layout", this.myLayout);
     },
   },
