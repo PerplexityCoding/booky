@@ -22,6 +22,7 @@ import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
+import {fixBrokenLayout} from "./utils/dnd-grid";
 
 export default {
   name: "App",
@@ -55,11 +56,11 @@ export default {
     }));
 
     const value = await storageGet(["layout", "lists", "locked"]);
-    this.layout = value.layout || [];
     this.lists =
       value.lists && value.lists.length > 0
         ? value.lists
         : [{ id: uuidv4(), title: "Edit this list", items: [] }];
+    this.layout = fixBrokenLayout(value.layout || [], this.lists);
     this.locked = value.locked || false;
     this.loaded = true;
   },
