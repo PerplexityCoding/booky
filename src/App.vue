@@ -60,7 +60,7 @@ export default {
       value.lists && value.lists.length > 0
         ? value.lists
         : [{ id: uuidv4(), title: "Edit this list", items: [] }];
-    this.locked = value.locked;
+    this.locked = value.locked || false;
     this.loaded = true;
   },
   methods: {
@@ -147,6 +147,7 @@ button {
 
 aside {
   width: calc(100vw - 1705px);
+  max-width: 400px;
 }
 
 #app {
