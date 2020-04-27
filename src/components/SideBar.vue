@@ -4,6 +4,7 @@
     group-name="tabs"
     class="side-bar-container"
     :should-accept-drop="() => false"
+    :drag-handle-selector="locked ? '.none' : ''"
     :get-child-payload="getCardPayloadFromTabsList()"
     @
   >
@@ -36,6 +37,10 @@ export default {
       type: Array,
       required: true,
     },
+    locked: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     getCardPayloadFromTabsList() {

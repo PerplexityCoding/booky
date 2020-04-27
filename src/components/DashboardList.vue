@@ -32,6 +32,8 @@
       group-name="tabs"
       :get-child-payload="getCardPayload"
       :drop-placeholder="upperDropPlaceholderOptions"
+      :drag-handle-selector="locked ? '.none' : ''"
+      :should-accept-drop="() => !locked"
       class="dnd-list-container"
       @drop="onCardDrop"
       @drag-start="onDragStart"

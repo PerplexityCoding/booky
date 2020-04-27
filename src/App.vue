@@ -9,7 +9,7 @@
         @change="save"
       />
       <aside>
-        <side-bar :tabs="tabs" />
+        <side-bar :tabs="tabs" :locked="locked" />
       </aside>
     </section>
   </section>
@@ -22,7 +22,7 @@ import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
-import {fixBrokenLayout} from "./utils/dnd-grid";
+import { fixBrokenLayout } from "./utils/dnd-grid";
 
 export default {
   name: "App",
