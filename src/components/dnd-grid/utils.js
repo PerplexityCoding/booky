@@ -169,3 +169,15 @@ export const fixLayout = (layout, doBubbleUp) => {
   });
   return fixedLayout;
 };
+
+export const layoutEquals = (a, b) => {
+  const posA = a.position;
+  const posB = b.position;
+
+  return (
+    posA.y === posB.y &&
+    posA.x === posB.x &&
+    posA.h === posB.h &&
+    posA.w === posB.w
+  );
+};

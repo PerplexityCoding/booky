@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { uuidv4 } from "./utils/utils";
+import { debounce, uuidv4 } from "./utils/utils";
 import { getTabs } from "./services/chrome/tabs";
 import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
@@ -64,16 +64,13 @@ export default {
     this.loaded = true;
   },
   methods: {
-    async save() {
-      await this.$nextTick();
-      console.log(this.layout, this.lists);
-
+    save: debounce(function () {
       const data = {
         layout: this.layout,
         lists: this.lists,
       };
-      await storageSet(data);
-    },
+      storageSet(data);
+    }, 0),
     reset() {
       this.layout = [];
       this.lists = [];

@@ -24,6 +24,7 @@
         @card-enter="cardEnter"
         @card-leave="cardLeave"
         @drag-start="backupLayout"
+        @drag-end="cardDragEnd"
         @delete-list="deleteList"
         @change="onChange"
       />
@@ -35,6 +36,8 @@
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
 import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
+import {fixLayoutSize} from "../utils/dnd-grid";
+import {debounce} from "../utils/utils";
 
 export default {
   name: "Dashboard",
@@ -108,8 +111,9 @@ export default {
       this.$emit("update:layout", this.myLayout);
       this.$emit("change");
     },
-    cardDrop(list) {
-      this.updateLayout(list, this.myLayout, 1);
+    cardDrop() {
+      this.myLayout = fixLayoutSize(this.originalLayout, this.lists, this.bubbleUp);
+      this.$emit("update:layout", this.myLayout);
       this.$emit("change");
     },
     cardEnter(list, isDraggingSource) {
@@ -118,12 +122,16 @@ export default {
     cardLeave(list, isDraggingSource) {
       this.updateLayout(list, this.originalLayout,isDraggingSource ? 0 : 1);
     },
+    cardDragEnd() {
+      this.myLayout = fixLayoutSize(this.originalLayout, this.lists, this.bubbleUp);
+      this.$emit("update:layout", this.myLayout);
+    },
     updateLayout(list, layout, inc) {
       const listLayout = layout.filter((i) => i.id === list.id)[0];
       const height = list.items.length + inc;
       listLayout.position.h = Math.max(height, 2);
 
-      this.myLayout = fixLayout(layout);
+      this.myLayout = fixLayout(layout, this.bubbleUp);
       this.$emit("update:layout", this.myLayout);
     },
     async onChange({ list, deleteItem } = {}) {

@@ -1,6 +1,7 @@
 <template>
   <dnd-grid-box
     :box-id="list.id"
+    :data-id="list.id"
     :resizable="false"
     drag-selector=".drag-handle *"
     class="dashboard-list"
@@ -36,7 +37,7 @@
       @drag-start="onDragStart"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
-      @drag-end="onDragEnd"
+      @drag-end="onDragEnd()"
     >
       <smooth-dnd-draggable
         v-for="item in list.items"
@@ -56,7 +57,7 @@
 </template>
 
 <script>
-import { uuidv4, applyDrag } from "../utils/utils";
+  import {uuidv4, applyDrag, debounce} from "../utils/utils";
 import { Box as DndGridBox } from "./dnd-grid";
 import {
   Container as SmoothDndContainer,
@@ -120,9 +121,10 @@ export default {
         this.$emit("drag-start");
       }
     },
-    onDragEnd() {
+    onDragEnd: debounce(function () {
       this.dragItemIn = false;
-    },
+      this.$emit("drag-end");
+    }, 0),
     getCardPayload(index) {
       const item = this.list.items[index];
       return {

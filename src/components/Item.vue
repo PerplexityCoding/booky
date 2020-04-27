@@ -1,6 +1,9 @@
 <template>
   <div class="item">
-    <img v-if="item.icon" :src="item.icon" />
+    <img
+      v-if="item.icon"
+      :src="item.icon"
+    />
     <box-icon v-else size="34" />
     <span class="item-text">{{ item.body }}</span>
     <button

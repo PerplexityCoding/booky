@@ -33,6 +33,7 @@
 <script>
 import Box from "./Box";
 import * as utils from "./utils";
+import { layoutEquals } from "./utils";
 
 export const List = new Set();
 
@@ -228,8 +229,32 @@ export default {
         y: Math.round(y / (this.cellSize.h + this.margin)),
       };
     },
+    checkIfLayoutHasChanged(layout) {
+      if (layout.size != this.layout.size) {
+        return true;
+      }
+      const ids = [];
+      for (const box of layout) {
+        const originalBox = this.getBoxLayoutById(box.id);
+        if (!originalBox) {
+          return true;
+        }
+        if (!layoutEquals(box, originalBox)) {
+          return true;
+        }
+        ids.push(box.id);
+      }
+      for (const box of this.layout) {
+        if (ids.indexOf(box.id) < 0) {
+          return true;
+        }
+      }
+      return false;
+    },
     updateLayout(layout) {
-      this.$emit("update:layout", layout);
+      if (this.checkIfLayoutHasChanged(layout)) {
+        this.$emit("update:layout", layout);
+      }
     },
     registerBox(box) {
       if (this.resizable) {
