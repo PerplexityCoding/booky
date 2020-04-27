@@ -9,6 +9,7 @@
       :default-size="defaultSize"
       :bubble-up="bubbleUp"
       :resizable="false"
+      :draggable="!this.locked"
       @drag:start="onDragStart"
       @drag:end="onDragEnd"
       @update:layout="onUpdateLayout"

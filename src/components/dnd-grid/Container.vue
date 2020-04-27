@@ -101,6 +101,11 @@ export default {
       required: false,
       default: true,
     },
+    draggable: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -295,6 +300,10 @@ export default {
       };
 
       box.$on("dragStart", (evt) => {
+        if (!this.draggable) {
+          return;
+        }
+
         var boxLayout = this.getBoxLayoutById(box.boxId);
         if (boxLayout.pinned) {
           return;
