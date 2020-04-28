@@ -8,7 +8,7 @@
     </header>
     <section>
       <smooth-dnd-container
-        behaviour="copy"
+        behaviour="dndBehavior"
         group-name="tabs"
         class="side-bar-container"
         :should-accept-drop="() => false"
@@ -69,6 +69,9 @@ export default {
     },
     items() {
       return this.mode === "tabs" ? this.tabs : this.stash;
+    },
+    dndBehavior() {
+      return this.mode === "tabs" ? "move" : "copy";
     },
   },
   methods: {

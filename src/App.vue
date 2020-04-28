@@ -17,12 +17,12 @@
 
 <script>
 import { debounce, uuidv4 } from "./utils/utils";
-import { getTabs } from "./services/chrome/tabs";
 import { storageGet, storageSet } from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
+import {getTabs} from "./services/app/tabs";
 
 export default {
   name: "App",
@@ -47,23 +47,17 @@ export default {
     },
   },
   async created() {
-    const chromeTabs = await getTabs();
-    this.tabs = chromeTabs.map((tab) => ({
-      id: uuidv4(),
-      tabId: tab.id,
-      body: tab.title,
-      href: tab.url,
-      icon: tab.favIconUrl,
-    }));
+    this.tabs = await getTabs();
     this.stash = [];
 
-    const value = await storageGet(["layout", "lists", "locked"]);
+    const value = await storageGet(["layout", "lists", "locked", "stash"]);
     this.lists =
       value.lists && value.lists.length > 0
         ? value.lists
         : [{ id: uuidv4(), title: "Edit this list", items: [] }];
     this.layout = fixBrokenLayout(value.layout || [], this.lists);
     this.locked = value.locked || false;
+    this.stash = value.stash || [];
     this.loaded = true;
   },
   methods: {
