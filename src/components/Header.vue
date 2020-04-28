@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="main-area">
-      <button class="add-btn" @click="addList">
+      <button v-if="!locked" class="add-btn" @click="addList">
         <plus-circle-icon />
         <span>Add new List</span>
       </button>

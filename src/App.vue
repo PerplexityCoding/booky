@@ -9,7 +9,7 @@
         @change="save"
       />
       <aside>
-        <side-bar :tabs="tabs" :locked="locked" />
+        <side-bar :tabs="tabs" :locked="locked" :stash="stash" />
       </aside>
     </section>
   </section>
@@ -35,6 +35,7 @@ export default {
     return {
       loaded: false,
       locked: false,
+      stash: [],
       tabs: [],
       lists: [],
       layout: [],
@@ -54,6 +55,7 @@ export default {
       href: tab.url,
       icon: tab.favIconUrl,
     }));
+    this.stash = [];
 
     const value = await storageGet(["layout", "lists", "locked"]);
     this.lists =
@@ -165,7 +167,7 @@ aside {
 .box-container {
   flex: 1;
   display: flex;
-  padding: 5px 5px 0 0;
+  padding: 0;
   position: relative;
   height: calc(100vh - 35px);
 }
