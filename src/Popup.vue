@@ -22,6 +22,8 @@ export default {
         await storageSet({
           stash,
         });
+
+        window.close();
       }
     },
   },

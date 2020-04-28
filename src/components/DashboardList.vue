@@ -31,7 +31,7 @@
     <smooth-dnd-container
       group-name="tabs"
       :get-child-payload="getCardPayload"
-      :drop-placeholder="upperDropPlaceholderOptions"
+      :drop-placeholder="placeholderOptions"
       :drag-handle-selector="locked ? '.none' : ''"
       :should-accept-drop="() => !locked"
       class="dnd-list-container"
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-  import {uuidv4, applyDrag, debounce} from "../utils/utils";
+import { uuidv4, applyDrag, debounce } from "../utils/utils";
 import { Box as DndGridBox } from "./dnd-grid";
 import {
   Container as SmoothDndContainer,
@@ -101,7 +101,7 @@ export default {
     return {
       dragItemIn: false,
       isDraggingSource: false,
-      upperDropPlaceholderOptions: {
+      placeholderOptions: {
         className: "cards-drop-preview",
         animationDuration: "150",
         showOnTop: true,
@@ -154,16 +154,6 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@import "../styles/colors.scss";
-
-.cards-drop-preview {
-  background-color: lighten($purpleColor4, 10%);
-  border: 1px dashed $white;
-  margin-top: 5px;
-}
-</style>
 
 <style lang="scss" scoped>
 @import "../styles/colors.scss";

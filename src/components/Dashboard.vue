@@ -9,7 +9,7 @@
       :default-size="defaultSize"
       :bubble-up="bubbleUp"
       :resizable="false"
-      :draggable="!this.locked"
+      :draggable="!locked"
       @drag:start="onDragStart"
       @drag:end="onDragEnd"
       @update:layout="onUpdateLayout"
@@ -36,8 +36,8 @@
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
 import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
-import {fixLayoutSize} from "../utils/dnd-grid";
-import {debounce} from "../utils/utils";
+import { fixLayoutSize } from "../utils/dnd-grid";
+import { debounce } from "../utils/utils";
 
 export default {
   name: "Dashboard",
@@ -76,8 +76,7 @@ export default {
       maxColumnCount: 8,
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     onUpdateLayout(value) {
       this.myLayout = value;
@@ -118,7 +117,7 @@ export default {
     },
     cardLeave(list, isDraggingSource) {
       const layout = this.copyLayout();
-      this.updateLayout(list, layout,isDraggingSource ? 0 : 1);
+      this.updateLayout(list, layout, isDraggingSource ? 0 : 1);
     },
     cardDragEnd() {
       const layout = this.copyLayout();

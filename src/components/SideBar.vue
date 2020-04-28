@@ -8,12 +8,14 @@
     </header>
     <section>
       <smooth-dnd-container
-        behaviour="dndBehavior"
         group-name="tabs"
         class="side-bar-container"
-        :should-accept-drop="() => false"
+        :should-accept-drop="shouldDndDrop"
         :drag-handle-selector="locked ? '.none' : ''"
         :get-child-payload="getCardPayloadFromTabsList()"
+        :drop-placeholder="placeholderOptions"
+        :behaviour="dndBehavior"
+        @drop="onCardDrop"
       >
         <smooth-dnd-draggable
           v-for="item in items"
@@ -33,6 +35,7 @@ import {
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
 import Item from "./Item";
+import { applyDrag, uuidv4 } from "../utils/utils";
 
 export default {
   name: "SideBar",
@@ -58,6 +61,11 @@ export default {
   data() {
     return {
       mode: "tabs",
+      placeholderOptions: {
+        className: "cards-drop-preview",
+        animationDuration: "150",
+        showOnTop: true,
+      },
     };
   },
   computed: {
@@ -71,14 +79,34 @@ export default {
       return this.mode === "tabs" ? this.tabs : this.stash;
     },
     dndBehavior() {
-      return this.mode === "tabs" ? "move" : "copy";
+      return this.mode === "tabs" ? "move" : "move";
     },
   },
   methods: {
+    shouldDndDrop(item) {
+      console.log(this.mode);
+      return this.mode === "stash";
+    },
     getCardPayloadFromTabsList() {
       return (index) => {
-        return this.tabs[index];
+        console.log(index);
+        console.log(this.items[index].body);
+        return {
+          ...this.items[index],
+          id: uuidv4(),
+        };
       };
+    },
+    onCardDrop(dropResult) {
+      if (this.mode !== "stash") {
+        return;
+      }
+
+      console.log(dropResult);
+
+      const stash = applyDrag(this.items, dropResult);
+      this.$emit("update:stash", stash);
+      this.$emit("change");
     },
   },
 };

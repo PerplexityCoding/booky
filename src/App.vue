@@ -9,7 +9,12 @@
         @change="save"
       />
       <aside>
-        <side-bar :tabs="tabs" :locked="locked" :stash="stash" />
+        <side-bar
+          :tabs="tabs"
+          :locked="locked"
+          :stash.sync="stash"
+          @change="save"
+        />
       </aside>
     </section>
   </section>
@@ -22,7 +27,7 @@ import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
-import {getTabs} from "./services/app/tabs";
+import { getTabs } from "./services/app/tabs";
 
 export default {
   name: "App",
@@ -65,6 +70,7 @@ export default {
       const data = {
         layout: this.layout,
         lists: this.lists,
+        stash: this.stash,
       };
       storageSet(data);
     }, 0),
@@ -133,6 +139,16 @@ button {
 }
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(255, 0, 0, 0.4);
+}
+</style>
+
+<style lang="scss">
+@import "./styles/colors.scss";
+
+.cards-drop-preview {
+  background-color: lighten($purpleColor4, 10%);
+  border: 1px dashed $white;
+  margin-top: 5px;
 }
 </style>
 

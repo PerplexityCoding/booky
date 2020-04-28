@@ -1,4 +1,4 @@
-import {fixLayout} from "../components/dnd-grid/utils";
+import { fixLayout } from "../components/dnd-grid/utils";
 
 export function fixLayoutSize(layout, lists, bubbleUp) {
   const listById = lists.reduce((acc, value) => {
