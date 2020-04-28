@@ -16,13 +16,7 @@
 }
 
 .dnd-grid-container .dnd-grid-box.placeholder {
-  border: 1px dashed #000;
-}
-
-@media (prefers-color-scheme: dark) {
-  .dnd-grid-container .dnd-grid-box.placeholder {
-    border: 1px dashed #fff;
-  }
+  border: 1px dashed #fff;
 }
 
 .dnd-grid-container .dnd-grid-box.placeholder {

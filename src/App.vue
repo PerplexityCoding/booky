@@ -96,17 +96,10 @@ export default {
 }
 
 body {
-  background-color: $white;
-  color: black;
+  background-color: $purpleColor4;
+  color: $white;
   margin: 0;
   overflow: hidden;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: $purpleColor4;
-    color: $white;
-  }
 }
 
 button {
