@@ -25,9 +25,9 @@
           <item
             :item="item"
             :text-editable="stashMode && !locked"
-            :display-delete-btn="stashMode && !locked"
+            :display-delete-btn="!locked"
             @change="$emit('change')"
-            @delete-item="deleteItem"
+            @delete-item="(item) => stashMode ? deleteItem(item) : closeTab(item)"
           />
         </smooth-dnd-draggable>
       </smooth-dnd-container>
@@ -111,6 +111,13 @@ export default {
       const stash = applyDrag(this.items, dropResult);
       this.updateStash(stash);
     },
+    closeTab(item) {
+      const idx = this.items.indexOf(item);
+      if (idx >= 0) {
+        this.items.splice(idx, 1);
+        chrome.tabs.remove(item.tabId);
+      }
+    },
     deleteItem(item) {
       if (this.mode !== "stash") {
         return;
@@ -124,7 +131,7 @@ export default {
     updateStash(stash) {
       this.$emit("update:stash", stash);
       this.$emit("change");
-    }
+    },
   },
 };
 </script>
