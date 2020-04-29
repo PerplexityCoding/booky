@@ -1,7 +1,7 @@
 <template>
   <span
     ref="input"
-    :class="['input', { 'input-editable': editable }]"
+    :class="['input', 'multiline', { 'editable': editable }]"
     :contenteditable="editable"
     role="textbox"
     :aria-multiline="multiline"
@@ -39,8 +39,8 @@ export default {
       default: false,
     },
     shouldBeEditable: {
-      type: Function,
-      default: () => true,
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -61,7 +61,7 @@ export default {
     },
 
     onBlur() {
-      if (!this.shouldBeEditable()) {
+      if (!this.shouldBeEditable) {
         return;
       }
       const input = this.input();
@@ -105,7 +105,7 @@ export default {
     },
 
     onClick() {
-      if (!this.shouldBeEditable()) {
+      if (!this.shouldBeEditable) {
         return;
       }
 
@@ -153,7 +153,22 @@ export default {
   width: 100%;
   display: inline-block;
 
-  &-editable {
+  &.multiline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: inherit;
+
+    &.editable {
+      display: inherit;
+      -webkit-line-clamp: none;
+      white-space: nowrap;
+    }
+  }
+
+  &.editable {
     text-overflow: initial;
   }
 

@@ -5,7 +5,7 @@
     <span class="item-text">
       <text-input
         :value.sync="item.body"
-        :should-be-editable="() => textEditable"
+        :should-be-editable="textEditable"
         @update:value="$emit('change')"
         @click.native="onInputClick"
       />

@@ -10,7 +10,7 @@
       <div class="item-title-text">
         <text-input
           :value.sync="list.title"
-          :should-be-editable="() => !isDragging"
+          :should-be-editable="!isDragging"
           @update:value="$emit('change')"
         />
       </div>
