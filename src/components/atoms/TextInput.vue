@@ -152,6 +152,7 @@ export default {
   border-radius: 0.1rem;
   width: 100%;
   display: inline-block;
+  font-size: 13px;
 
   &.multiline {
     overflow: hidden;

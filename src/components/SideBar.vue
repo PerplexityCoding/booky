@@ -22,7 +22,13 @@
           :key="`item-${item.id}`"
           class="item"
         >
-          <item :item="item" :textEditable="stashMode && !locked" @change="$emit('change')" />
+          <item
+            :item="item"
+            :text-editable="stashMode && !locked"
+            :display-delete-btn="stashMode && !locked"
+            @change="$emit('change')"
+            @delete-item="deleteItem"
+          />
         </smooth-dnd-draggable>
       </smooth-dnd-container>
     </section>
@@ -102,12 +108,23 @@ export default {
         return;
       }
 
-      console.log(dropResult);
-
       const stash = applyDrag(this.items, dropResult);
+      this.updateStash(stash);
+    },
+    deleteItem(item) {
+      if (this.mode !== "stash") {
+        return;
+      }
+      const idx = this.items.indexOf(item);
+      if (idx >= 0) {
+        this.items.splice(idx, 1);
+        this.updateStash(this.items);
+      }
+    },
+    updateStash(stash) {
       this.$emit("update:stash", stash);
       this.$emit("change");
-    },
+    }
   },
 };
 </script>
