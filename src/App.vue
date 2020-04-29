@@ -64,6 +64,12 @@ export default {
     this.locked = value.locked || false;
     this.stash = value.stash || [];
     this.loaded = true;
+
+    chrome.storage.onChanged.addListener((changedData) => {
+      for (const dataKey in changedData) {
+        this[dataKey] = changedData[dataKey].newValue;
+      }
+    });
   },
   methods: {
     save: debounce(function () {

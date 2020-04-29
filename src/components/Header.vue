@@ -47,8 +47,7 @@ export default {
       this.$emit("change");
     },
     toogleLock() {
-      this.locked = !this.locked;
-      this.$emit("update:locked", this.locked);
+      this.$emit("update:locked", !this.locked);
     },
   },
 };
