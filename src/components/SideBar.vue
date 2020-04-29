@@ -95,8 +95,6 @@ export default {
     },
     getCardPayloadFromTabsList() {
       return (index) => {
-        console.log(index);
-        console.log(this.items[index].body);
         return {
           ...this.items[index],
           id: uuidv4(),
