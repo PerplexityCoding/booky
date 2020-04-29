@@ -2,7 +2,14 @@
   <div class="item">
     <img v-if="item.icon" :src="item.icon" />
     <box-icon v-else size="34" />
-    <span class="item-text">{{ item.body }}</span>
+    <span class="item-text">
+      <text-input
+        :value.sync="item.body"
+        :should-be-editable="() => textEditable"
+        @update:value="$emit('change')"
+        @click.native="onInputClick"
+      />
+    </span>
     <button
       v-if="displayDeleteBtn"
       class="delete-btn"
@@ -15,12 +22,14 @@
 
 <script>
 import { BoxIcon, XCircleIcon } from "vue-feather-icons";
+import TextInput from "./atoms/TextInput";
 
 export default {
   name: "Item",
   components: {
     BoxIcon,
     XCircleIcon,
+    TextInput,
   },
   props: {
     item: {
@@ -30,6 +39,19 @@ export default {
     displayDeleteBtn: {
       type: Boolean,
       default: false,
+    },
+    textEditable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    onInputClick(e) {
+      if (this.textEditable) {
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      }
     },
   },
 };

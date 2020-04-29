@@ -50,7 +50,9 @@
           <item
             :item="item"
             :display-delete-btn="!locked"
+            :textEditable="!locked"
             @delete-item="deleteItem"
+            @change="$emit('change')"
           />
         </a>
       </smooth-dnd-draggable>

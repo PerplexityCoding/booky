@@ -22,7 +22,7 @@
           :key="`item-${item.id}`"
           class="item"
         >
-          <item :item="item" />
+          <item :item="item" :textEditable="stashMode && !locked" @change="$emit('change')" />
         </smooth-dnd-draggable>
       </smooth-dnd-container>
     </section>
