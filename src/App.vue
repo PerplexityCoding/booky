@@ -70,6 +70,20 @@ export default {
         this[dataKey] = changedData[dataKey].newValue;
       }
     });
+
+    const chromeEvents = [
+      "onUpdated",
+      "onRemoved",
+      "onMoved",
+      "onDetached",
+      "onAttached",
+    ];
+    for (const chromeEvent of chromeEvents) {
+      chrome.tabs[chromeEvent].addListener(async () => {
+        console.log('event ');
+        this.tabs = await getTabs();
+      });
+    }
   },
   methods: {
     save: debounce(function () {
