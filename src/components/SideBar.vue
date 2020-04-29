@@ -27,7 +27,9 @@
             :text-editable="stashMode && !locked"
             :display-delete-btn="!locked"
             @change="$emit('change')"
-            @delete-item="(item) => stashMode ? deleteItem(item) : closeTab(item)"
+            @delete-item="
+              (item) => (stashMode ? deleteItem(item) : closeTab(item))
+            "
           />
         </smooth-dnd-draggable>
       </smooth-dnd-container>

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <dnd-grid-container
-      :layout="this.layout"
+      :layout="layout"
       :cell-size="cellSize"
       :max-column-count="maxColumnCount"
       :outer-margin="10"

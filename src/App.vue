@@ -80,7 +80,7 @@ export default {
     ];
     for (const chromeEvent of chromeEvents) {
       chrome.tabs[chromeEvent].addListener(async () => {
-        console.log('event ');
+        console.log("event ");
         this.tabs = await getTabs();
       });
     }

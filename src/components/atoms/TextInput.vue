@@ -1,7 +1,7 @@
 <template>
   <span
     ref="input"
-    :class="['input', 'multiline', { 'editable': editable }]"
+    :class="['input', 'multiline', { editable: editable }]"
     :contenteditable="editable"
     role="textbox"
     :aria-multiline="multiline"

@@ -50,7 +50,7 @@
           <item
             :item="item"
             :display-delete-btn="!locked"
-            :textEditable="!locked"
+            :text-editable="!locked"
             @delete-item="deleteItem"
             @change="$emit('change')"
           />
