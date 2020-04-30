@@ -1,12 +1,18 @@
 <template>
   <section v-if="loaded" id="app">
-    <header-bar :lists.sync="lists" :locked.sync="locked" @change="save()" />
+    <header-bar
+      :lists.sync="lists"
+      :locked.sync="locked"
+      @change="save"
+      @change:list="saveList"
+    />
     <section class="box-container">
       <dashboard
         :lists.sync="lists"
         :layout.sync="layout"
         :locked="locked"
         @change="save"
+        @change:list="saveList"
       />
       <aside>
         <side-bar
@@ -22,7 +28,11 @@
 
 <script>
 import { debounce, uuidv4 } from "./utils/utils";
-import { storageGet, storageSet } from "./services/chrome/storage";
+import {
+  storageGet,
+  storageRemove,
+  storageSet,
+} from "./services/chrome/storage";
 import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
@@ -52,52 +62,90 @@ export default {
     },
   },
   async created() {
-    this.tabs = await getTabs();
-    this.stash = [];
+    this.loadTabs();
+    this.loadStorage();
 
-    const value = await storageGet(["layout", "lists", "locked", "stash"]);
-    this.lists =
-      value.lists && value.lists.length > 0
-        ? value.lists
-        : [{ id: uuidv4(), title: "Edit this list", items: [] }];
-    this.layout = fixBrokenLayout(value.layout || [], this.lists);
-    this.locked = value.locked || false;
-    this.stash = value.stash || [];
-    this.loaded = true;
-
-    chrome.storage.onChanged.addListener((changedData) => {
-      for (const dataKey in changedData) {
-        this[dataKey] = changedData[dataKey].newValue;
-      }
+    chrome.storage.sync.get(null, (items) => {
+      var allKeys = Object.keys(items);
+      console.log(allKeys);
     });
-
-    const chromeEvents = [
-      "onUpdated",
-      "onRemoved",
-      "onMoved",
-      "onDetached",
-      "onAttached",
-    ];
-    for (const chromeEvent of chromeEvents) {
-      chrome.tabs[chromeEvent].addListener(async () => {
-        console.log("event ");
-        this.tabs = await getTabs();
-      });
-    }
   },
   methods: {
+    async loadStorage() {
+      const value = await storageGet([
+        "layout",
+        "listsId",
+        "lists",
+        "locked",
+        "stash",
+      ]);
+      await this.loadLists(value.listsId);
+
+      this.layout = fixBrokenLayout(value.layout || [], this.lists);
+      this.locked = value.locked || false;
+      this.stash = value.stash || [];
+      this.loaded = true;
+
+      chrome.storage.onChanged.addListener(async (changedData) => {
+        for (const dataKey in changedData) {
+          const newData = changedData[dataKey].newValue;
+          const oldData = changedData[dataKey].oldValue;
+          if (newData && newData.type === "list") {
+            const oldList = this.lists.filter((list) => list.id !== newData.id);
+            this.lists = [...oldList, newData];
+          } else if (oldData && oldData.type === "list") {
+            this.lists = this.lists.filter((list) => list.id !== oldData.id);
+          } else {
+            this[dataKey] = newData;
+          }
+        }
+        await this.$nextTick();
+      });
+    },
+    async loadTabs() {
+      this.tabs = await getTabs();
+      const chromeEvents = [
+        "onUpdated",
+        "onRemoved",
+        "onMoved",
+        "onDetached",
+        "onAttached",
+      ];
+      for (const chromeEvent of chromeEvents) {
+        chrome.tabs[chromeEvent].addListener(async () => {
+          this.tabs = await getTabs();
+        });
+      }
+    },
+    async loadLists(listsId) {
+      if (!listsId || listsId.length <= 0) {
+        this.lists = [{ id: uuidv4(), title: "Edit this list", items: [] }];
+      } else {
+        const listsById = await storageGet(listsId);
+        this.lists = Object.keys(listsById).reduce((acc, listId) => {
+          acc.push(listsById[listId]);
+          return acc;
+        }, []);
+      }
+    },
     save: debounce(function () {
+      const listsId = this.lists.map((list) => list.id);
       const data = {
         layout: this.layout,
-        lists: this.lists,
+        listsId,
         stash: this.stash,
       };
+
       storageSet(data);
     }, 0),
-    reset() {
-      this.layout = [];
-      this.lists = [];
-      this.save();
+    saveList({ list, toDelete }) {
+      if (toDelete) {
+        storageRemove(list.id);
+      } else {
+        storageSet({
+          [list.id]: list,
+        });
+      }
     },
     async saveLocked() {
       await storageSet({

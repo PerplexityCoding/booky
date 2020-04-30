@@ -26,7 +26,7 @@
         @card-leave="cardLeave"
         @drag-end="cardDragEnd"
         @delete-list="deleteList"
-        @change="onChange"
+        @change:list="onChange"
       />
     </dnd-grid-container>
   </div>
@@ -36,7 +36,7 @@
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
 import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
-import { fixLayoutSize } from "../utils/dnd-grid";
+import {fixBrokenLayout, fixLayoutSize} from "../utils/dnd-grid";
 import { debounce } from "../utils/utils";
 
 export default {
@@ -89,22 +89,24 @@ export default {
     copyLayout() {
       return JSON.parse(JSON.stringify(this.layout));
     },
-    deleteList(id) {
+    async deleteList(id) {
+      const list = this.lists.filter((i) => i.id === id)[0];
       const lists = this.lists.filter((i) => i.id !== id);
       this.$emit("update:lists", lists);
+      await this.$nextTick();
 
-      let layout = this.layout;
-      if (this.bubbleUp) {
-        layout = layoutBubbleUp(layout);
-      }
+      let layout = fixBrokenLayout(this.layout, lists);
+      layout = fixLayoutSize(layout, lists, this.bubbleUp);
 
       this.$emit("update:layout", layout);
+      this.$emit("change:list", { list, toDelete: true });
       this.$emit("change");
     },
-    cardDrop() {
+    cardDrop(list) {
       let layout = this.copyLayout();
       layout = fixLayoutSize(layout, this.lists, this.bubbleUp);
       this.$emit("update:layout", layout);
+      this.$emit("change:list", { list });
       this.$emit("change");
     },
     cardEnter(list, isDraggingSource) {
@@ -133,6 +135,7 @@ export default {
       if (deleteItem && list) {
         this.updateLayout(list, this.layout, 1);
       }
+      this.$emit("change:list", { list });
       this.$emit("change");
     },
   },

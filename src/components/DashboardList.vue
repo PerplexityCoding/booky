@@ -11,7 +11,7 @@
         <text-input
           :value.sync="list.title"
           :should-be-editable="!isDragging && !locked"
-          @update:value="$emit('change')"
+          @update:value="$emit('change:list', {list})"
         />
       </div>
       <button
@@ -52,7 +52,7 @@
             :display-delete-btn="!locked"
             :text-editable="!locked"
             @delete-item="deleteItem"
-            @change="$emit('change')"
+            @change="$emit('change:list', {list})"
           />
         </a>
       </smooth-dnd-draggable>
@@ -151,7 +151,7 @@ export default {
       };
 
       this.$emit("update:list", newList);
-      this.$emit("change", { list: newList, deleteItem: true });
+      this.$emit("change:list", { list: newList, deleteItem: true });
     },
   },
 };

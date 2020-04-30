@@ -35,15 +35,18 @@ export default {
   },
   methods: {
     addList() {
+      const newList = {
+        id: uuidv4(),
+        type: "list",
+        title: "New list",
+        items: [],
+      };
       const lists = [
         ...this.lists,
-        {
-          id: uuidv4(),
-          title: "New list",
-          items: [],
-        },
+        newList,
       ];
       this.$emit("update:lists", lists);
+      this.$emit("change:list", {list: newList});
       this.$emit("change");
     },
     toogleLock() {
