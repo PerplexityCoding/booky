@@ -1,28 +1,36 @@
 <template>
-  <section v-if="loaded" id="app">
+  <section v-if="loaded" id="app" class="top-quick-access">
     <header-bar
+      class="header-bar"
       :lists.sync="lists"
       :locked.sync="locked"
       @change="save"
       @change:list="saveList"
     />
-    <section class="box-container">
-      <dashboard
-        :lists.sync="lists"
-        :layout.sync="layout"
+    <quick-access
+      class="quick-access"
+      :locked="locked"
+      :items.sync="quickAccess"
+      @update:items="saveQuickAcess"
+    />
+    <dashboard
+      class="dashboard"
+      :lists.sync="lists"
+      :layout.sync="layout"
+      :locked="locked"
+      @change="save"
+      @change:list="saveList"
+    />
+    <aside
+      class="side-bar"
+    >
+      <side-bar
+        :tabs="tabs"
         :locked="locked"
+        :stash.sync="stash"
         @change="save"
-        @change:list="saveList"
       />
-      <aside>
-        <side-bar
-          :tabs="tabs"
-          :locked="locked"
-          :stash.sync="stash"
-          @change="save"
-        />
-      </aside>
-    </section>
+    </aside>
   </section>
 </template>
 
@@ -38,10 +46,12 @@ import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
 import { getTabs } from "./services/app/tabs";
+import QuickAccess from "./components/QuickAccess";
 
 export default {
   name: "App",
   components: {
+    QuickAccess,
     HeaderBar,
     SideBar,
     Dashboard,
@@ -54,6 +64,7 @@ export default {
       tabs: [],
       lists: [],
       layout: [],
+      quickAccess: [],
     };
   },
   watch: {
@@ -78,12 +89,14 @@ export default {
         "lists",
         "locked",
         "stash",
+        "quickAccess",
       ]);
       await this.loadLists(value.listsId);
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
       this.locked = value.locked || false;
       this.stash = value.stash || [];
+      this.quickAccess = value.quickAccess || [];
       this.loaded = true;
 
       chrome.storage.onChanged.addListener(async (changedData) => {
@@ -146,6 +159,11 @@ export default {
           [list.id]: list,
         });
       }
+    },
+    async saveQuickAcess() {
+      await storageSet({
+        quickAccess: this.quickAccess
+      });
     },
     async saveLocked() {
       await storageSet({
@@ -226,20 +244,45 @@ aside {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  display: flex;
+  display: grid;
   flex-direction: column;
   position: fixed;
+  grid-template-columns: 40px auto 215px;
+  grid-template-rows: 40px 67px auto;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
 
-.box-container {
-  flex: 1;
-  display: flex;
-  padding: 0;
-  position: relative;
-  height: calc(100vh - 35px);
+#app.left-quick-access {
+  grid-template-areas:
+    "header header header"
+    "quick-access main sidebar"
+    "quick-access main sidebar";
 }
+
+#app.top-quick-access {
+  grid-template-areas:
+    "header header header"
+    "quick-access quick-access sidebar"
+    "main main sidebar";
+}
+
+.header-bar {
+  grid-area: header;
+}
+
+.quick-access {
+  grid-area: quick-access;
+}
+
+.dashboard {
+  grid-area: main;
+}
+
+.side-bar {
+  grid-area: sidebar;
+}
+
 </style>

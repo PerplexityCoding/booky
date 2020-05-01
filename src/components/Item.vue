@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <img v-if="item.icon" :src="item.icon" />
-    <box-icon v-else size="34" />
+    <box-icon v-else size="32" />
     <span class="item-text">
       <text-input
         :value.sync="item.body"
@@ -70,6 +70,10 @@ export default {
   border-radius: 2px;
   cursor: pointer;
   align-items: center;
+
+  &:hover {
+    background-color: darken($purpleColor2, 5%);
+  }
 
   img,
   svg {

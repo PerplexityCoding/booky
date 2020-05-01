@@ -14,4 +14,5 @@ module.exports = {
   globals: {
     chrome: "readable",
   },
+  ignorePatterns: ["lib/smooth-dnd/", "node_modules/"],
 };

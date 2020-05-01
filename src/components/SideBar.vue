@@ -98,8 +98,10 @@ export default {
     getCardPayloadFromTabsList() {
       return (index) => {
         return {
-          ...this.items[index],
-          id: uuidv4(),
+          item: {
+            ...this.items[index],
+            id: uuidv4(),
+          },
         };
       };
     },

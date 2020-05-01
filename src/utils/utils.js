@@ -11,7 +11,7 @@ export function applyDrag(arr, dragResult) {
   if (removedIndex === null && addedIndex === null) return arr;
 
   const result = [...arr];
-  let itemToAdd = payload;
+  let itemToAdd = payload.item;
 
   if (removedIndex !== null) {
     itemToAdd = result.splice(removedIndex, 1)[0];

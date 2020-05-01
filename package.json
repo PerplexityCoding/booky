@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:watch": "vue-cli-service build  --mode development --watch",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "link": "npm run link:smooth-dnd",
+    "link:smooth-dnd": "cd lib/smooth-dnd && npm link && cd ../.. && npm link smooth-dnd"
   },
   "dependencies": {
     "vue": "^2.6.11",

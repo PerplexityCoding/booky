@@ -132,8 +132,10 @@ export default {
     getCardPayload(index) {
       const item = this.list.items[index];
       return {
-        ...item,
-        id: uuidv4(),
+        item: {
+          ...item,
+          id: uuidv4(),
+        },
       };
     },
     onCardDrop(dropResult) {
