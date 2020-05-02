@@ -153,7 +153,7 @@ export default {
 
 .item-quick-access {
   .item {
-    background-color: lighten($purpleColor4, 15%);
+    background-color: lighten($primaryColor4, 15%);
     width: 55px;
     height: 55px;
     border-radius: 5px;
@@ -192,7 +192,7 @@ export default {
   position: absolute;
   top: -12px;
   right: -12px;
-  color: $white;
+  color: $fontColor;
 }
 
 img,
@@ -207,21 +207,21 @@ svg {
 
   a {
     display: block;
-    color: $white;
-    background-color: lighten($purpleColor4, 15%);
+    color: $fontColor;
+    background-color: lighten($primaryColor4, 15%);
     height: 55px;
     width: 55px;
     padding: 6px;
     border-radius: 5px;
 
     &:hover {
-      background-color: lighten($purpleColor4, 25%);
+      background-color: lighten($primaryColor4, 25%);
     }
   }
 }
 
 .empty-placeholder {
-  border: 1px dashed $white;
+  border: 1px dashed $fontColor;
   font-size: 15px;
   position: absolute;
   padding: 10px;

@@ -175,7 +175,7 @@ export default {
 
   &:focus {
     outline: none;
-    box-shadow: inset 0px 0px 1px 1px $orangeColor5;
+    box-shadow: inset 0px 0px 1px 1px $primaryColor2;
     cursor: text;
   }
 }

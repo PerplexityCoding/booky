@@ -19,6 +19,7 @@
         :key="'dnd-box-' + list.id"
         :box-id="list.id"
         :list.sync="lists[index]"
+        :icons="icons"
         :locked="locked"
         :is-dragging="isDragging"
         @card-drop="cardDrop"
@@ -52,6 +53,10 @@ export default {
     },
     lists: {
       type: Array,
+      required: true,
+    },
+    icons: {
+      type: Object,
       required: true,
     },
     locked: {
@@ -153,7 +158,7 @@ export default {
 
 .dashboard {
   flex: 1;
-  background-color: darken($purpleColor4, 2%);
+  background-color: darken($primaryColor4, 2%);
   height: 100%;
   overflow: auto;
 }

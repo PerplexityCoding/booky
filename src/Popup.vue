@@ -39,7 +39,7 @@ button {
   background: none;
   display: inline;
   margin: 0;
-  background-color: $purpleColor5;
+  background-color: $primaryColor5;
   border-radius: 5px;
   white-space: nowrap;
   padding: 10px;

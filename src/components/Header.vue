@@ -60,7 +60,7 @@ export default {
 @import "../styles/colors.scss";
 
 header {
-  background-color: $purpleColor2;
+  background-color: $primaryColor2;
   min-height: 35px;
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@ header {
 
 .lock-btn,
 .add-btn {
-  color: $white;
+  color: $fontColor;
   padding: 0 5px;
   display: flex;
   align-items: center;
@@ -80,7 +80,7 @@ header {
   }
 
   &:hover {
-    color: $purpleColor5;
+    color: $primaryColor5;
   }
 }
 

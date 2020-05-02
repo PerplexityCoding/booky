@@ -49,6 +49,7 @@
         <a :href="item.href">
           <item
             :item="item"
+            :icons="icons"
             :display-delete-btn="!locked"
             :text-editable="!locked"
             @delete-item="deleteItem"
@@ -97,6 +98,10 @@ export default {
     isDragging: {
       type: Boolean,
       default: false,
+    },
+    icons: {
+      type: Object,
+      required: true,
     },
   },
   data: function () {
@@ -212,7 +217,7 @@ export default {
 @import "../styles/colors.scss";
 
 .dashboard-list {
-  background-color: lighten($purpleColor4, 15%);
+  background-color: lighten($primaryColor4, 15%);
   padding: 5px;
   border-radius: 2px;
 
@@ -230,12 +235,12 @@ export default {
       text-align: left;
       line-height: 25px;
       font-size: 14px;
-      color: $purpleColor5;
+      color: $primaryColor5;
       width: 100%;
     }
 
     & .delete-btn {
-      color: $white;
+      color: $fontColor;
 
       &:hover {
         color: #ff3c3f;
@@ -245,11 +250,11 @@ export default {
 
   .dashboard-draggable-item {
     border-radius: 2px;
-    color: $white;
+    color: $fontColor;
     padding-top: 5px;
 
     a {
-      color: $white;
+      color: $fontColor;
       text-decoration: none;
     }
   }
@@ -259,7 +264,7 @@ export default {
   }
 
   .empty-placeholder {
-    border: 1px dashed $white;
+    border: 1px dashed $fontColor;
     height: 39px;
     line-height: 36px;
     font-size: 15px;

@@ -18,12 +18,11 @@
       :lists.sync="lists"
       :layout.sync="layout"
       :locked="locked"
+      :icons="cacheIcons"
       @change="save"
       @change:list="saveList"
     />
-    <aside
-      class="side-bar"
-    >
+    <aside class="side-bar">
       <side-bar
         :tabs="tabs"
         :locked="locked"
@@ -47,6 +46,7 @@ import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
 import { getTabs } from "./services/app/tabs";
 import QuickAccess from "./components/QuickAccess";
+import { toDataURL } from "./utils/icons";
 
 export default {
   name: "App",
@@ -65,6 +65,7 @@ export default {
       lists: [],
       layout: [],
       quickAccess: [],
+      cacheIcons: {},
     };
   },
   watch: {
@@ -92,6 +93,7 @@ export default {
         "quickAccess",
       ]);
       await this.loadLists(value.listsId);
+      await this.loadIcons(this.lists, value.cacheIcons);
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
       this.locked = value.locked || false;
@@ -141,6 +143,29 @@ export default {
         }, []);
       }
     },
+    async loadIcons(lists) {
+      this.cacheIcons = (await storageGet("cacheIcons", "local")).cacheIcons;
+      for (const list of lists) {
+        for (const item of list.items) {
+          if (item) {
+            const cachedIcon = this.cacheIcons[item.icon];
+            const now = +new Date();
+            // console.log(cachedIcon.ts - now);
+            if (cachedIcon) {
+              console.log(now - cachedIcon.ts);
+            }
+
+            if (!cachedIcon || (now - cachedIcon.ts) > 7 * 24 * 60 * 60 * 1000) { // 7 days cache
+              this.cacheIcons[item.icon] = {
+                data: await toDataURL(item.icon),
+                ts: now,
+              };
+            }
+          }
+        }
+      }
+      storageSet({cacheIcons: this.cacheIcons}, 'local');
+    },
     save: debounce(function () {
       const listsId = this.lists.map((list) => list.id);
       const data = {
@@ -162,7 +187,7 @@ export default {
     },
     async saveQuickAcess() {
       await storageSet({
-        quickAccess: this.quickAccess
+        quickAccess: this.quickAccess,
       });
     },
     async saveLocked() {
@@ -182,8 +207,8 @@ export default {
 }
 
 body {
-  background-color: $purpleColor4;
-  color: $white;
+  background-color: $primaryColor4;
+  color: $fontColor;
   margin: 0;
   overflow: hidden;
 }
@@ -225,8 +250,8 @@ button {
 @import "./styles/colors.scss";
 
 .cards-drop-preview {
-  background-color: lighten($purpleColor4, 10%);
-  border: 1px dashed $white;
+  background-color: lighten($primaryColor4, 10%);
+  border: 1px dashed $fontColor;
   margin-top: 5px;
 }
 </style>
@@ -279,5 +304,4 @@ button {
 .side-bar {
   grid-area: sidebar;
 }
-
 </style>

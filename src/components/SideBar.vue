@@ -142,8 +142,8 @@ export default {
 @import "../styles/colors.scss";
 
 button {
-  background-color: lighten($purpleColor4, 5%);
-  color: $purpleColor5;
+  background-color: lighten($primaryColor4, 5%);
+  color: $primaryColor5;
   text-transform: uppercase;
   letter-spacing: 0.25rem;
   border-radius: 5px;
@@ -151,7 +151,7 @@ button {
   line-height: 25px;
 
   &.active {
-    background-color: lighten($purpleColor4, 15%);
+    background-color: lighten($primaryColor4, 15%);
   }
 }
 

@@ -1,7 +1,8 @@
 <template>
   <div class="item">
-    <img v-if="item.icon" :src="item.icon" />
+    <img v-if="item.icon" :src="icon" />
     <box-icon v-else size="32" />
+
     <span class="item-text">
       <text-input
         :value.sync="item.body"
@@ -44,6 +45,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    icons: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
+  computed: {
+    icon() {
+      const cachedIcon = this.icons[this.item.icon];
+      return cachedIcon ? cachedIcon.data : this.item.icon;
+    },
   },
   methods: {
     onInputClick(e) {
@@ -61,8 +74,8 @@ export default {
 @import "../styles/colors.scss";
 
 .item {
-  background-color: darken($purpleColor2, 12%);
-  color: $white;
+  background-color: darken($primaryColor2, 12%);
+  color: $fontColor;
   padding: 0.3rem;
   width: 100%;
   height: 40px;
@@ -72,7 +85,7 @@ export default {
   align-items: center;
 
   &:hover {
-    background-color: darken($purpleColor2, 5%);
+    background-color: darken($primaryColor2, 5%);
   }
 
   img,
@@ -95,7 +108,7 @@ export default {
 }
 
 .delete-btn {
-  color: $white;
+  color: $fontColor;
 
   &:hover {
     color: #ff3c3f;

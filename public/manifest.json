@@ -3,7 +3,13 @@
   "version": "0.0.1",
   "version_name": "0.0.1 beta",
   "description": "Manage your bookmark differently",
-  "permissions": ["activeTab", "tabs", "storage", "declarativeContent"],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "declarativeContent",
+    "https://*/*.(ico|jpg|png|svg|jpeg)"
+  ],
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -19,6 +25,9 @@
     "48": "assets/images/get_started48.png",
     "128": "assets/images/get_started128.png"
   },
+  "web_accessible_resources": [
+    "*.png"
+  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
