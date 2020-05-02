@@ -108,6 +108,7 @@ export default {
     onCardDrop(dropResult) {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
         const items = applyDrag(this.items, dropResult);
+        this.dragItemIn = false;
         this.$emit("update:items", items);
       }
     },
