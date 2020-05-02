@@ -21,6 +21,7 @@
         :list.sync="lists[index]"
         :locked="locked"
         :is-dragging="isDragging"
+        :item-width="cellSize.w"
         @card-drop="cardDrop"
         @card-enter="cardEnter"
         @card-leave="cardLeave"
@@ -65,7 +66,7 @@ export default {
       topLayout: true,
       cellSize: {
         h: 40,
-        w: 205,
+        w: 150,
       },
       defaultSize: {
         w: 1,
@@ -74,7 +75,17 @@ export default {
       maxColumnCount: 8,
     };
   },
-  mounted() {},
+  mounted() {
+    const calcSize = () =>
+      (this.cellSize.w = Math.max(
+        Math.floor(this.$el.offsetWidth / this.maxColumnCount) - 7,
+        150
+      ));
+    calcSize();
+    window.addEventListener("resize", () => {
+      calcSize();
+    });
+  },
   methods: {
     onDragStart() {
       this.isDragging = true;
@@ -143,16 +154,8 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/colors.scss";
 
-.box-item {
-  height: 100px;
-  width: 100px;
-  background-color: grey;
-}
-
 .dashboard {
-  flex: 1;
   background-color: darken($primaryColor4, 2%);
-  height: 100%;
   overflow: auto;
 }
 </style>

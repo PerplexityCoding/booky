@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    itemWidth: {
+      type: Number,
+      required: true
+    },
   },
   data: function () {
     return {
@@ -114,7 +118,7 @@ export default {
     onDragEnter({ draggableInfo }) {
       this.dragItemIn = true;
       this.adaptDragInfo(draggableInfo, {
-        itemWidth: 195,
+        itemWidth: this.itemWidth,
         itemHeight: 40,
         center: true,
       });
@@ -172,9 +176,7 @@ export default {
         draggableInfo.ghostInfo.centerDelta.x =
           draggableInfo.ghostInfo.centerDelta.x * ratio;
       }
-      draggableInfo.ghostInfo.ghost.classList.add(
-        "dnd-ghost-item-dashboard-list"
-      );
+      draggableInfo.ghostInfo.ghost.style.width = `${itemWidth - 5}px`;
     },
     backupOriginalDrag(draggableInfo) {
       this.draggableInfo = draggableInfo;
@@ -191,22 +193,12 @@ export default {
         draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
         draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
         draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
-        draggableInfo.ghostInfo.ghost.classList.remove(
-          "dnd-ghost-item-dashboard-list"
-        );
+        draggableInfo.ghostInfo.ghost.style.width = `${this.originalDraggableInfoWidth}px`;
       }
     },
   },
 };
 </script>
-
-<style lang="scss">
-.dnd-ghost-item-dashboard-list {
-  .item {
-    width: 195px;
-  }
-}
-</style>
 
 <style lang="scss" scoped>
 @import "../styles/colors.scss";
@@ -265,7 +257,7 @@ export default {
     font-size: 15px;
     margin-top: 5px;
     position: absolute;
-    width: 195px;
+    width: calc(100% - 10px);
   }
 }
 </style>

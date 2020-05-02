@@ -249,8 +249,8 @@ button {
   display: grid;
   flex-direction: column;
   position: fixed;
-  grid-template-columns: 40px auto minmax(15vw, 215px);
-  grid-template-rows: 40px 67px auto;
+  grid-template-columns: 40px auto max(min(400px, 12%), 225px);
+  grid-template-rows: 40px 67px calc(100% - 107px);
   top: 0;
   bottom: 0;
   left: 0;

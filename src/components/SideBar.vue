@@ -161,7 +161,6 @@ header {
 }
 
 .side-bar-container {
-  height: calc(100vh - 30px);
   overflow: auto;
   padding: 0 3px;
 }
