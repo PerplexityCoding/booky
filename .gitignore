@@ -21,3 +21,4 @@ yarn-error.log*
 *.sw?
 
 lib/smooth-dnd
+lib/vue-smooth-dnd

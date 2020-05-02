@@ -8,7 +8,8 @@
     "build:watch": "vue-cli-service build  --mode development --watch",
     "lint": "vue-cli-service lint",
     "link": "npm run link:smooth-dnd",
-    "link:smooth-dnd": "cd lib/smooth-dnd && npm link && cd ../.. && npm link smooth-dnd"
+    "link:smooth-dnd": "cd lib/smooth-dnd && npm link && cd ../.. && npm link smooth-dnd",
+    "link:vue-smooth-dnd": "cd lib/vue-smooth-dnd && npm link && npm link smooth-dnd && cd ../.. && npm link vue-smooth-dnd"
   },
   "dependencies": {
     "vue": "^2.6.11",

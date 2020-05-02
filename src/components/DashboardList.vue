@@ -11,7 +11,7 @@
         <text-input
           :value.sync="list.title"
           :should-be-editable="!isDragging && !locked"
-          @update:value="$emit('change:list', {list})"
+          @update:value="$emit('change:list', { list })"
         />
       </div>
       <button
@@ -52,7 +52,7 @@
             :display-delete-btn="!locked"
             :text-editable="!locked"
             @delete-item="deleteItem"
-            @change="$emit('change:list', {list})"
+            @change="$emit('change:list', { list })"
           />
         </a>
       </smooth-dnd-draggable>
@@ -111,12 +111,18 @@ export default {
     };
   },
   methods: {
-    onDragEnter() {
+    onDragEnter({ draggableInfo }) {
       this.dragItemIn = true;
+      this.adaptDragInfo(draggableInfo, {
+        itemWidth: 195,
+        itemHeight: 40,
+        center: true,
+      });
       this.$emit("card-enter", this.list, this.isDraggingSource);
     },
-    onDragLeave() {
+    onDragLeave({ draggableInfo }) {
       this.dragItemIn = false;
+      this.restoreDragInfo(draggableInfo);
       this.$emit("card-leave", this.list, this.isDraggingSource);
     },
     onDragStart(dragResult) {
@@ -155,9 +161,52 @@ export default {
       this.$emit("update:list", newList);
       this.$emit("change:list", { list: newList, deleteItem: true });
     },
+    adaptDragInfo(draggableInfo, { itemWidth, itemHeight, center } = {}) {
+      this.backupOriginalDrag(draggableInfo);
+      const size = draggableInfo.size;
+      const ratio = 1 - (size.offsetWidth - itemWidth) / size.offsetWidth;
+      draggableInfo.size.offsetWidth = itemWidth;
+      if (center) {
+        draggableInfo.ghostInfo.positionDelta.left =
+          draggableInfo.ghostInfo.positionDelta.left * ratio;
+        draggableInfo.ghostInfo.centerDelta.x =
+          draggableInfo.ghostInfo.centerDelta.x * ratio;
+      }
+      draggableInfo.ghostInfo.ghost.classList.add(
+        "dnd-ghost-item-dashboard-list"
+      );
+    },
+    backupOriginalDrag(draggableInfo) {
+      this.draggableInfo = draggableInfo;
+      this.originalDraggableInfoWidth = draggableInfo.size.offsetWidth;
+      this.originalDraggableInfoSize = {
+        ...draggableInfo.ghostInfo.positionDelta,
+      };
+      this.originalGhostCenterDelta = {
+        ...draggableInfo.ghostInfo.centerDelta,
+      };
+    },
+    restoreDragInfo(draggableInfo) {
+      if (draggableInfo) {
+        draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
+        draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
+        draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
+        draggableInfo.ghostInfo.ghost.classList.remove(
+          "dnd-ghost-item-dashboard-list"
+        );
+      }
+    },
   },
 };
 </script>
+
+<style lang="scss">
+.dnd-ghost-item-dashboard-list {
+  .item {
+    width: 195px;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 @import "../styles/colors.scss";

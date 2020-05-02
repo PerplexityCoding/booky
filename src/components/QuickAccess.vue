@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="quick-access"
-  >
+  <div class="quick-access">
     <div v-if="items.length === 0 && !dragItemIn" class="empty-placeholder">
       Drag your quick access book here !
     </div>
@@ -17,8 +15,6 @@
       drop-class="toto-class"
       lock-axis="x"
       @drop="onCardDrop"
-      @drag="onDrag"
-      @drag-end="onDragEnd"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
     >
@@ -45,7 +41,7 @@ import {
   Draggable as SmoothDndDraggable,
 } from "vue-smooth-dnd";
 import { BoxIcon, XCircleIcon } from "vue-feather-icons";
-import {applyDrag, debounce, uuidv4} from "../utils/utils";
+import { applyDrag, debounce, uuidv4 } from "../utils/utils";
 
 export default {
   name: "QuickAccess",
@@ -78,10 +74,8 @@ export default {
       },
       orientation: "horizontal",
       draggableInfo: null,
-      originalDraggableInfoWidth: null,
-      ghostInfo: null,
-      originalGhostInfoLeft: null,
-      originalGhostCenterDeltaX: null,
+      originalDraggableInfoSize: null,
+      originalGhostCenterDelta: null,
       resetTo: null,
     };
   },
@@ -95,16 +89,13 @@ export default {
         };
       };
     },
-    onDrag(o) {
-      console.log(o);
-    },
-    onDragEnd() {
-      this.draggableInfo = null;
-      this.ghostInfo = null;
-    },
     onDragEnter({ draggableInfo }) {
       if (!this.dragItemIn) {
-        this.adaptDragInfo(draggableInfo, this.itemWidth, {center: true});
+        this.adaptDragInfo(draggableInfo, {
+          itemWidth: this.itemWidth,
+          itemHeight: this.itemWidth,
+          center: true,
+        });
         this.dragItemIn = true;
       }
     },
@@ -124,26 +115,32 @@ export default {
       const items = this.items.filter((i) => i.id !== item.id);
       this.$emit("update:items", items);
     },
-    adaptDragInfo(draggableInfo, itemWidth, {center} = {}) {
+    adaptDragInfo(draggableInfo, { itemWidth, itemHeight, center } = {}) {
       this.backupOriginalDrag(draggableInfo);
       draggableInfo.size.offsetWidth = itemWidth;
       if (center) {
         draggableInfo.ghostInfo.positionDelta.left = -(itemWidth / 2);
         draggableInfo.ghostInfo.centerDelta.x = 0;
+        draggableInfo.ghostInfo.positionDelta.top = -(itemHeight / 2);
+        draggableInfo.ghostInfo.centerDelta.y = 0;
       }
       draggableInfo.ghostInfo.ghost.classList.add("item-quick-access");
     },
     backupOriginalDrag(draggableInfo) {
       this.draggableInfo = draggableInfo;
       this.originalDraggableInfoWidth = draggableInfo.size.offsetWidth;
-      this.originalGhostInfoLeft = draggableInfo.ghostInfo.positionDelta.left;
-      this.originalGhostCenterDeltaX = draggableInfo.ghostInfo.centerDelta.x;
+      this.originalDraggableInfoSize = {
+        ...draggableInfo.ghostInfo.positionDelta,
+      };
+      this.originalGhostCenterDelta = {
+        ...draggableInfo.ghostInfo.centerDelta,
+      };
     },
     restoreDragInfo(draggableInfo) {
       if (draggableInfo) {
         draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
-        draggableInfo.ghostInfo.positionDelta.left = this.originalGhostInfoLeft;
-        draggableInfo.ghostInfo.centerDelta.x = this.originalGhostCenterDeltaX;
+        draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
+        draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
         draggableInfo.ghostInfo.ghost.classList.remove("item-quick-access");
       }
     },

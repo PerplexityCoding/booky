@@ -234,11 +234,6 @@ button {
 <style lang="scss" scoped>
 @import "./styles/colors.scss";
 
-aside {
-  width: calc(100vw - 1705px);
-  max-width: 400px;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -247,7 +242,7 @@ aside {
   display: grid;
   flex-direction: column;
   position: fixed;
-  grid-template-columns: 40px auto 215px;
+  grid-template-columns: 40px auto minmax(15vw, 215px);
   grid-template-rows: 40px 67px auto;
   top: 0;
   bottom: 0;

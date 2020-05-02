@@ -14,5 +14,5 @@ module.exports = {
   globals: {
     chrome: "readable",
   },
-  ignorePatterns: ["lib/smooth-dnd/", "node_modules/"],
+  ignorePatterns: ["lib/vue-smooth-dnd/", "lib/smooth-dnd/", "node_modules/"],
 };
