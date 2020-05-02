@@ -92,7 +92,7 @@ export default {
         "quickAccess",
       ]);
       await this.loadLists(value.listsId);
-      await this.loadIcons(this.lists);
+      await loadIcons();
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
       this.locked = value.locked || false;
@@ -140,16 +140,6 @@ export default {
           acc.push(listsById[listId]);
           return acc;
         }, []);
-      }
-    },
-    async loadIcons(lists) {
-      await loadIcons();
-      for (const list of lists) {
-        for (const item of list.items) {
-          if (item) {
-            await loadIcon(item.icon);
-          }
-        }
       }
     },
     save: debounce(function () {

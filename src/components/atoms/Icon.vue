@@ -1,12 +1,16 @@
 <template>
   <div>
-    <img v-if="iconLoaded && icon" :src="icon" :style="style" />
+    <img
+      v-if="src"
+      :src="icon"
+      :style="{ width: `${size}px`, height: `${size}px` }"
+    />
     <box-icon v-else :size="size" />
   </div>
 </template>
 
 <script>
-import { loadIcon } from "../../services/app/icons";
+import { getIcon } from "../../services/app/icons";
 import { BoxIcon } from "vue-feather-icons";
 
 export default {
@@ -24,25 +28,10 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      icon: null,
-      iconLoaded: false,
-    };
-  },
   computed: {
-    style() {
-      return {
-        width: this.size + "px",
-        height: this.size + "px",
-      };
+    icon() {
+      return getIcon(this.src);
     },
-  },
-  async mounted() {
-    if (this.src) {
-      this.icon = await loadIcon(this.src);
-    }
-    this.iconLoaded = true;
   },
 };
 </script>

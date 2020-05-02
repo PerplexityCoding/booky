@@ -24,19 +24,26 @@ async function loadIcons() {
   storeIcons();
 }
 
-async function loadIcon(url) {
-  const now = +new Date();
-
+function getIcon(url) {
   if (!gCacheIcons[url]) {
-    gCacheIcons[url] = {
-      data: await toDataURL(url),
-      ts: now,
-    };
-
-    storeIcons();
+    loadIcon(url);
+    return url;
   }
 
   return gCacheIcons[url].data;
 }
 
-export { loadIcon, loadIcon as getIcon, loadIcons };
+async function loadIcon(url) {
+  const data = await toDataURL(url);
+
+  gCacheIcons[url] = {
+    data,
+    ts: (+new Date()),
+  };
+
+  storeIcons();
+
+  return gCacheIcons[url].data;
+}
+
+export { loadIcon, getIcon, loadIcons };
