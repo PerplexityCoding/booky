@@ -18,7 +18,6 @@
       :lists.sync="lists"
       :layout.sync="layout"
       :locked="locked"
-      :icons="cacheIcons"
       @change="save"
       @change:list="saveList"
     />
@@ -47,6 +46,7 @@ import { fixBrokenLayout } from "./utils/dnd-grid";
 import { getTabs } from "./services/app/tabs";
 import QuickAccess from "./components/QuickAccess";
 import { toDataURL } from "./utils/icons";
+import { loadIcon, loadIcons } from "./services/app/icons";
 
 export default {
   name: "App",
@@ -65,7 +65,6 @@ export default {
       lists: [],
       layout: [],
       quickAccess: [],
-      cacheIcons: {},
     };
   },
   watch: {
@@ -93,7 +92,7 @@ export default {
         "quickAccess",
       ]);
       await this.loadLists(value.listsId);
-      await this.loadIcons(this.lists, value.cacheIcons);
+      await this.loadIcons(this.lists);
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
       this.locked = value.locked || false;
@@ -144,27 +143,14 @@ export default {
       }
     },
     async loadIcons(lists) {
-      this.cacheIcons = (await storageGet("cacheIcons", "local")).cacheIcons;
+      await loadIcons();
       for (const list of lists) {
         for (const item of list.items) {
           if (item) {
-            const cachedIcon = this.cacheIcons[item.icon];
-            const now = +new Date();
-            // console.log(cachedIcon.ts - now);
-            if (cachedIcon) {
-              console.log(now - cachedIcon.ts);
-            }
-
-            if (!cachedIcon || (now - cachedIcon.ts) > 7 * 24 * 60 * 60 * 1000) { // 7 days cache
-              this.cacheIcons[item.icon] = {
-                data: await toDataURL(item.icon),
-                ts: now,
-              };
-            }
+            await loadIcon(item.icon);
           }
         }
       }
-      storageSet({cacheIcons: this.cacheIcons}, 'local');
     },
     save: debounce(function () {
       const listsId = this.lists.map((list) => list.id);

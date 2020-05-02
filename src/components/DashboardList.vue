@@ -49,7 +49,6 @@
         <a :href="item.href">
           <item
             :item="item"
-            :icons="icons"
             :display-delete-btn="!locked"
             :text-editable="!locked"
             @delete-item="deleteItem"
@@ -98,10 +97,6 @@ export default {
     isDragging: {
       type: Boolean,
       default: false,
-    },
-    icons: {
-      type: Object,
-      required: true,
     },
   },
   data: function () {

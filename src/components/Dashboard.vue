@@ -19,7 +19,6 @@
         :key="'dnd-box-' + list.id"
         :box-id="list.id"
         :list.sync="lists[index]"
-        :icons="icons"
         :locked="locked"
         :is-dragging="isDragging"
         @card-drop="cardDrop"
@@ -38,7 +37,6 @@ import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
 import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
 import {fixBrokenLayout, fixLayoutSize} from "../utils/dnd-grid";
-import { debounce } from "../utils/utils";
 
 export default {
   name: "Dashboard",
@@ -53,10 +51,6 @@ export default {
     },
     lists: {
       type: Array,
-      required: true,
-    },
-    icons: {
-      type: Object,
       required: true,
     },
     locked: {

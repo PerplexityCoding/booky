@@ -1,7 +1,6 @@
 <template>
   <div class="item">
-    <img v-if="item.icon" :src="icon" />
-    <box-icon v-else size="32" />
+    <icon :src="item.icon" />
 
     <span class="item-text">
       <text-input
@@ -22,15 +21,16 @@
 </template>
 
 <script>
-import { BoxIcon, XCircleIcon } from "vue-feather-icons";
+import { XCircleIcon } from "vue-feather-icons";
 import TextInput from "./atoms/TextInput";
+import Icon from "./atoms/Icon";
 
 export default {
   name: "Item",
   components: {
-    BoxIcon,
     XCircleIcon,
     TextInput,
+    Icon,
   },
   props: {
     item: {
@@ -44,18 +44,6 @@ export default {
     textEditable: {
       type: Boolean,
       default: false,
-    },
-    icons: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-  },
-  computed: {
-    icon() {
-      const cachedIcon = this.icons[this.item.icon];
-      return cachedIcon ? cachedIcon.data : this.item.icon;
     },
   },
   methods: {
@@ -86,12 +74,6 @@ export default {
 
   &:hover {
     background-color: darken($primaryColor2, 5%);
-  }
-
-  img,
-  svg {
-    min-width: 32px;
-    max-width: 32px;
   }
 }
 
