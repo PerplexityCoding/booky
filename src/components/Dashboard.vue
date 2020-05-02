@@ -122,7 +122,6 @@ export default {
       this.$emit("update:layout", layout);
     },
     updateLayout(list, layout, inc) {
-      console.log(list, layout, inc);
       const listLayout = layout.filter((i) => i.id === list.id)[0];
       const height = list.items.length + inc;
       listLayout.position.h = Math.max(height, 2);

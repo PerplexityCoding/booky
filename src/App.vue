@@ -75,11 +75,6 @@ export default {
   async created() {
     this.loadTabs();
     this.loadStorage();
-
-    chrome.storage.sync.get(null, (items) => {
-      var allKeys = Object.keys(items);
-      console.log(allKeys);
-    });
   },
   methods: {
     async loadStorage() {

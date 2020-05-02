@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     shouldDndDrop(item) {
-      console.log(this.mode);
       return this.mode === "stash";
     },
     getCardPayloadFromTabsList() {

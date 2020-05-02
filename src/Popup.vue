@@ -15,7 +15,6 @@ export default {
       const tab = await getTabs({ active: true, currentWindow: true });
       if (tab.length > 0) {
         const activeTab = tab[0];
-        console.log(activeTab);
 
         const stash = ((await storageGet("stash")) || {}).stash || [];
         stash.push(activeTab);

@@ -9,7 +9,7 @@ const storeIcons = debounce(() => {
 }, 1000);
 
 async function loadIcons() {
-  const cacheIcons = (await storageGet("cacheIcons", "local")).cacheIcons;
+  const cacheIcons = (await storageGet("cacheIcons", "local")).cacheIcons || {};
   const now = +new Date();
 
   for (const iconUrl in cacheIcons) {
