@@ -36,7 +36,7 @@
 import { Container as DndGridContainer } from "./dnd-grid";
 import DashboardList from "./DashboardList";
 import { fixLayout, layoutBubbleUp } from "./dnd-grid/utils";
-import {fixBrokenLayout, fixLayoutSize} from "../utils/dnd-grid";
+import { fixBrokenLayout, fixLayoutSize } from "../utils/dnd-grid";
 
 export default {
   name: "Dashboard",

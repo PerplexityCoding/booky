@@ -24,7 +24,7 @@
         class="item"
       >
         <a :href="item.href">
-          <icon :src="item.icon" size=40 />
+          <icon :src="item.icon" size="40" />
         </a>
         <button v-if="!locked" class="delete-btn" @click="deleteItem(item)">
           <x-circle-icon />
@@ -41,7 +41,7 @@ import {
 } from "vue-smooth-dnd";
 import { BoxIcon, XCircleIcon } from "vue-feather-icons";
 import { applyDrag, debounce, uuidv4 } from "../utils/utils";
-import Icon from './atoms/Icon';
+import Icon from "./atoms/Icon";
 
 export default {
   name: "QuickAccess",

@@ -25,7 +25,7 @@ export default {
     },
     src: {
       type: String,
-      required: true,
+      default: () => undefined,
     },
   },
   computed: {

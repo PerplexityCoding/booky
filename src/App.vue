@@ -43,7 +43,7 @@ import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
-import { getTabs } from "./services/app/tabs";
+import { createItemFromTab, getTabs } from "./services/app/tabs";
 import QuickAccess from "./components/QuickAccess";
 import { toDataURL } from "./utils/icons";
 import { loadIcon, loadIcons } from "./services/app/icons";
@@ -118,18 +118,29 @@ export default {
     },
     async loadTabs() {
       this.tabs = await getTabs();
-      const chromeEvents = [
-        "onUpdated",
-        "onRemoved",
-        "onMoved",
-        "onDetached",
-        "onAttached",
-      ];
+      const chromeEvents = ["onRemoved", "onMoved", "onDetached", "onAttached"];
       for (const chromeEvent of chromeEvents) {
         chrome.tabs[chromeEvent].addListener(async () => {
           this.tabs = await getTabs();
         });
       }
+      chrome.tabs.onUpdated.addListener(async (tabId, changedInfo, tab) => {
+        const isComplete = changedInfo.status === "complete";
+        const hasFavIcon = changedInfo.favIconUrl != null;
+        if (tab && tab.url === "chrome://newtab/") {
+          return;
+        }
+
+        if (isComplete || hasFavIcon) {
+          const tabItem = this.tabs.filter((tab) => tab.tabId === tabId)[0];
+          if (tab) {
+            tabItem.body = tab.title;
+          }
+          if (hasFavIcon) {
+            tabItem.icon = changedInfo.favIconUrl;
+          }
+        }
+      });
     },
     async loadLists(listsId) {
       if (!listsId || listsId.length <= 0) {

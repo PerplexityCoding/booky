@@ -41,12 +41,9 @@ export default {
         title: "New list",
         items: [],
       };
-      const lists = [
-        ...this.lists,
-        newList,
-      ];
+      const lists = [...this.lists, newList];
       this.$emit("update:lists", lists);
-      this.$emit("change:list", {list: newList});
+      this.$emit("change:list", { list: newList });
       this.$emit("change");
     },
     toogleLock() {

@@ -38,7 +38,7 @@ async function loadIcon(url) {
 
   gCacheIcons[url] = {
     data,
-    ts: (+new Date()),
+    ts: +new Date(),
   };
 
   storeIcons();
