@@ -113,7 +113,7 @@ export default {
     },
     async loadTabs() {
       this.tabs = await getTabs();
-      const chromeEvents = ["onRemoved", "onMoved", "onDetached", "onAttached"];
+      const chromeEvents = ["onCreated", "onRemoved", "onMoved", "onDetached", "onAttached"];
       for (const chromeEvent of chromeEvents) {
         chrome.tabs[chromeEvent].addListener(async () => {
           this.tabs = await getTabs();
@@ -122,18 +122,13 @@ export default {
       chrome.tabs.onUpdated.addListener(async (tabId, changedInfo, tab) => {
         const isComplete = changedInfo.status === "complete";
         const hasFavIcon = changedInfo.favIconUrl != null;
-        if (tab && tab.url === "chrome://newtab/") {
-          return;
-        }
+        const tabItem = this.tabs.filter((tab) => tab.tabId === tabId)[0];
 
-        if (isComplete || hasFavIcon) {
-          const tabItem = this.tabs.filter((tab) => tab.tabId === tabId)[0];
-          if (tab) {
-            tabItem.body = tab.title;
-          }
-          if (hasFavIcon) {
-            tabItem.icon = changedInfo.favIconUrl;
-          }
+        if (tab) {
+          tabItem.body = tab.title;
+        }
+        if (hasFavIcon) {
+          tabItem.icon = changedInfo.favIconUrl;
         }
       });
     },
