@@ -106,8 +106,8 @@ export default {
     },
     calcMarginLeft() {
       this.marginLeft =
-        (this.$el.offsetWidth -
-          Math.max(250, this.items.length * (this.itemWidth + 8))) /
+        (this.$el.offsetWidth - 30 -
+          Math.max(250, this.items.length * (this.itemWidth + 12))) /
         2;
     },
     getCardPayloadFromTabsList() {
@@ -121,6 +121,12 @@ export default {
     },
     onDragEnter({ draggableInfo }) {
       if (!this.dragItemIn) {
+        if (this.resetTo) {
+          clearTimeout(this.resetTo);
+          this.resetTo = null;
+        } else {
+          this.backupOriginalDrag(draggableInfo);
+        }
         this.adaptDragInfo(draggableInfo, {
           itemWidth: this.itemWidth,
           itemHeight: this.itemWidth,
@@ -132,7 +138,9 @@ export default {
     },
     onDragLeave({ draggableInfo }) {
       if (this.dragItemIn) {
-        this.restoreDragInfo(draggableInfo);
+        this.resetTo = setTimeout(() => {
+          this.restoreDragInfo(draggableInfo);
+        }, 100);
         this.dragItemIn = false;
       }
       globalSet('dragQuickAccess', false);
@@ -152,7 +160,6 @@ export default {
       this.$emit("update:items", items);
     },
     adaptDragInfo(draggableInfo, { itemWidth, itemHeight, center } = {}) {
-      this.backupOriginalDrag(draggableInfo);
       draggableInfo.size.offsetWidth = itemWidth;
       if (center) {
         draggableInfo.ghostInfo.positionDelta.left = -(itemWidth / 2);
@@ -216,7 +223,7 @@ export default {
 
 .quick-access-container {
   border-collapse: separate;
-  padding: 8px 6px;
+  padding: 8px 30px;
   display: flex;
   min-width: calc(63px * 4);
   min-height: 55px;
@@ -246,7 +253,7 @@ svg {
 }
 
 .item {
-  padding: 0 4px;
+  padding: 0 6px;
   position: relative;
 
   a {
