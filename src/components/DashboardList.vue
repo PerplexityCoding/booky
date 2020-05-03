@@ -100,7 +100,7 @@ export default {
     },
     itemWidth: {
       type: Number,
-      required: true
+      required: true,
     },
   },
   data: function () {
@@ -149,7 +149,10 @@ export default {
       };
     },
     onCardDrop(dropResult) {
-      if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
+      if (
+        !window.dragQuickAccess &&
+        (dropResult.removedIndex !== null || dropResult.addedIndex !== null)
+      ) {
         let list = this.list;
         list.items = applyDrag(list.items, dropResult);
         this.$emit("card-drop", list);

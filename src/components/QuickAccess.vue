@@ -1,5 +1,9 @@
 <template>
-  <div class="quick-access">
+  <div
+    :class="['quick-access', { 'has-transition': hasTransition }]"
+    @mouseleave="onMouseLeave"
+    @mousenter="onMouseEnter"
+  >
     <div v-if="items.length === 0 && !dragItemIn" class="empty-placeholder">
       Drag your quick access book here !
     </div>
@@ -11,6 +15,7 @@
       :get-child-payload="getCardPayloadFromTabsList()"
       :drop-placeholder="placeholderOptions"
       :orientation="orientation"
+      :style="{ marginLeft: `${marginLeft}px` }"
       drag-class="super-class"
       drop-class="toto-class"
       lock-axis="x"
@@ -77,9 +82,33 @@ export default {
       originalDraggableInfoSize: null,
       originalGhostCenterDelta: null,
       resetTo: null,
+      marginLeft: 35,
+      hasTransition: false,
+      recalcTo: null,
     };
   },
+  mounted() {
+    this.calcMarginLeft();
+    setTimeout(() => {
+      this.hasTransition = true;
+    }, 0);
+  },
   methods: {
+    onMouseEnter() {
+      if (this.recalcTo) {
+        clearTimeout(this.recalcTo);
+        this.recalcTo = null;
+      }
+    },
+    onMouseLeave() {
+      this.recalcTo = setTimeout(this.calcMarginLeft, 500);
+    },
+    calcMarginLeft() {
+      this.marginLeft =
+        (this.$el.offsetWidth -
+          Math.max(250, this.items.length * (this.itemWidth + 8))) /
+        2;
+    },
     getCardPayloadFromTabsList() {
       return (index) => {
         return {
@@ -98,12 +127,14 @@ export default {
         });
         this.dragItemIn = true;
       }
+      window.dragQuickAccess = true;
     },
     onDragLeave({ draggableInfo }) {
       if (this.dragItemIn) {
         this.restoreDragInfo(draggableInfo);
         this.dragItemIn = false;
       }
+      window.dragQuickAccess = false;
     },
     onCardDrop(dropResult) {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
@@ -111,6 +142,9 @@ export default {
         this.dragItemIn = false;
         this.$emit("update:items", items);
       }
+      setTimeout(() => {
+        window.dragQuickAccess = false;
+      }, 1000);
     },
     deleteItem(item) {
       const items = this.items.filter((i) => i.id !== item.id);
@@ -183,12 +217,18 @@ export default {
   border-collapse: separate;
   padding: 8px 6px;
   display: flex;
+  min-width: calc(63px * 4);
+  min-height: 55px;
 }
 
 .quick-access {
   display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: $primaryColor4;
+
+  &.has-transition .quick-access-container {
+    transition: margin-left ease-out 0.2s;
+  }
 }
 
 .delete-btn {
@@ -228,5 +268,6 @@ svg {
   font-size: 15px;
   position: absolute;
   padding: 10px;
+  margin-left: calc(50% - 250px);
 }
 </style>
