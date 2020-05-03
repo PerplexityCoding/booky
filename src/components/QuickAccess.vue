@@ -47,7 +47,7 @@ import {
 import { BoxIcon, XCircleIcon } from "vue-feather-icons";
 import { applyDrag, debounce, uuidv4 } from "../utils/utils";
 import Icon from "./atoms/Icon";
-import {globalSet} from "../services/app/unique";
+import { globalSet } from "../services/app/unique";
 
 export default {
   name: "QuickAccess",
@@ -106,7 +106,8 @@ export default {
     },
     calcMarginLeft() {
       this.marginLeft =
-        (this.$el.offsetWidth - 30 -
+        (this.$el.offsetWidth -
+          30 -
           Math.max(250, this.items.length * (this.itemWidth + 12))) /
         2;
     },
@@ -134,7 +135,7 @@ export default {
         });
         this.dragItemIn = true;
       }
-      globalSet('dragQuickAccess', true);
+      globalSet("dragQuickAccess", true);
     },
     onDragLeave({ draggableInfo }) {
       if (this.dragItemIn) {
@@ -143,7 +144,7 @@ export default {
         }, 100);
         this.dragItemIn = false;
       }
-      globalSet('dragQuickAccess', false);
+      globalSet("dragQuickAccess", false);
     },
     onCardDrop(dropResult) {
       if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
@@ -152,7 +153,7 @@ export default {
         this.$emit("update:items", items);
       }
       setTimeout(() => {
-        globalSet('dragQuickAccess', false);
+        globalSet("dragQuickAccess", false);
       }, 1000);
     },
     deleteItem(item) {

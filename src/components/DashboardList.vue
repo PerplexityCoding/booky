@@ -70,7 +70,7 @@ import {
 import { XCircleIcon } from "vue-feather-icons";
 import Item from "./Item";
 import TextInput from "./atoms/TextInput";
-import {globalGet} from "../services/app/unique";
+import { globalGet } from "../services/app/unique";
 
 export default {
   name: "DashboardList",
@@ -151,7 +151,7 @@ export default {
     },
     onCardDrop(dropResult) {
       if (
-        !globalGet('dragQuickAccess') &&
+        !globalGet("dragQuickAccess") &&
         (dropResult.removedIndex !== null || dropResult.addedIndex !== null)
       ) {
         let list = this.list;

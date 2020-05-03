@@ -113,7 +113,13 @@ export default {
     },
     async loadTabs() {
       this.tabs = await getTabs();
-      const chromeEvents = ["onCreated", "onRemoved", "onMoved", "onDetached", "onAttached"];
+      const chromeEvents = [
+        "onCreated",
+        "onRemoved",
+        "onMoved",
+        "onDetached",
+        "onAttached",
+      ];
       for (const chromeEvent of chromeEvents) {
         chrome.tabs[chromeEvent].addListener(async () => {
           this.tabs = await getTabs();
