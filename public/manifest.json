@@ -1,7 +1,7 @@
 {
   "name": "Book Keeper",
-  "version": "0.0.1",
-  "version_name": "0.0.1 beta",
+  "version": "1.0.1",
+  "version_name": "1.0.1 beta",
   "description": "Manage your bookmark differently",
   "permissions": [
     "activeTab",
