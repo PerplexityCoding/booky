@@ -9,7 +9,9 @@
     "lint": "vue-cli-service lint",
     "link": "npm run link:smooth-dnd",
     "link:smooth-dnd": "cd lib/smooth-dnd && npm link && cd ../.. && npm link smooth-dnd",
-    "link:vue-smooth-dnd": "cd lib/vue-smooth-dnd && npm link && npm link smooth-dnd && cd ../.. && npm link vue-smooth-dnd"
+    "link:vue-smooth-dnd": "cd lib/vue-smooth-dnd && npm link && npm link smooth-dnd && cd ../.. && npm link vue-smooth-dnd",
+    "release": "sh -c 'npm version $VERSION' && npm run bundle && sh -c 'git tag $VERSION' && git push --tags && git push",
+    "bundle": "rm -rf build/ && npm run build && cd dist/ && sh -c 'sed -i \"s/1.0.0/$VERSION/g\" manifest.json' && sh -c 'bestzip ../release/v$VERSION.zip *'"
   },
   "dependencies": {
     "vue": "^2.6.11",
@@ -21,6 +23,7 @@
     "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
+    "bestzip": "^2.1.5",
     "dnd-grid": "^0.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",

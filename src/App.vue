@@ -66,6 +66,11 @@ export default {
       quickAccess: [],
     };
   },
+  computed: {
+    visibleTabs() {
+      return this.tabs.filter((t) => t.href !== "chrome://newtab/");
+    },
+  },
   watch: {
     locked() {
       this.saveLocked();
@@ -74,11 +79,6 @@ export default {
   async created() {
     this.loadTabs();
     this.loadStorage();
-  },
-  computed: {
-    visibleTabs() {
-      return this.tabs.filter((t) => t.href !== "chrome://newtab/");
-    },
   },
   methods: {
     async loadStorage() {
@@ -183,7 +183,7 @@ export default {
       await storageSet({
         locked: this.locked,
       });
-    }
+    },
   },
 };
 </script>

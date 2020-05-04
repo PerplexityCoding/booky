@@ -225,13 +225,13 @@ export default {
 .quick-access-container {
   border-collapse: separate;
   padding: 8px 30px;
-  display: flex;
+  display: flex !important;
   min-width: calc(63px * 4);
   min-height: 55px;
 }
 
 .quick-access {
-  display: flex !important;
+  display: flex;
   align-items: center;
   background-color: $primaryColor4;
 
