@@ -163,7 +163,7 @@ export default {
     white-space: inherit;
 
     &.editable {
-      display: inherit;
+      display: block;
       -webkit-line-clamp: none;
       white-space: nowrap;
     }
