@@ -23,7 +23,7 @@
     />
     <aside class="side-bar">
       <side-bar
-        :tabs="tabs"
+        :tabs="visibleTabs"
         :locked="locked"
         :stash.sync="stash"
         @change="save"
@@ -43,10 +43,9 @@ import Dashboard from "./components/Dashboard";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/Header";
 import { fixBrokenLayout } from "./utils/dnd-grid";
-import { createItemFromTab, getTabs } from "./services/app/tabs";
+import { getTabs } from "./services/app/tabs";
 import QuickAccess from "./components/QuickAccess";
-import { toDataURL } from "./utils/icons";
-import { loadIcon, loadIcons } from "./services/app/icons";
+import { loadIcons } from "./services/app/icons";
 
 export default {
   name: "App",
@@ -75,6 +74,11 @@ export default {
   async created() {
     this.loadTabs();
     this.loadStorage();
+  },
+  computed: {
+    visibleTabs() {
+      return this.tabs.filter((t) => t.href !== "chrome://newtab/");
+    },
   },
   methods: {
     async loadStorage() {
@@ -136,6 +140,8 @@ export default {
         if (hasFavIcon) {
           tabItem.icon = changedInfo.favIconUrl;
         }
+
+        tabItem.href = tab.url;
       });
     },
     async loadLists(listsId) {
@@ -177,7 +183,7 @@ export default {
       await storageSet({
         locked: this.locked,
       });
-    },
+    }
   },
 };
 </script>
