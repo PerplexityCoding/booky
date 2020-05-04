@@ -231,7 +231,7 @@ export default {
 }
 
 .quick-access {
-  display: flex;
+  display: flex !important;
   align-items: center;
   background-color: $primaryColor4;
 
