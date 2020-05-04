@@ -43,7 +43,7 @@
 import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
-} from "vue-smooth-dnd";
+} from "@ymenard-dev/vue-smooth-dnd";
 import { BoxIcon, XCircleIcon } from "vue-feather-icons";
 import { applyDrag, debounce, uuidv4 } from "../utils/utils";
 import Icon from "./atoms/Icon";

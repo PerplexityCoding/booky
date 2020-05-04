@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "vue": "^2.6.11",
-    "vue-smooth-dnd": "^0.8.1"
+    "@ymenard-dev/vue-smooth-dnd": "0.8.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "^4.3.0",

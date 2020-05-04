@@ -66,7 +66,7 @@ import { Box as DndGridBox } from "./dnd-grid";
 import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
-} from "vue-smooth-dnd";
+} from "@ymenard-dev/vue-smooth-dnd";
 import { XCircleIcon } from "vue-feather-icons";
 import Item from "./Item";
 import TextInput from "./atoms/TextInput";

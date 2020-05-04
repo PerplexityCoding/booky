@@ -41,7 +41,7 @@
 import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
-} from "vue-smooth-dnd";
+} from "@ymenard-dev/vue-smooth-dnd";
 import Item from "./Item";
 import { applyDrag, uuidv4 } from "../utils/utils";
 
