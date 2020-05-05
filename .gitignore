@@ -22,3 +22,4 @@ yarn-error.log*
 
 lib/smooth-dnd
 lib/vue-smooth-dnd
+release/
