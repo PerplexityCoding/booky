@@ -1,6 +1,7 @@
 <template>
   <section>
-    <button @click="addToStash">Add to Stash</button>
+    <button v-if="isAddToStash" @click="addToStash" class="addButton">Add to Stash</button>
+    <button v-else @click="removeFromStash" class="removeButton">Remove from Stash</button>
   </section>
 </template>
 
@@ -10,20 +11,64 @@ import { storageGet, storageSet } from "./services/chrome/storage";
 
 export default {
   name: "Popup",
+  data() {
+    return {
+      isAddToStash: true,
+    };
+  },
+  async mounted() {
+    this.isAddToStash = !(await this.isActiveTabInStash());
+    console.log(this.isAddToStash);
+  },
   methods: {
-    async addToStash() {
+    async getActiveTab() {
       const tab = await getTabs({ active: true, currentWindow: true });
       if (tab.length > 0) {
         const activeTab = tab[0];
-
-        const stash = ((await storageGet("stash")) || {}).stash || [];
-        stash.push(activeTab);
-        await storageSet({
-          stash,
-        });
-
-        window.close();
+        return activeTab;
       }
+      return null;
+    },
+    async isActiveTabInStash() {
+      const activeTab = await this.getActiveTab();
+      if (activeTab) {
+        const stash = await this.getStash();
+        if (stash) {
+          return (
+            stash.filter((item) => item.href === activeTab.href).length > 0
+          );
+        }
+      }
+      return false;
+    },
+    async updateStash(fn) {
+      const activeTab = await this.getActiveTab();
+      if (activeTab) {
+        let stash = await this.getStash();
+        stash = fn(stash, activeTab);
+        this.storeAndClose(stash);
+      }
+    },
+    async addToStash() {
+      this.updateStash((stash, activeTab) => {
+        stash.push(activeTab);
+        return stash;
+      });
+    },
+    async removeFromStash() {
+      this.updateStash((stash, activeTab) => {
+        return stash.filter((s) => s.href !== activeTab.href);
+      });
+    },
+    async storeAndClose(stash) {
+      await storageSet({
+        stash,
+      });
+
+      window.close();
+    },
+    async getStash() {
+      return ((await storageGet("stash")) || {}).stash || [];
     },
   },
 };
@@ -35,12 +80,18 @@ export default {
 button {
   cursor: pointer;
   border: none;
-  background: none;
   display: inline;
   margin: 0;
-  background-color: $primaryColor5;
   border-radius: 5px;
   white-space: nowrap;
   padding: 10px;
+}
+
+.addButton {
+  background-color: $green;
+}
+
+.removeButton {
+  background-color: $red;
 }
 </style>
