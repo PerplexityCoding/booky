@@ -22,15 +22,17 @@
           :key="`item-${item.id}`"
           class="item"
         >
-          <item
-            :item="item"
-            :text-editable="stashMode && !locked"
-            :display-delete-btn="!locked"
-            @change="$emit('change')"
-            @delete-item="
-              (item) => (stashMode ? deleteItem(item) : closeTab(item))
-            "
-          />
+          <component :is="link" :href="linkHref(item)">
+            <item
+              :item="item"
+              :text-editable="stashMode && !locked"
+              :display-delete-btn="!locked"
+              @change="$emit('change')"
+              @delete-item="
+                (item) => (stashMode ? deleteItem(item) : closeTab(item))
+              "
+            />
+          </component>
         </smooth-dnd-draggable>
       </smooth-dnd-container>
     </section>
@@ -89,6 +91,12 @@ export default {
     dndBehavior() {
       return this.mode === "tabs" ? "move" : "move";
     },
+    hasLink() {
+      return this.stashMode && this.locked;
+    },
+    link() {
+      return this.hasLink ? 'a' : 'div';
+    },
   },
   methods: {
     shouldDndDrop(item) {
@@ -133,6 +141,9 @@ export default {
       this.$emit("update:stash", stash);
       this.$emit("change");
     },
+    linkHref(item) {
+      return this.hasLink ? item.href : undefined;
+    },
   },
 };
 </script>
@@ -163,6 +174,10 @@ header {
 .side-bar-container {
   overflow: auto;
   padding: 0 3px;
+}
+
+a {
+  text-decoration: none;
 }
 
 .item {
