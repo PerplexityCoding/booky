@@ -236,6 +236,8 @@ export default {
   display: flex !important;
   min-width: calc(63px * 4);
   min-height: 55px;
+  background-color: lighten($primaryColor4, 2%);
+  border-radius: 5px;
 }
 
 .dnd-item {

@@ -77,7 +77,7 @@ header {
   }
 
   &:hover {
-    color: $primaryColor5;
+    color: $fontColor;
   }
 }
 

@@ -225,9 +225,13 @@ export default {
       flex: 1;
       text-align: left;
       line-height: 25px;
-      font-size: 14px;
-      color: $primaryColor5;
+      color: $fontColor;
       width: 100%;
+
+      ::v-deep .input {
+        font-size: 15px;
+        font-weight: bold;
+      }
     }
 
     & .delete-btn {

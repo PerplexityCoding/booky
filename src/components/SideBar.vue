@@ -152,7 +152,7 @@ export default {
 
 button {
   background-color: lighten($primaryColor4, 5%);
-  color: $primaryColor5;
+  color: $fontColor;
   text-transform: uppercase;
   letter-spacing: 0.25rem;
   border-radius: 5px;
