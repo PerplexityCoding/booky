@@ -1,6 +1,14 @@
-console.log("toto fait du velo");
+async function main() {
+  chrome.runtime.onInstalled.addListener(function () {
+    onInstalled();
+  });
+}
 
-chrome.runtime.onInstalled.addListener(function () {
+async function onInstalled() {
+  addPageRule();
+}
+
+function addPageRule() {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([
       {
@@ -13,4 +21,6 @@ chrome.runtime.onInstalled.addListener(function () {
       },
     ]);
   });
-});
+}
+
+main();

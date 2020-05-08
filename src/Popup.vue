@@ -1,7 +1,11 @@
 <template>
   <section>
-    <button v-if="isAddToStash" @click="addToStash" class="addButton">Add to Stash</button>
-    <button v-else @click="removeFromStash" class="removeButton">Remove from Stash</button>
+    <button v-if="isAddToStash" class="addButton" @click="addToStash">
+      Add to Stash
+    </button>
+    <button v-else class="removeButton" @click="removeFromStash">
+      Remove from Stash
+    </button>
   </section>
 </template>
 
@@ -51,6 +55,7 @@ export default {
     },
     async addToStash() {
       this.updateStash((stash, activeTab) => {
+        activeTab.added = +new Date();
         stash.push(activeTab);
         return stash;
       });

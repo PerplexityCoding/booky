@@ -79,6 +79,7 @@ export default {
   async created() {
     this.loadTabs();
     this.loadStorage();
+    this.updateStash();
   },
   methods: {
     async loadStorage() {
@@ -183,6 +184,24 @@ export default {
       await storageSet({
         locked: this.locked,
       });
+    },
+    async updateStash() {
+      // to move outside
+      const stashRemoveTime = 30 * 24 * 60 * 60 * 1000; // 30 days
+      const stash = (await storageGet("stash") || {}).stash;
+      const now = +new Date();
+
+      const items = [];
+      for (const item of stash) {
+        if (!item.added) {
+          item.added = now;
+        } else if (now - item.added > stashRemoveTime) {
+          continue;
+        }
+        items.push(item);
+      }
+
+      await storageSet({stash: items});
     },
   },
 };

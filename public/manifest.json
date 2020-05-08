@@ -33,7 +33,7 @@
     "*.png"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["js/background.js"],
     "persistent": false
   },
   "chrome_url_overrides" : {

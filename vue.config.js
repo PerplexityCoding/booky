@@ -12,6 +12,10 @@ module.exports = {
       template: "public/popup.html",
       filename: "popup.html",
     },
+    background: {
+      title: "Book-Keeper",
+      entry: "src/background.js"
+    },
   },
   configureWebpack: {
     devtool: "cheap-module-source-map",
