@@ -70,6 +70,7 @@ export default {
   color: $fontColor;
   padding: 0.3rem;
   width: 100%;
+  min-width: 250px;
   height: 40px;
   display: flex !important;
   border-radius: 2px;

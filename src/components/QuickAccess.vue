@@ -165,7 +165,8 @@ export default {
         draggableInfo.ghostInfo.positionDelta.top = -(itemHeight / 2);
         draggableInfo.ghostInfo.centerDelta.y = 0;
       }
-      draggableInfo.ghostInfo.ghost.classList.add("item-quick-access-ghost");
+      const item = draggableInfo.ghostInfo.ghost.querySelector('.item');
+      item.classList.add("item-quick-access");
     },
     backupOriginalDrag(draggableInfo) {
       this.draggableInfo = draggableInfo;
@@ -182,7 +183,8 @@ export default {
         draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
         draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
         draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
-        draggableInfo.ghostInfo.ghost.classList.remove("item-quick-access-ghost");
+        const item = draggableInfo.ghostInfo.ghost.querySelector('.item');
+        item.classList.remove("item-quick-access");
       }
     },
   },
@@ -192,11 +194,12 @@ export default {
 <style lang="scss">
 @import "../styles/colors.scss";
 
-.item-quick-access-ghost .item,
 .item.item-quick-access {
   background-color: lighten($primaryColor4, 15%);
   width: 55px;
+  min-width: 55px;
   height: 55px;
+  min-height: 55px;
   border-radius: 5px;
   padding: 8px;
   position: relative;
@@ -212,12 +215,14 @@ export default {
     color: $fontColor;
   }
 
-  img,
-  svg {
-    min-width: 40px;
-    max-width: 40px;
-    min-height: 40px;
-    max-height: 40px;
+  .item-icon {
+    img,
+    svg {
+      min-width: 40px;
+      max-width: 40px;
+      min-height: 40px;
+      max-height: 40px;
+    }
   }
 }
 </style>
