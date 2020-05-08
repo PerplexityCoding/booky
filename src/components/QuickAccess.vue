@@ -18,7 +18,6 @@
       :style="{ marginLeft: `${marginLeft}px` }"
       drag-class="super-class"
       drop-class="toto-class"
-      lock-axis="x"
       @drop="onCardDrop"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
