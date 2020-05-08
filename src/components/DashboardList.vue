@@ -46,15 +46,14 @@
         :key="item.id"
         class="dashboard-draggable-item"
       >
-        <a :href="item.href">
-          <item
-            :item="item"
-            :display-delete-btn="!locked"
-            :text-editable="!locked"
-            @delete-item="deleteItem"
-            @change="$emit('change:list', { list })"
-          />
-        </a>
+        <item
+          :item="item"
+          :locked="locked"
+          :display-delete-btn="!locked"
+          :text-editable="!locked"
+          @delete-item="deleteItem"
+          @change="$emit('change:list', { list })"
+        />
       </smooth-dnd-draggable>
     </smooth-dnd-container>
   </dnd-grid-box>
@@ -181,6 +180,7 @@ export default {
           draggableInfo.ghostInfo.centerDelta.x * ratio;
       }
       draggableInfo.ghostInfo.ghost.style.width = `${itemWidth - 5}px`;
+      //draggableInfo.ghostInfo.ghost.classList.remove("item-quick-access-ghost");
     },
     backupOriginalDrag(draggableInfo) {
       this.draggableInfo = draggableInfo;

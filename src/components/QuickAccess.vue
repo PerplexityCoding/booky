@@ -16,8 +16,6 @@
       :drop-placeholder="placeholderOptions"
       :orientation="orientation"
       :style="{ marginLeft: `${marginLeft}px` }"
-      drag-class="super-class"
-      drop-class="toto-class"
       @drop="onCardDrop"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
@@ -25,14 +23,16 @@
       <smooth-dnd-draggable
         v-for="item in items"
         :key="`item-${item.id}`"
-        class="item"
+        class="dnd-item"
       >
-        <a :href="item.href">
-          <icon :src="item.icon" size="40" />
-        </a>
-        <button v-if="!locked" class="delete-btn" @click="deleteItem(item)">
-          <x-circle-icon />
-        </button>
+        <item
+          :item="item"
+          :locked="locked"
+          :display-delete-btn="!locked"
+          :text-editable="!locked"
+          class="item-quick-access"
+          @delete-item="deleteItem"
+        />
       </smooth-dnd-draggable>
     </smooth-dnd-container>
   </div>
@@ -43,18 +43,16 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "@ymenard-dev/vue-smooth-dnd";
-import { BoxIcon, XCircleIcon } from "vue-feather-icons";
-import { applyDrag, debounce, uuidv4 } from "../utils/utils";
-import Icon from "./atoms/Icon";
+import { applyDrag } from "../utils/utils";
 import { globalSet } from "../services/app/unique";
+import Item from "./Item";
 
 export default {
   name: "QuickAccess",
   components: {
     SmoothDndContainer,
     SmoothDndDraggable,
-    Icon,
-    XCircleIcon,
+    Item,
   },
   props: {
     locked: {
@@ -167,7 +165,7 @@ export default {
         draggableInfo.ghostInfo.positionDelta.top = -(itemHeight / 2);
         draggableInfo.ghostInfo.centerDelta.y = 0;
       }
-      draggableInfo.ghostInfo.ghost.classList.add("item-quick-access");
+      draggableInfo.ghostInfo.ghost.classList.add("item-quick-access-ghost");
     },
     backupOriginalDrag(draggableInfo) {
       this.draggableInfo = draggableInfo;
@@ -184,7 +182,7 @@ export default {
         draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
         draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
         draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
-        draggableInfo.ghostInfo.ghost.classList.remove("item-quick-access");
+        draggableInfo.ghostInfo.ghost.classList.remove("item-quick-access-ghost");
       }
     },
   },
@@ -194,26 +192,32 @@ export default {
 <style lang="scss">
 @import "../styles/colors.scss";
 
-.item-quick-access {
-  .item {
-    background-color: lighten($primaryColor4, 15%);
-    width: 55px;
-    height: 55px;
-    border-radius: 5px;
-    padding: 8px;
+.item-quick-access-ghost .item,
+.item.item-quick-access {
+  background-color: lighten($primaryColor4, 15%);
+  width: 55px;
+  height: 55px;
+  border-radius: 5px;
+  padding: 8px;
+  position: relative;
 
-    .delete-btn,
-    .item-text {
-      display: none;
-    }
+  .item-text {
+    display: none;
+  }
 
-    img,
-    svg {
-      min-width: 40px;
-      max-width: 40px;
-      min-height: 40px;
-      max-height: 40px;
-    }
+  .delete-btn {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    color: $fontColor;
+  }
+
+  img,
+  svg {
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
   }
 }
 </style>
@@ -229,6 +233,10 @@ export default {
   min-height: 55px;
 }
 
+.dnd-item {
+  padding: 0 6px;
+}
+
 .quick-access {
   display: flex;
   align-items: center;
@@ -236,38 +244,6 @@ export default {
 
   &.has-transition .quick-access-container {
     transition: margin-left ease-out 0.2s;
-  }
-}
-
-.delete-btn {
-  position: absolute;
-  top: -12px;
-  right: -12px;
-  color: $fontColor;
-}
-
-img,
-svg {
-  min-width: 40px;
-  max-width: 40px;
-}
-
-.item {
-  padding: 0 6px;
-  position: relative;
-
-  a {
-    display: block;
-    color: $fontColor;
-    background-color: lighten($primaryColor4, 15%);
-    height: 55px;
-    width: 55px;
-    padding: 6px;
-    border-radius: 5px;
-
-    &:hover {
-      background-color: lighten($primaryColor4, 25%);
-    }
   }
 }
 

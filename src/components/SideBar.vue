@@ -22,17 +22,16 @@
           :key="`item-${item.id}`"
           class="item"
         >
-          <component :is="link" :href="linkHref(item)">
-            <item
-              :item="item"
-              :text-editable="stashMode && !locked"
-              :display-delete-btn="!locked"
-              @change="$emit('change')"
-              @delete-item="
-                (item) => (stashMode ? deleteItem(item) : closeTab(item))
-              "
-            />
-          </component>
+          <item
+            :item="item"
+            :locked="locked"
+            :text-editable="stashMode && !locked"
+            :display-delete-btn="!locked"
+            @change="$emit('change')"
+            @delete-item="
+              (item) => (stashMode ? deleteItem(item) : closeTab(item))
+            "
+          />
         </smooth-dnd-draggable>
       </smooth-dnd-container>
     </section>

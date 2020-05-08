@@ -1,6 +1,6 @@
 <template>
-  <div class="item">
-    <icon :src="item.icon" />
+  <component :is="item.href && locked ? 'a' : 'div'" :href="item.href" class="item">
+    <icon class="item-icon" :src="item.icon" />
 
     <span class="item-text">
       <text-input
@@ -17,7 +17,7 @@
     >
       <x-circle-icon />
     </button>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -42,6 +42,10 @@ export default {
       default: false,
     },
     textEditable: {
+      type: Boolean,
+      default: false,
+    },
+    locked: {
       type: Boolean,
       default: false,
     },
