@@ -192,13 +192,15 @@ export default {
       const now = +new Date();
 
       const items = [];
-      for (const item of stash) {
-        if (!item.added) {
-          item.added = now;
-        } else if (now - item.added > stashRemoveTime) {
-          continue;
+      if (stash) {
+        for (const item of stash) {
+          if (!item.added) {
+            item.added = now;
+          } else if (now - item.added > stashRemoveTime) {
+            continue;
+          }
+          items.push(item);
         }
-        items.push(item);
       }
 
       await storageSet({stash: items});
