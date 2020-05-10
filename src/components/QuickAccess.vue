@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="['quick-access', { 'has-transition': hasTransition }]"
+    :class="['quick-access', { 'has-transition': hasTransition , 'is-empty': items.length === 0 && !dragItemIn}]"
     @mouseleave="onMouseLeave"
     @mousenter="onMouseEnter"
   >
-    <div v-if="items.length === 0 && !dragItemIn" class="empty-placeholder">
+    <div class="empty-placeholder">
       Drag your quick access book here !
     </div>
     <smooth-dnd-container
@@ -259,6 +259,17 @@ export default {
   font-size: 15px;
   position: absolute;
   padding: 10px;
-  margin-left: calc(50% - 250px);
+  margin-left: calc(50% - 296px);
+  display: none;
+}
+
+.is-empty {
+  .quick-access-container {
+    background-color: transparent;
+  }
+
+  .empty-placeholder {
+    display: block;
+  }
 }
 </style>
