@@ -23,7 +23,7 @@
       </button>
     </header>
     <div
-      v-if="list.items.length === 0 && !dragItemIn"
+      v-if="list.items.length === 0 && !dragItemIn && !locked"
       class="empty-placeholder"
     >
       Drag your book here
@@ -259,9 +259,9 @@ export default {
   }
 
   .empty-placeholder {
-    border: 1px dashed $fontColor;
-    height: 39px;
-    line-height: 36px;
+    background-color: lighten($primaryColor4, 12%);
+    height: 45px;
+    line-height: 41px;
     font-size: 15px;
     margin-top: 5px;
     position: absolute;

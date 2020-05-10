@@ -39,5 +39,7 @@ export default {
 <style lang="scss" scoped>
 .icon {
   display: flex;
+  flex: 1;
+  align-items: center;
 }
 </style>

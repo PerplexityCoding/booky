@@ -68,10 +68,10 @@ export default {
 .item {
   background-color: darken($primaryColor2, 12%);
   color: $fontColor;
-  padding: 0.3rem;
+  padding: 6px;
   width: 100%;
-  min-width: 250px;
-  height: 40px;
+  min-width: 150px;
+  height: 44px;
   display: flex !important;
   border-radius: 2px;
   cursor: pointer;

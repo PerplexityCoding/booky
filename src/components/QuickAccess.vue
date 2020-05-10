@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       mode: "tabs",
-      itemWidth: 55,
+      itemWidth: 95,
       dragItemIn: false,
       dragItem: null,
       placeholderOptions: {
@@ -102,9 +102,10 @@ export default {
       this.recalcTo = setTimeout(this.calcMarginLeft, 500);
     },
     calcMarginLeft() {
+      const containerMargin = 60;
       this.marginLeft =
         (this.$el.offsetWidth -
-          30 -
+          containerMargin -
           Math.max(250, this.items.length * (this.itemWidth + 12))) /
         2;
     },
@@ -196,16 +197,25 @@ export default {
 
 .item.item-quick-access {
   background-color: lighten($primaryColor4, 15%);
-  width: 55px;
-  min-width: 55px;
-  height: 55px;
-  min-height: 55px;
+  width: 95px;
+  min-width: 95px;
+  height: 90px;
+  min-height: 90px;
   border-radius: 5px;
   padding: 8px;
   position: relative;
+  flex-direction: column;
+  text-decoration: none;
 
   .item-text {
-    display: none;
+    padding-top: 1px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    .input {
+      text-align: center;
+    }
   }
 
   .delete-btn {
@@ -213,16 +223,6 @@ export default {
     top: -12px;
     right: -12px;
     color: $fontColor;
-  }
-
-  .item-icon {
-    img,
-    svg {
-      min-width: 40px;
-      max-width: 40px;
-      min-height: 40px;
-      max-height: 40px;
-    }
   }
 }
 </style>

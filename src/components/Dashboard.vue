@@ -65,7 +65,7 @@ export default {
       bubbleUp: true,
       topLayout: true,
       cellSize: {
-        h: 40,
+        h: 44,
         w: 150,
       },
       defaultSize: {
