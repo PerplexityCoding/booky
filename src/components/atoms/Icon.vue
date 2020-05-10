@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="icon">
     <img
       v-if="src"
       :src="icon"
@@ -36,4 +36,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon {
+  display: flex;
+}
+</style>

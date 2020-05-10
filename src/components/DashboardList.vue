@@ -26,7 +26,7 @@
       v-if="list.items.length === 0 && !dragItemIn"
       class="empty-placeholder"
     >
-      Drag your book here !
+      Drag your book here
     </div>
     <smooth-dnd-container
       group-name="tabs"
