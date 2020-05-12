@@ -258,7 +258,7 @@ export default {
   border: 1px dashed $fontColor;
   font-size: 15px;
   position: absolute;
-  padding: 10px;
+  padding: 20px;
   margin-left: calc(50% - 296px);
   display: none;
 }
