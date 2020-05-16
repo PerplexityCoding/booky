@@ -10,7 +10,7 @@
     <smooth-dnd-container
       group-name="tabs"
       class="quick-access-container"
-      :should-accept-drop="() => !locked"
+      :should-accept-drop="shouldAcceptDrop"
       :drag-handle-selector="locked ? '.none' : ''"
       :get-child-payload="getCardPayloadFromTabsList()"
       :drop-placeholder="placeholderOptions"
@@ -92,6 +92,12 @@ export default {
     }, 0);
   },
   methods: {
+    shouldAcceptDrop(src, payload) {
+      if (payload.from === 'stash' || payload.from === 'tabs') {
+        return true;
+      }
+      return !this.locked;
+    },
     onMouseEnter() {
       if (this.recalcTo) {
         clearTimeout(this.recalcTo);

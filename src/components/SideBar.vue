@@ -11,7 +11,6 @@
         group-name="tabs"
         class="side-bar-container"
         :should-accept-drop="shouldDndDrop"
-        :drag-handle-selector="locked ? '.none' : ''"
         :get-child-payload="getCardPayloadFromTabsList()"
         :drop-placeholder="placeholderOptions"
         :behaviour="dndBehavior"
@@ -24,7 +23,7 @@
         >
           <item
             :item="item"
-            :locked="locked"
+            :locked="false"
             :text-editable="stashMode && !locked"
             :display-delete-btn="!locked"
             @change="$emit('change')"
@@ -108,6 +107,7 @@ export default {
             ...this.items[index],
             id: uuidv4(),
           },
+          from: this.mode,
         };
       };
     },
@@ -180,7 +180,7 @@ a {
 }
 
 .item {
-  padding: 2px;
+  margin-bottom: 4px;
 
   &:first-child {
     padding-top: 0;

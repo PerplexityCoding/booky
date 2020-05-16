@@ -33,7 +33,7 @@
       :get-child-payload="getCardPayload"
       :drop-placeholder="placeholderOptions"
       :drag-handle-selector="locked ? '.none' : ''"
-      :should-accept-drop="() => !locked"
+      :should-accept-drop="shouldAcceptDrop"
       class="dnd-list-container"
       @drop="onCardDrop"
       @drag-start="onDragStart"
@@ -115,6 +115,12 @@ export default {
     };
   },
   methods: {
+    shouldAcceptDrop(src, payload) {
+      if (payload.from === 'stash' || payload.from === 'tabs') {
+        return true;
+      }
+      return !this.locked;
+    },
     onDragEnter({ draggableInfo }) {
       this.dragItemIn = true;
       this.adaptDragInfo(draggableInfo, {
