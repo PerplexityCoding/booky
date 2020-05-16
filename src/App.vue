@@ -64,6 +64,7 @@ export default {
       lists: [],
       layout: [],
       quickAccess: [],
+      theme: "",
     };
   },
   computed: {
@@ -90,6 +91,7 @@ export default {
         "locked",
         "stash",
         "quickAccess",
+        "settings/theme",
       ]);
       await this.loadLists(value.listsId);
       await loadIcons();
@@ -98,7 +100,10 @@ export default {
       this.locked = value.locked || false;
       this.stash = value.stash || [];
       this.quickAccess = value.quickAccess || [];
+      this.theme = value["settings/theme"];
       this.loaded = true;
+
+      this.loadTheme();
 
       chrome.storage.onChanged.addListener(async (changedData) => {
         for (const dataKey in changedData) {
@@ -115,6 +120,9 @@ export default {
         }
         await this.$nextTick();
       });
+    },
+    loadTheme() {
+      document.documentElement.setAttribute("theme", this.theme);
     },
     async loadTabs() {
       this.tabs = await getTabs();
@@ -188,7 +196,7 @@ export default {
     async updateStash() {
       // to move outside
       const stashRemoveTime = 30 * 24 * 60 * 60 * 1000; // 30 days
-      const stash = (await storageGet("stash") || {}).stash;
+      const stash = ((await storageGet("stash")) || {}).stash;
       const now = +new Date();
 
       const items = [];
@@ -203,7 +211,7 @@ export default {
         }
       }
 
-      await storageSet({stash: items});
+      await storageSet({ stash: items });
     },
   },
 };
@@ -211,14 +219,15 @@ export default {
 
 <style lang="scss">
 @import "./styles/colors.scss";
+@import "./styles/mixins.scss";
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: $primaryColor4;
-  color: $fontColor;
+  background-color: var(--primary-color4);
+  color: var(--font-color);
   margin: 0;
   overflow: hidden;
 }
@@ -257,17 +266,17 @@ button {
 </style>
 
 <style lang="scss">
-@import "./styles/colors.scss";
+@import "./styles/mixins.scss";
 
 .cards-drop-preview {
-  background-color: lighten($primaryColor4, 10%);
-  border: 1px dashed $fontColor;
+  background-color: lightness(var(--primary-color4), 1.4);
+  border: 1px dashed var(--font-color);
   margin-top: 5px;
 }
 </style>
 
 <style lang="scss" scoped>
-@import "./styles/colors.scss";
+@import "./styles/mixins.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

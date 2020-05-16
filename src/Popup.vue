@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/colors.scss";
+@import "./styles/mixins.scss";
 
 button {
   cursor: pointer;
@@ -93,10 +93,10 @@ button {
 }
 
 .addButton {
-  background-color: $green;
+  background-color: var(--green);
 }
 
 .removeButton {
-  background-color: $red;
+  background-color: var(--red);
 }
 </style>

@@ -148,11 +148,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 button {
-  background-color: lighten($primaryColor4, 5%);
-  color: $fontColor;
+  background-color: lightness(var(--primary-color4), 1.25);
+  color: var(--font-color);
   text-transform: uppercase;
   letter-spacing: 0.25rem;
   border-radius: 5px;
@@ -160,7 +160,7 @@ button {
   line-height: 25px;
 
   &.active {
-    background-color: lighten($primaryColor4, 15%);
+    background-color: lightness(var(--primary-color4), 1.75);
   }
 }
 

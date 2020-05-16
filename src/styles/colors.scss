@@ -1,14 +1,26 @@
+@mixin defineColorHSL($color, $hue, $saturation, $lightness){
+  #{$color}: unquote("hsl(#{$hue}, #{$saturation}, #{$lightness})");#{$color}-h: #{$hue};#{$color}-s: #{$saturation};#{$color}-l: #{$lightness};
+}
 
+:root {
+  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
+  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
+  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
+  @include defineColorHSL(--font-color, 69, 21%, 88%);
+  @include defineColorHSL(--red, 350, 100%, 65%);
+  @include defineColorHSL(--green, 141, 100%, 58%);
+}
 
-/* RGB */
-$primaryColor1: rgba(218, 191, 255, 1);
-$primaryColor2: rgba(144, 122, 214, 1);
-$primaryColor3: rgba(79, 81, 140, 1);
-$primaryColor4: rgba(44, 42, 74, 1);
-$primaryColor5: rgba(127, 222, 255, 1);
+[theme="white-purple"] {
+  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
+  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
+  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
+  @include defineColorHSL(--font-color, 69, 21%, 88%);
+}
 
-$red: rgb(255, 75, 105);
-
-$green: rgb(42, 255, 117);
-
-$fontColor: rgba(228, 230, 217, 1);
+[theme="dark-purple"] {
+  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
+  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
+  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
+  @include defineColorHSL(--font-color, 69, 21%, 88%);
+}

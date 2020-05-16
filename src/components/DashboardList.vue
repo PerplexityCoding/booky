@@ -211,10 +211,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 .dashboard-list {
-  background-color: lighten($primaryColor4, 15%);
+  background-color: lightness(var(--primary-color4), 1.75);
   padding: 5px;
   border-radius: 2px;
 
@@ -231,7 +231,7 @@ export default {
       flex: 1;
       text-align: left;
       line-height: 25px;
-      color: $fontColor;
+      color: var(--font-color);
       width: 100%;
 
       ::v-deep .input {
@@ -241,7 +241,7 @@ export default {
     }
 
     & .delete-btn {
-      color: $fontColor;
+      color: var(--font-color);
 
       &:hover {
         color: #ff3c3f;
@@ -251,11 +251,11 @@ export default {
 
   .dashboard-draggable-item {
     border-radius: 2px;
-    color: $fontColor;
+    color: var(--font-color);
     padding-top: 5px;
 
     a {
-      color: $fontColor;
+      color: var(--font-color);
       text-decoration: none;
     }
   }
@@ -265,7 +265,7 @@ export default {
   }
 
   .empty-placeholder {
-    background-color: lighten($primaryColor4, 12%);
+    background-color: lightness(var(--primary-color4), 1.12);
     height: 45px;
     line-height: 41px;
     font-size: 15px;

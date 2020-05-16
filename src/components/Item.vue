@@ -63,11 +63,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins";
 
 .item {
-  background-color: darken($primaryColor2, 12%);
-  color: $fontColor;
+  background-color: lightness(var(--primary-color2), 0.88);
+  color: var(--font-color);
   padding: 6px;
   width: 100%;
   min-width: 150px;
@@ -78,7 +78,7 @@ export default {
   align-items: center;
 
   &:hover {
-    background-color: darken($primaryColor2, 5%);
+    background-color: lightness(var(--primary-color2), 0.95);
   }
 }
 
@@ -95,7 +95,7 @@ export default {
 }
 
 .delete-btn {
-  color: $fontColor;
+  color: var(--font-color);
 
   &:hover {
     color: #ff3c3f;

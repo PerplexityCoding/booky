@@ -12,17 +12,21 @@
       <unlock-icon v-else />
     </button>
 
+    <button class="lock-btn" @click="openSettings">
+      <settings-icon />
+    </button>
+
     <h1>Book-keeper</h1>
   </header>
 </template>
 
 <script>
 import { uuidv4 } from "../utils/utils";
-import { PlusCircleIcon, LockIcon, UnlockIcon } from "vue-feather-icons";
+import { PlusCircleIcon, LockIcon, UnlockIcon, SettingsIcon } from "vue-feather-icons";
 
 export default {
   name: "HeaderBar",
-  components: { PlusCircleIcon, LockIcon, UnlockIcon },
+  components: { PlusCircleIcon, LockIcon, UnlockIcon, SettingsIcon },
   props: {
     lists: {
       type: Array,
@@ -49,15 +53,18 @@ export default {
     toogleLock() {
       this.$emit("update:locked", !this.locked);
     },
+    openSettings() {
+      chrome.runtime.openOptionsPage();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 header {
-  background-color: $primaryColor2;
+  background-color: var(--primary-color2);
   min-height: 35px;
   display: flex;
   align-items: center;
@@ -67,7 +74,7 @@ header {
 
 .lock-btn,
 .add-btn {
-  color: $fontColor;
+  color: var(--font-color);
   padding: 0 5px;
   display: flex;
   align-items: center;
@@ -77,7 +84,7 @@ header {
   }
 
   &:hover {
-    color: $fontColor;
+    color: var(--font-color);
   }
 }
 

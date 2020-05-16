@@ -199,10 +199,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 .item.item-quick-access {
-  background-color: lighten($primaryColor4, 15%);
+  background-color: lightness(var(--primary-color4), 1.75);
   width: 95px;
   min-width: 95px;
   height: 90px;
@@ -228,13 +228,13 @@ export default {
     position: absolute;
     top: -12px;
     right: -12px;
-    color: $fontColor;
+    color: var(--font-color);
   }
 }
 </style>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 .quick-access-container {
   border-collapse: separate;
@@ -242,7 +242,7 @@ export default {
   display: flex !important;
   min-width: calc(63px * 4);
   min-height: 55px;
-  background-color: lighten($primaryColor4, 2%);
+  background-color: lightness(var(--primary-color4), 1.2);
   border-radius: 5px;
 }
 
@@ -253,7 +253,7 @@ export default {
 .quick-access {
   display: flex;
   align-items: center;
-  background-color: $primaryColor4;
+  background-color: var(--primary-color4);
 
   &.has-transition .quick-access-container {
     transition: margin-left ease-out 0.2s;
@@ -261,7 +261,7 @@ export default {
 }
 
 .empty-placeholder {
-  border: 1px dashed $fontColor;
+  border: 1px dashed var(--font-color);
   font-size: 15px;
   position: absolute;
   padding: 20px;

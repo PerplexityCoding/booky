@@ -152,10 +152,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/colors.scss";
+@import "../styles/mixins.scss";
 
 .dashboard {
-  background-color: darken($primaryColor4, 2%);
+  background-color: lightness(var(--primary-color4), 0.98);
   overflow: auto;
 }
 </style>
