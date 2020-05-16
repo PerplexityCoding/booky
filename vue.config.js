@@ -12,9 +12,15 @@ module.exports = {
       template: "public/popup.html",
       filename: "popup.html",
     },
+    options: {
+      title: "Book-Keeper",
+      entry: "src/options.js",
+      template: "public/options.html",
+      filename: "options.html",
+    },
     background: {
       title: "Book-Keeper",
-      entry: "src/background.js"
+      entry: "src/background.js",
     },
   },
   configureWebpack: {
