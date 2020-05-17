@@ -50,7 +50,7 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "@ymenard-dev/vue-smooth-dnd";
-import { applyDrag } from "../utils/utils";
+import {applyDrag, throttle} from "../utils/utils";
 import { globalSet } from "../services/app/unique";
 import Item from "./Item";
 
@@ -97,6 +97,13 @@ export default {
     setTimeout(() => {
       this.hasTransition = true;
     }, 0);
+
+    const calcMarginThrottle = 100;
+    this.throttledCalcMargin = throttle(this.calcMarginLeft, calcMarginThrottle);
+    window.addEventListener("resize", this.throttledCalcMargin);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.throttledCalcMargin);
   },
   methods: {
     shouldAcceptDrop(src, payload) {
