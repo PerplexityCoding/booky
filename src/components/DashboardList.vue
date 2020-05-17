@@ -5,12 +5,15 @@
     :resizable="false"
     drag-selector=".drag-handle *"
     class="dashboard-list"
+    :class="{'is-hover': isHover}"
+    @mouseenter.native="isHover = true"
+    @mouseleave.native="isHover = false"
   >
     <header class="drag-handle">
       <div class="item-title-text">
         <text-input
           :value.sync="list.title"
-          :should-be-editable="!isDragging && !locked"
+          :should-be-editable="!isDragging && !locked && !listLocked"
           @update:value="$emit('change:list', { list })"
         />
       </div>
@@ -21,9 +24,13 @@
       >
         <x-circle-icon />
       </button>
+      <button class="lock-btn" :class="{'lock-btn-unlocked': !listLocked || !locked}" @click="toggleLock">
+        <lock-icon v-if="listLocked && locked" />
+        <unlock-icon v-else />
+      </button>
     </header>
     <div
-      v-if="list.items.length === 0 && !dragItemIn && !locked"
+      v-if="list.items.length === 0 && !dragItemIn && !locked && !listLocked"
       class="empty-placeholder"
     >
       Drag your book here
@@ -32,7 +39,7 @@
       group-name="tabs"
       :get-child-payload="getCardPayload"
       :drop-placeholder="placeholderOptions"
-      :drag-handle-selector="locked ? '.none' : ''"
+      :drag-handle-selector="locked && listLocked ? '.none' : ''"
       :should-accept-drop="shouldAcceptDrop"
       class="dnd-list-container"
       @drop="onCardDrop"
@@ -48,9 +55,9 @@
       >
         <item
           :item="item"
-          :locked="locked"
-          :display-delete-btn="!locked"
-          :text-editable="!locked"
+          :locked="locked || !listLocked"
+          :display-delete-btn="!locked || !listLocked"
+          :text-editable="!locked || !listLocked"
           @delete-item="deleteItem"
           @change="$emit('change:list', { list })"
         />
@@ -66,7 +73,7 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "@ymenard-dev/vue-smooth-dnd";
-import { XCircleIcon } from "vue-feather-icons";
+import { XCircleIcon, LockIcon, UnlockIcon } from "vue-feather-icons";
 import Item from "./Item";
 import TextInput from "./atoms/TextInput";
 import { globalGet } from "../services/app/unique";
@@ -80,6 +87,8 @@ export default {
     SmoothDndDraggable,
     Item,
     XCircleIcon,
+    LockIcon,
+    UnlockIcon,
   },
   props: {
     list: {
@@ -105,6 +114,7 @@ export default {
   },
   data: function () {
     return {
+      listLocked: true,
       dragItemIn: false,
       isDraggingSource: false,
       placeholderOptions: {
@@ -112,14 +122,15 @@ export default {
         animationDuration: "150",
         showOnTop: true,
       },
+      isHover: false,
     };
   },
   methods: {
     shouldAcceptDrop(src, payload) {
-      if (payload.from === 'stash' || payload.from === 'tabs') {
+      if (payload.from === "stash" || payload.from === "tabs" || payload.unlocked) {
         return true;
       }
-      return !this.locked;
+      return !this.locked || !this.listLocked;
     },
     onDragEnter({ draggableInfo }) {
       this.dragItemIn = true;
@@ -152,6 +163,7 @@ export default {
           ...item,
           id: uuidv4(),
         },
+        unlocked: this.locked || this.listLocked,
       };
     },
     onCardDrop(dropResult) {
@@ -205,6 +217,9 @@ export default {
         draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
         draggableInfo.ghostInfo.ghost.style.width = `${this.originalDraggableInfoWidth}px`;
       }
+    },
+    toggleLock() {
+      this.listLocked = !this.listLocked;
     },
   },
 };
@@ -274,5 +289,22 @@ export default {
     position: absolute;
     width: calc(100% - 10px);
   }
+
+  .lock-btn {
+    display: none;
+    @include fontColor(--font-color-white);
+
+    &-unlocked {
+      display: block;
+    }
+  }
+
+  &.is-hover {
+    .lock-btn {
+      display: block;
+    }
+  }
+
+
 }
 </style>

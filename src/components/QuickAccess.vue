@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     shouldAcceptDrop(src, payload) {
-      if (payload.from === 'stash' || payload.from === 'tabs') {
+      if (payload.from === 'stash' || payload.from === 'tabs' || payload.unlocked) {
         return true;
       }
       return !this.locked;
