@@ -85,7 +85,7 @@ header {
   }
 
   &:hover {
-    @include fontColor(--font-color);
+    @include fontColor(--green);
   }
 }
 

@@ -231,9 +231,13 @@ export default {
 
   .delete-btn {
     position: absolute;
-    top: -12px;
-    right: -12px;
-    @include fontColor(--font-color);
+    top: 0;
+    right: 0;
+    @include fontColor(--font-color-white);
+
+    &:hover {
+      @include fontColor(--red);
+    }
   }
 }
 </style>
