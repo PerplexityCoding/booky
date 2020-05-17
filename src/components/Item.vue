@@ -1,5 +1,9 @@
 <template>
-  <component :is="item.href && locked ? 'a' : 'div'" :href="item.href" class="item">
+  <component
+    :is="item.href && locked ? 'a' : 'div'"
+    :href="item.href"
+    class="item"
+  >
     <icon class="item-icon" :src="item.icon" />
 
     <span class="item-text">

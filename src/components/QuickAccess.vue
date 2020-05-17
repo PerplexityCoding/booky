@@ -1,6 +1,12 @@
 <template>
   <div
-    :class="['quick-access', { 'has-transition': hasTransition , 'is-empty': items.length === 0 && !dragItemIn}]"
+    :class="[
+      'quick-access',
+      {
+        'has-transition': hasTransition,
+        'is-empty': items.length === 0 && !dragItemIn,
+      },
+    ]"
     @mouseleave="onMouseLeave"
     @mousenter="onMouseEnter"
   >
@@ -93,7 +99,11 @@ export default {
   },
   methods: {
     shouldAcceptDrop(src, payload) {
-      if (payload.from === 'stash' || payload.from === 'tabs' || payload.unlocked) {
+      if (
+        payload.from === "stash" ||
+        payload.from === "tabs" ||
+        payload.unlocked
+      ) {
         return true;
       }
       return !this.locked;
@@ -172,7 +182,7 @@ export default {
         draggableInfo.ghostInfo.positionDelta.top = -(itemHeight / 2);
         draggableInfo.ghostInfo.centerDelta.y = 0;
       }
-      const item = draggableInfo.ghostInfo.ghost.querySelector('.item');
+      const item = draggableInfo.ghostInfo.ghost.querySelector(".item");
       item.classList.add("item-quick-access");
     },
     backupOriginalDrag(draggableInfo) {
@@ -190,7 +200,7 @@ export default {
         draggableInfo.size.offsetWidth = this.originalDraggableInfoWidth;
         draggableInfo.ghostInfo.positionDelta = this.originalDraggableInfoSize;
         draggableInfo.ghostInfo.centerDelta = this.originalGhostCenterDelta;
-        const item = draggableInfo.ghostInfo.ghost.querySelector('.item');
+        const item = draggableInfo.ghostInfo.ghost.querySelector(".item");
         item.classList.remove("item-quick-access");
       }
     },

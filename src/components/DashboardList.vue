@@ -5,7 +5,7 @@
     :resizable="false"
     drag-selector=".drag-handle *"
     class="dashboard-list"
-    :class="{'is-hover': isHover}"
+    :class="{ 'is-hover': isHover }"
     @mouseenter.native="isHover = true"
     @mouseleave.native="isHover = false"
   >
@@ -24,7 +24,11 @@
       >
         <x-circle-icon />
       </button>
-      <button class="lock-btn" :class="{'lock-btn-unlocked': !listLocked || !locked}" @click="toggleLock">
+      <button
+        class="lock-btn"
+        :class="{ 'lock-btn-unlocked': !listLocked || !locked }"
+        @click="toggleLock"
+      >
         <lock-icon v-if="listLocked && locked" />
         <unlock-icon v-else />
       </button>
@@ -127,7 +131,11 @@ export default {
   },
   methods: {
     shouldAcceptDrop(src, payload) {
-      if (payload.from === "stash" || payload.from === "tabs" || payload.unlocked) {
+      if (
+        payload.from === "stash" ||
+        payload.from === "tabs" ||
+        payload.unlocked
+      ) {
         return true;
       }
       return !this.locked || !this.listLocked;
@@ -304,7 +312,5 @@ export default {
       display: block;
     }
   }
-
-
 }
 </style>

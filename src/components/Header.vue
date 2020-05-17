@@ -22,7 +22,12 @@
 
 <script>
 import { uuidv4 } from "../utils/utils";
-import { PlusCircleIcon, LockIcon, UnlockIcon, SettingsIcon } from "vue-feather-icons";
+import {
+  PlusCircleIcon,
+  LockIcon,
+  UnlockIcon,
+  SettingsIcon,
+} from "vue-feather-icons";
 
 export default {
   name: "HeaderBar",

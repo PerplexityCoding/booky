@@ -93,7 +93,7 @@ export default {
       return this.stashMode && this.locked;
     },
     link() {
-      return this.hasLink ? 'a' : 'div';
+      return this.hasLink ? "a" : "div";
     },
   },
   methods: {
