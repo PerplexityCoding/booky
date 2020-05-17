@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="item.href && locked ? 'a' : 'div'"
+    :is="item.href && linkClickable ? 'a' : 'div'"
     :href="item.href"
     class="item"
   >
@@ -50,6 +50,10 @@ export default {
       default: false,
     },
     locked: {
+      type: Boolean,
+      default: false,
+    },
+    linkClickable: {
       type: Boolean,
       default: false,
     },

@@ -36,6 +36,7 @@
           :locked="locked"
           :display-delete-btn="!locked"
           :text-editable="!locked"
+          :link-clickable="locked"
           class="item-quick-access"
           @delete-item="deleteItem"
           @change="$emit('update:items', items)"

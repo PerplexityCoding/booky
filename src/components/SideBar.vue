@@ -25,6 +25,7 @@
             :item="item"
             :locked="false"
             :text-editable="stashMode && !locked"
+            :link-clickable="locked"
             :display-delete-btn="!locked"
             @change="$emit('change')"
             @delete-item="
@@ -139,9 +140,6 @@ export default {
     updateStash(stash) {
       this.$emit("update:stash", stash);
       this.$emit("change");
-    },
-    linkHref(item) {
-      return this.hasLink ? item.href : undefined;
     },
   },
 };

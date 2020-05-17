@@ -62,6 +62,7 @@
           :locked="locked || !listLocked"
           :display-delete-btn="!locked || !listLocked"
           :text-editable="!locked || !listLocked"
+          :link-clickable="locked || !listLocked"
           @delete-item="deleteItem"
           @change="$emit('change:list', { list })"
         />
