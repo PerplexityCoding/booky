@@ -14,3 +14,44 @@
   $color-l: var(#{$color+'-l'});
   @return hsl($color-h, $color-s, calc(#{$color-l} * #{$lightnessMultiplier}));
 }
+
+@function decimal($v) {
+  @if (type_of($v) != number) {
+    @error "decimal: `#{$v}` is not a percent";
+  }
+  @return $v / 100%;
+}
+
+@function lighten($color, $lightnessMultiplier){
+  $color: str-replace($color, 'var(', '');
+  $color: str-replace($color, ')', '');
+  $color-h: var(#{$color+'-h'});
+  $color-s: var(#{$color+'-s'});
+  $color-l: var(#{$color+'-l'});
+  @return hsl($color-h, $color-s, calc(#{$color-l} + #{$lightnessMultiplier  / 100%}));
+}
+
+@mixin backgroundColor($color, $lightnessMultiplierLight: 0%, $lightnessMultiplierDark: 0%){
+  @if $lightnessMultiplierLight == 0% {
+    background-color: var($color);
+  } @else {
+    background-color: lightness(var($color), 1 + decimal($lightnessMultiplierLight));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @if $lightnessMultiplierDark == 0% {
+      background-color: var($color);
+    } @else {
+      background-color: lightness(var($color), 1 + decimal($lightnessMultiplierDark));
+    }
+  }
+}
+
+@mixin fontColor($lightColor, $darkColor: null) {
+  color: var($lightColor);
+  @if $darkColor != null {
+    @media (prefers-color-scheme: dark) {
+      color: var($darkColor);
+    }
+  }
+}

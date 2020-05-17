@@ -2,11 +2,11 @@
   <div class="options">
     Select interface theme:
     <select v-model="theme" @change="saveTheme">
-      <option value="dark-purple">
-        Dark purple
+      <option value="purple">
+        Purple
       </option>
-      <option value="white-purple">
-        White purple
+      <option value="turtoise">
+        Turtoise
       </option>
     </select>
   </div>

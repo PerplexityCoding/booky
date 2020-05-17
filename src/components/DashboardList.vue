@@ -214,7 +214,7 @@ export default {
 @import "../styles/mixins.scss";
 
 .dashboard-list {
-  background-color: lightness(var(--primary-color4), 1.75);
+  @include backgroundColor(--primary-color2);
   padding: 5px;
   border-radius: 2px;
 
@@ -231,7 +231,7 @@ export default {
       flex: 1;
       text-align: left;
       line-height: 25px;
-      color: var(--font-color);
+      @include fontColor(--font-color-white);
       width: 100%;
 
       ::v-deep .input {
@@ -241,21 +241,21 @@ export default {
     }
 
     & .delete-btn {
-      color: var(--font-color);
+      @include fontColor(--font-color-white);
 
       &:hover {
-        color: #ff3c3f;
+        color: var(--red);
       }
     }
   }
 
   .dashboard-draggable-item {
     border-radius: 2px;
-    color: var(--font-color);
+    @include fontColor(--font-color);
     padding-top: 5px;
 
     a {
-      color: var(--font-color);
+      @include fontColor(--font-color);
       text-decoration: none;
     }
   }
@@ -265,7 +265,7 @@ export default {
   }
 
   .empty-placeholder {
-    background-color: lightness(var(--primary-color4), 1.12);
+    @include backgroundColor(--primary-color2, 12%);
     height: 45px;
     line-height: 41px;
     font-size: 15px;

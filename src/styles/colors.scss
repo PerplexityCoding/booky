@@ -2,25 +2,36 @@
   #{$color}: unquote("hsl(#{$hue}, #{$saturation}, #{$lightness})");#{$color}-h: #{$hue};#{$color}-s: #{$saturation};#{$color}-l: #{$lightness};
 }
 
-:root {
-  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
-  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
-  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
-  @include defineColorHSL(--font-color, 69, 21%, 88%);
+:root, [theme="purple"] {
+  @include defineColorHSL(--primary-color1, 244, 100%, 98%);
+  @include defineColorHSL(--primary-color2, 256, 16%, 37%);
+  @include defineColorHSL(--primary-color3, 273, 79%, 30%);
+  @include defineColorHSL(--header-color, 350, 50%, 49%);
+  @include defineColorHSL(--font-color, 308, 4%, 11%);
+  @include defineColorHSL(--font-color-black, 308, 4%, 11%);
+  @include defineColorHSL(--font-color-white, 69, 21%, 88%);
   @include defineColorHSL(--red, 350, 100%, 65%);
   @include defineColorHSL(--green, 141, 100%, 58%);
+
+  @media (prefers-color-scheme: dark) {
+    @include defineColorHSL(--primary-color1, 244, 27%, 8%);
+    @include defineColorHSL(--primary-color2, 295, 46%, 26%);
+    @include defineColorHSL(--primary-color3, 206, 59%, 43%);
+    @include defineColorHSL(--header-color, 350, 62%, 32%);
+    @include defineColorHSL(--font-color, 69, 21%, 88%);
+  }
 }
 
-[theme="white-purple"] {
-  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
-  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
-  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
+[theme="turtoise"] {
+  @include defineColorHSL(--primary-color1, 190, 84%, 29%);
+  @include defineColorHSL(--primary-color2, 189, 65%, 22%);
+  @include defineColorHSL(--primary-color3, 183, 81%, 35%);
   @include defineColorHSL(--font-color, 69, 21%, 88%);
-}
 
-[theme="dark-purple"] {
-  @include defineColorHSL(--primary-color2, 254, 53%, 66%);
-  @include defineColorHSL(--primary-color4, 244, 28%, 23%);
-  @include defineColorHSL(--primary-color5, 195, 100%, 75%);
-  @include defineColorHSL(--font-color, 69, 21%, 88%);
+  @media (prefers-color-scheme: dark) {
+    @include defineColorHSL(--primary-color1, 190, 84%, 29%);
+    @include defineColorHSL(--primary-color2, 189, 65%, 22%);
+    @include defineColorHSL(--primary-color3, 183, 81%, 35%);
+    @include defineColorHSL(--font-color, 69, 21%, 88%);
+  }
 }

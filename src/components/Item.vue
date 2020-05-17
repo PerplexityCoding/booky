@@ -66,8 +66,8 @@ export default {
 @import "../styles/mixins";
 
 .item {
-  background-color: lightness(var(--primary-color2), 0.88);
-  color: var(--font-color);
+  @include backgroundColor(--primary-color3);
+  @include fontColor(--font-color-white);
   padding: 6px;
   width: 100%;
   min-width: 150px;
@@ -78,11 +78,12 @@ export default {
   align-items: center;
 
   &:hover {
-    background-color: lightness(var(--primary-color2), 0.95);
+    @include backgroundColor(--primary-color3, 30%, 10%);
   }
 }
 
 .item-text {
+  @include fontColor(--font-color-white);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -94,8 +95,12 @@ export default {
   text-align: left;
 }
 
+.item-icon {
+  @include fontColor(--font-color-white);
+}
+
 .delete-btn {
-  color: var(--font-color);
+  @include fontColor(--font-color-white);
 
   &:hover {
     color: #ff3c3f;

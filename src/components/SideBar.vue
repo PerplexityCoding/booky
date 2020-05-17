@@ -151,16 +151,20 @@ export default {
 @import "../styles/mixins.scss";
 
 button {
-  background-color: lightness(var(--primary-color4), 1.25);
-  color: var(--font-color);
+  @include backgroundColor(--primary-color2, 50%, -30%);
+  @include fontColor(--font-color-white);
   text-transform: uppercase;
   letter-spacing: 0.25rem;
   border-radius: 5px;
   width: 40%;
   line-height: 25px;
 
+  &hover {
+    @include backgroundColor(--primary-color2, 60%, -30%);
+  }
+
   &.active {
-    background-color: lightness(var(--primary-color4), 1.75);
+    @include backgroundColor(--primary-color2, -20%, 30%);
   }
 }
 

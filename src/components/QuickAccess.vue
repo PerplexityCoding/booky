@@ -202,7 +202,8 @@ export default {
 @import "../styles/mixins.scss";
 
 .item.item-quick-access {
-  background-color: lightness(var(--primary-color4), 1.75);
+  @include backgroundColor(--primary-color2, -15%);
+  @include fontColor(--font-color-white);
   width: 95px;
   min-width: 95px;
   height: 90px;
@@ -212,6 +213,10 @@ export default {
   position: relative;
   flex-direction: column;
   text-decoration: none;
+
+  &:hover {
+    @include backgroundColor(--primary-color2, 10%, 30%);
+  }
 
   .item-text {
     padding-top: 1px;
@@ -228,7 +233,7 @@ export default {
     position: absolute;
     top: -12px;
     right: -12px;
-    color: var(--font-color);
+    @include fontColor(--font-color);
   }
 }
 </style>
@@ -242,7 +247,7 @@ export default {
   display: flex !important;
   min-width: calc(63px * 4);
   min-height: 55px;
-  background-color: lightness(var(--primary-color4), 1.2);
+  @include backgroundColor(--primary-color1, -1%, 10%);
   border-radius: 5px;
 }
 
@@ -253,7 +258,7 @@ export default {
 .quick-access {
   display: flex;
   align-items: center;
-  background-color: var(--primary-color4);
+  @include backgroundColor(--primary-color1);
 
   &.has-transition .quick-access-container {
     transition: margin-left ease-out 0.2s;

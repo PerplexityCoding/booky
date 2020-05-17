@@ -64,7 +64,8 @@ export default {
 @import "../styles/mixins.scss";
 
 header {
-  background-color: var(--primary-color2);
+  @include backgroundColor(--header-color);
+  @include fontColor(--font-color-white);
   min-height: 35px;
   display: flex;
   align-items: center;
@@ -74,7 +75,7 @@ header {
 
 .lock-btn,
 .add-btn {
-  color: var(--font-color);
+  @include fontColor(--font-color-white);
   padding: 0 5px;
   display: flex;
   align-items: center;
@@ -84,7 +85,7 @@ header {
   }
 
   &:hover {
-    color: var(--font-color);
+    @include fontColor(--font-color);
   }
 }
 

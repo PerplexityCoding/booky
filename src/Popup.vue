@@ -93,10 +93,10 @@ button {
 }
 
 .addButton {
-  background-color: var(--green);
+  @include backgroundColor(--green);
 }
 
 .removeButton {
-  background-color: var(--red);
+  @include backgroundColor(--red);
 }
 </style>

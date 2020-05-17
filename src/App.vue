@@ -226,7 +226,7 @@ export default {
 }
 
 body {
-  background-color: var(--primary-color4);
+  @include backgroundColor(--primary-color1);
   color: var(--font-color);
   margin: 0;
   overflow: hidden;
@@ -269,7 +269,7 @@ button {
 @import "./styles/mixins.scss";
 
 .cards-drop-preview {
-  background-color: lightness(var(--primary-color4), 1.4);
+  @include backgroundColor(--primary-color2, -100%);
   border: 1px dashed var(--font-color);
   margin-top: 5px;
 }
