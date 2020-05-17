@@ -202,7 +202,7 @@ export default {
 @import "../styles/mixins.scss";
 
 .item.item-quick-access {
-  @include backgroundColor(--primary-color2, -15%);
+  @include backgroundColor(--primary-color3, -15%);
   @include fontColor(--font-color-white);
   width: 95px;
   min-width: 95px;
@@ -215,7 +215,7 @@ export default {
   text-decoration: none;
 
   &:hover {
-    @include backgroundColor(--primary-color2, 10%, 30%);
+    @include backgroundColor(--primary-color3, 10%, 30%);
   }
 
   .item-text {
@@ -266,6 +266,7 @@ export default {
 }
 
 .empty-placeholder {
+  @include fontColor(--font-color-black, --font-color-white);
   border: 1px dashed var(--font-color);
   font-size: 15px;
   position: absolute;

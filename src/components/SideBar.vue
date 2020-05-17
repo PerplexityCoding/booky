@@ -151,7 +151,7 @@ export default {
 @import "../styles/mixins.scss";
 
 button {
-  @include backgroundColor(--primary-color2, 50%, -30%);
+  @include backgroundColor(--primary-color2, 10%, -20%);
   @include fontColor(--font-color-white);
   text-transform: uppercase;
   letter-spacing: 0.25rem;
@@ -160,7 +160,7 @@ button {
   line-height: 25px;
 
   &hover {
-    @include backgroundColor(--primary-color2, 60%, -30%);
+    @include backgroundColor(--primary-color2, 0%, -30%);
   }
 
   &.active {

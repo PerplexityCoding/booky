@@ -266,6 +266,7 @@ export default {
 
   .empty-placeholder {
     @include backgroundColor(--primary-color2, 12%);
+    @include fontColor(--font-color-white);
     height: 45px;
     line-height: 41px;
     font-size: 15px;

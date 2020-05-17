@@ -22,7 +22,7 @@
   }
 }
 
-[theme="turtoise"] {
+[theme="business-gray"] {
   @include defineColorHSL(--primary-color1, 190, 84%, 29%);
   @include defineColorHSL(--primary-color2, 189, 65%, 22%);
   @include defineColorHSL(--primary-color3, 183, 81%, 35%);
@@ -33,5 +33,27 @@
     @include defineColorHSL(--primary-color2, 189, 65%, 22%);
     @include defineColorHSL(--primary-color3, 183, 81%, 35%);
     @include defineColorHSL(--font-color, 69, 21%, 88%);
+  }
+}
+
+[theme="zen"] {
+  @include defineColorHSL(--primary-color1, 71, 11%, 83%);
+  @include defineColorHSL(--primary-color2, 124, 15%, 61%);
+  @include defineColorHSL(--primary-color3, 197, 93%, 29%);
+  @include defineColorHSL(--header-color, 197, 19%, 50%);
+  @include defineColorHSL(--font-color, 308, 4%, 11%);
+  @include defineColorHSL(--font-color-black, 308, 4%, 11%);
+  @include defineColorHSL(--font-color-white, 301, 32%, 95%);
+  @include defineColorHSL(--red, 350, 100%, 65%);
+  @include defineColorHSL(--green, 141, 100%, 58%);
+
+  @media (prefers-color-scheme: dark) {
+    @include defineColorHSL(--primary-color1, 248, 16%, 21%);
+    @include defineColorHSL(--primary-color2, 204, 61%, 23%);
+    @include defineColorHSL(--primary-color3, 197, 4%, 31%);
+    @include defineColorHSL(--header-color, 197, 18%, 32%);
+    @include defineColorHSL(--font-color, 308, 4%, 11%);
+    @include defineColorHSL(--font-color-black, 308, 4%, 11%);
+    @include defineColorHSL(--font-color-white, 66, 56%, 87%);
   }
 }

@@ -1,14 +1,21 @@
 <template>
   <div class="options">
-    Select interface theme:
-    <select v-model="theme" @change="saveTheme">
-      <option value="purple">
-        Purple
-      </option>
-      <option value="turtoise">
-        Turtoise
-      </option>
-    </select>
+    <div class="options-entry">
+      <label>
+        Select interface theme:
+      </label>
+      <select v-model="theme" @change="saveTheme">
+        <option value="purple">
+          Purple
+        </option>
+        <option value="zen">
+          Zen
+        </option>
+        <option value="business-gray">
+          Business gray
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -40,5 +47,22 @@ export default {
 .options {
   color: var(--font-color);
   min-height: 250px;
+  display: flex;
+  width: 100%;
+
+  &-entry {
+    display: flex;
+    flex: 1;
+    height: 26px;
+
+    label {
+      flex: 1;
+      font-size: 1.1rem;
+    }
+
+    input {
+      font-size: 1.1rem;
+    }
+  }
 }
 </style>
