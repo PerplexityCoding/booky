@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="side-bar-wrapper">
     <header>
       <button :class="{ active: tabsMode }" @click="mode = 'tabs'">Tabs</button>
       <button :class="{ active: stashMode }" @click="mode = 'stash'">
@@ -170,6 +170,12 @@ header {
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0;
+}
+
+.side-bar-wrapper {
+  @include backgroundColor(--primary-color1, -3%, 10%);
+  padding: 0 6px;
+  flex: 1;
 }
 
 .side-bar-container {

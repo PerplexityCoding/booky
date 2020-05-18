@@ -322,5 +322,6 @@ button {
 
 .side-bar {
   grid-area: sidebar;
+  display: flex;
 }
 </style>

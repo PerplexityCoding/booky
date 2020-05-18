@@ -270,7 +270,7 @@ export default {
   display: flex !important;
   min-width: calc(63px * 4);
   min-height: 55px;
-  @include backgroundColor(--primary-color1, -1%, 10%);
+  @include backgroundColor(--primary-color1, -3%, 10%);
   border-radius: 5px;
 }
 

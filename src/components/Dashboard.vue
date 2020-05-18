@@ -155,7 +155,7 @@ export default {
 @import "../styles/mixins.scss";
 
 .dashboard {
-  @include backgroundColor(--primary-color1, -0.5%);
+  @include backgroundColor(--primary-color1);
   overflow: auto;
 }
 </style>
