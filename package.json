@@ -10,7 +10,7 @@
     "link": "npm run link:smooth-dnd",
     "link:smooth-dnd": "cd lib/smooth-dnd && npm link && cd ../.. && npm link smooth-dnd",
     "link:vue-smooth-dnd": "cd lib/vue-smooth-dnd && npm link && npm link smooth-dnd && cd ../.. && npm link vue-smooth-dnd",
-    "release": "sh -c 'npm version $VERSION' && npm run bundle && sh -c 'git tag $VERSION' && git push --tags && git push",
+    "release": "sh -c 'npm version $VERSION' && npm run bundle && git push --tags && git push",
     "bundle": "rm -rf build/ && npm run build && cd dist/ && sh -c 'sed -i \"s/1.0.0/$VERSION/g\" manifest.json' && sh -c 'bestzip ../release/v$VERSION.zip *'"
   },
   "dependencies": {
