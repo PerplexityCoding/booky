@@ -91,6 +91,7 @@ export default {
       marginLeft: 35,
       hasTransition: false,
       recalcTo: null,
+      recalDelay: 100,
     };
   },
   mounted() {
@@ -124,7 +125,7 @@ export default {
       }
     },
     onMouseLeave() {
-      this.recalcTo = setTimeout(this.calcMarginLeft, 500);
+      this.recalcTo = setTimeout(this.calcMarginLeft, this.recalDelay);
     },
     calcMarginLeft() {
       const containerMargin = 60;
