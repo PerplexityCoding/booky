@@ -64,7 +64,7 @@ export default {
       lists: [],
       layout: [],
       quickAccess: [],
-      theme: "",
+      theme: "zen",
     };
   },
   computed: {
@@ -100,7 +100,7 @@ export default {
       this.locked = value.locked || false;
       this.stash = value.stash || [];
       this.quickAccess = value.quickAccess || [];
-      this.theme = value["settings/theme"];
+      this.theme = value["settings/theme"] || this.theme;
       this.loaded = true;
 
       this.loadTheme();

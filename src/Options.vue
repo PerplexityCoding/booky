@@ -26,12 +26,12 @@ export default {
   name: "OptionsPage",
   data() {
     return {
-      theme: "",
+      theme: "zen",
     };
   },
   async created() {
     const theme = await storageGetValue("settings/theme");
-    this.theme = theme;
+    this.theme = theme || this.theme;
   },
   methods: {
     saveTheme(e) {
