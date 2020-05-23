@@ -38,6 +38,7 @@
           :text-editable="!locked"
           class="item-quick-access"
           @delete-item="deleteItem"
+          @change="$emit('update:items', items)"
         />
       </smooth-dnd-draggable>
     </smooth-dnd-container>
