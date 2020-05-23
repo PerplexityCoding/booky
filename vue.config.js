@@ -18,10 +18,6 @@ module.exports = {
       template: "public/options.html",
       filename: "options.html",
     },
-    background: {
-      title: "Book-Keeper",
-      entry: "src/background.js",
-    },
   },
   configureWebpack: {
     devtool: "cheap-module-source-map",
