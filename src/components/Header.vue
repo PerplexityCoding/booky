@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="main-area">
-      <button v-if="!locked" class="add-btn" @click="addList">
+      <button class="add-btn" @click="addList">
         <plus-circle-icon />
         <span>Add new List</span>
       </button>
@@ -53,6 +53,7 @@ export default {
       const lists = [...this.lists, newList];
       this.$emit("update:lists", lists);
       this.$emit("change:list", { list: newList });
+      this.toogleLock();
       this.$emit("change");
     },
     toogleLock() {

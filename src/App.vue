@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       loaded: false,
-      locked: false,
+      locked: true,
       stash: [],
       tabs: [],
       lists: [],
@@ -72,11 +72,6 @@ export default {
       return this.tabs.filter((t) => t.href !== "chrome://newtab/");
     },
   },
-  watch: {
-    locked() {
-      this.saveLocked();
-    },
-  },
   async created() {
     this.loadTabs();
     this.loadStorage();
@@ -88,7 +83,6 @@ export default {
         "layout",
         "listsId",
         "lists",
-        "locked",
         "stash",
         "quickAccess",
         "settings/theme",
@@ -97,7 +91,6 @@ export default {
       await loadIcons();
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
-      this.locked = value.locked || false;
       this.stash = value.stash || [];
       this.quickAccess = value.quickAccess || [];
       this.theme = value["settings/theme"] || this.theme;
@@ -186,11 +179,6 @@ export default {
     async saveQuickAcess() {
       await storageSet({
         quickAccess: this.quickAccess,
-      });
-    },
-    async saveLocked() {
-      await storageSet({
-        locked: this.locked,
       });
     },
     async updateStash() {
