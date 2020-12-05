@@ -264,7 +264,7 @@ export default {
   padding: 8px 30px;
   display: flex !important;
   min-width: calc(63px * 4);
-  min-height: 55px;
+  min-height: 106px;
   @include backgroundColor(--primary-color1, -3%, 10%);
   border-radius: 5px;
   margin: 0 auto;
@@ -292,6 +292,8 @@ export default {
   position: absolute;
   padding: 20px;
   display: none;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .is-empty {
