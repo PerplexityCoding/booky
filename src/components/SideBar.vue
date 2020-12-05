@@ -1,10 +1,10 @@
 <template>
   <div class="side-bar-wrapper">
     <header>
-      <button :class="{ active: tabsMode }" @click="mode = 'tabs'">Tabs</button>
       <button :class="{ active: stashMode }" @click="mode = 'stash'">
         Stash
       </button>
+      <button :class="{ active: tabsMode }" @click="mode = 'tabs'">Tabs</button>
     </header>
     <section>
       <smooth-dnd-container
@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      mode: "tabs",
+      mode: "stash",
       placeholderOptions: {
         className: "cards-drop-preview",
         animationDuration: "150",
