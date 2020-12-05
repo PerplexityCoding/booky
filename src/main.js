@@ -1,10 +1,26 @@
+import {
+  loadSentry,
+  queueVueGlobalErrorHandler,
+} from "@/services/sentry/loader";
 import Vue from "vue";
 import App from "./App.vue";
 
-Vue.config.productionTip = false;
+const isProduction = process.env.NODE_ENV === "production";
 
-new Vue({
-  render(h) {
-    return h(App);
-  },
-}).$mount("#app");
+Vue.config.productionTip = !isProduction;
+
+async function main() {
+  if (isProduction) {
+    loadSentry();
+  }
+
+  queueVueGlobalErrorHandler(Vue);
+
+  new Vue({
+    render(h) {
+      return h(App);
+    },
+  }).$mount("#app");
+}
+
+main();
