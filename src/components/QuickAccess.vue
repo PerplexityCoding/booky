@@ -8,12 +8,13 @@
       },
     ]"
     @mouseleave="onMouseLeave"
-    @mousenter="onMouseEnter"
+    @mouseenter="onMouseEnter"
   >
     <div class="empty-placeholder">
       Drag your quick access book here !
     </div>
     <smooth-dnd-container
+      ref="container"
       group-name="tabs"
       class="quick-access-container"
       :should-accept-drop="shouldAcceptDrop"
@@ -21,7 +22,7 @@
       :get-child-payload="getCardPayloadFromTabsList()"
       :drop-placeholder="placeholderOptions"
       :orientation="orientation"
-      :style="{ marginLeft: `${marginLeft}px` }"
+      :style="containerStyle"
       @drop="onCardDrop"
       @drag-enter="onDragEnter"
       @drag-leave="onDragLeave"
@@ -51,7 +52,7 @@ import {
   Container as SmoothDndContainer,
   Draggable as SmoothDndDraggable,
 } from "@ymenard-dev/vue-smooth-dnd";
-import {applyDrag, throttle} from "../utils/utils";
+import { applyDrag, throttle } from "../utils/utils";
 import { globalSet } from "../services/app/unique";
 import Item from "./Item";
 
@@ -88,24 +89,16 @@ export default {
       originalDraggableInfoSize: null,
       originalGhostCenterDelta: null,
       resetTo: null,
-      marginLeft: 35,
       hasTransition: false,
-      recalcTo: null,
+      recalcTimeout: null,
       recalDelay: 100,
+      containerStyle: null,
     };
   },
   mounted() {
-    this.calcMarginLeft();
     setTimeout(() => {
       this.hasTransition = true;
     }, 0);
-
-    const calcMarginThrottle = 100;
-    this.throttledCalcMargin = throttle(this.calcMarginLeft, calcMarginThrottle);
-    window.addEventListener("resize", this.throttledCalcMargin);
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.throttledCalcMargin);
   },
   methods: {
     shouldAcceptDrop(src, payload) {
@@ -119,21 +112,21 @@ export default {
       return !this.locked;
     },
     onMouseEnter() {
-      if (this.recalcTo) {
-        clearTimeout(this.recalcTo);
-        this.recalcTo = null;
+      if (this.recalcTimeout) {
+        clearTimeout(this.recalcTimeout);
+        this.recalcTimeout = null;
+      } else {
+        const clientRect = this.$refs.container.$el.getBoundingClientRect();
+        this.containerStyle = {
+          marginLeft: `${clientRect.left}px`,
+        };
       }
     },
     onMouseLeave() {
-      this.recalcTo = setTimeout(this.calcMarginLeft, this.recalDelay);
-    },
-    calcMarginLeft() {
-      const containerMargin = 60;
-      this.marginLeft =
-        (this.$el.offsetWidth -
-          containerMargin -
-          Math.max(250, this.items.length * (this.itemWidth + 12))) /
-        2;
+      this.recalcTimeout = setTimeout(() => {
+        this.containerStyle = null;
+        this.recalcTimeout = null;
+      }, this.recalDelay);
     },
     getCardPayloadFromTabsList() {
       return (index) => {
@@ -152,9 +145,10 @@ export default {
         } else {
           this.backupOriginalDrag(draggableInfo);
         }
+        const itemSize = this.itemWidth;
         this.adaptDragInfo(draggableInfo, {
-          itemWidth: this.itemWidth,
-          itemHeight: this.itemWidth,
+          itemWidth: itemSize,
+          itemHeight: itemSize,
           center: true,
         });
         this.dragItemIn = true;
@@ -273,6 +267,7 @@ export default {
   min-height: 55px;
   @include backgroundColor(--primary-color1, -3%, 10%);
   border-radius: 5px;
+  margin: 0 auto;
 }
 
 .dnd-item {
@@ -283,6 +278,7 @@ export default {
   display: flex;
   align-items: center;
   @include backgroundColor(--primary-color1);
+  position: relative;
 
   &.has-transition .quick-access-container {
     transition: margin-left ease-out 0.2s;
@@ -295,7 +291,6 @@ export default {
   font-size: 15px;
   position: absolute;
   padding: 20px;
-  margin-left: calc(50% - 296px);
   display: none;
 }
 
