@@ -1,19 +1,11 @@
 <template>
   <div class="options">
     <div class="options-entry">
-      <label>
-        Select interface theme:
-      </label>
+      <label> Select interface theme: </label>
       <select v-model="theme" @change="saveTheme">
-        <option value="purple">
-          Purple
-        </option>
-        <option value="zen">
-          Zen
-        </option>
-        <option value="business-gray">
-          Business gray
-        </option>
+        <option value="purple">Purple</option>
+        <option value="zen">Zen</option>
+        <option value="business-gray">Business gray</option>
       </select>
     </div>
   </div>

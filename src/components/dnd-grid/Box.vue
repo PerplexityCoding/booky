@@ -5,47 +5,6 @@
   </div>
 </template>
 
-<style>
-.dnd-grid-box {
-  position: absolute;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.dnd-grid-box.dragging,
-.dnd-grid-box.resizing {
-  z-index: 2;
-  opacity: 0.7;
-}
-
-.dnd-grid-box:not(.dragging):not(.resizing) {
-  transition: transform ease-out 0.1s, width ease-out 0.1s, height ease-out 0.1s;
-}
-
-.dnd-grid-box .resize-handle {
-  position: absolute;
-  right: -5px;
-  bottom: -5px;
-  width: 10px;
-  height: 10px;
-  cursor: se-resize;
-  border-radius: 50%;
-}
-
-@media only screen and (max-width: 1366px) {
-  .dnd-grid-box .resize-handle {
-    width: 60px;
-    height: 60px;
-    bottom: -10px;
-    right: -10px;
-  }
-
-  dnd-grid-box .resize-handle.resize-visible {
-    background-color: rgba(100, 100, 100, 0.1);
-  }
-}
-</style>
-
 <script>
 import { List as ContainerList } from "./Container";
 import * as utils from "./utils";
@@ -171,7 +130,9 @@ export default {
       };
 
       this.$dragHandle.addEventListener("mousedown", startEvent);
-      this.$dragHandle.addEventListener("touchstart", startEvent);
+      this.$dragHandle.addEventListener("touchstart", startEvent, {
+        passive: true,
+      });
     }
 
     // resizing
@@ -238,3 +199,44 @@ export default {
   },
 };
 </script>
+
+<style>
+.dnd-grid-box {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.dnd-grid-box.dragging,
+.dnd-grid-box.resizing {
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.dnd-grid-box:not(.dragging):not(.resizing) {
+  transition: transform ease-out 0.1s, width ease-out 0.1s, height ease-out 0.1s;
+}
+
+.dnd-grid-box .resize-handle {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: se-resize;
+  border-radius: 50%;
+}
+
+@media only screen and (max-width: 1366px) {
+  .dnd-grid-box .resize-handle {
+    width: 60px;
+    height: 60px;
+    bottom: -10px;
+    right: -10px;
+  }
+
+  dnd-grid-box .resize-handle.resize-visible {
+    background-color: rgba(100, 100, 100, 0.1);
+  }
+}
+</style>

@@ -9,21 +9,6 @@
   </div>
 </template>
 
-<style>
-.dnd-grid-container {
-  position: relative;
-  transition: min-width ease-out 0.1s, min-height ease-out 0.1s;
-}
-
-.dnd-grid-container .dnd-grid-box.placeholder {
-  border: 1px dashed #fff;
-}
-
-.dnd-grid-container .dnd-grid-box.placeholder {
-  transition: none !important;
-}
-</style>
-
 <script>
 import Box from "./Box";
 import * as utils from "./utils";
@@ -614,3 +599,18 @@ export default {
   },
 };
 </script>
+
+<style>
+.dnd-grid-container {
+  position: relative;
+  transition: min-width ease-out 0.1s, min-height ease-out 0.1s;
+}
+
+.dnd-grid-container .dnd-grid-box.placeholder {
+  border: 1px dashed #fff;
+}
+
+.dnd-grid-container .dnd-grid-box.placeholder {
+  transition: none !important;
+}
+</style>

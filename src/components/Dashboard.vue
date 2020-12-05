@@ -82,9 +82,13 @@ export default {
         150
       ));
     calcSize();
-    window.addEventListener("resize", () => {
-      calcSize();
-    });
+    window.addEventListener(
+      "resize",
+      () => {
+        calcSize();
+      },
+      { passive: true }
+    );
   },
   methods: {
     onDragStart() {

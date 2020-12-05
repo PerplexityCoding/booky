@@ -10,9 +10,7 @@
     @mouseleave="onMouseLeave"
     @mouseenter="onMouseEnter"
   >
-    <div class="empty-placeholder">
-      Drag your quick access book here !
-    </div>
+    <div class="empty-placeholder">Drag your quick access book here !</div>
     <smooth-dnd-container
       ref="container"
       group-name="tabs"
