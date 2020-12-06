@@ -88,7 +88,7 @@ export default {
         "settings/theme",
       ]);
       await this.loadLists(value.listsId);
-      await loadIcons();
+      //await loadIcons();
 
       this.layout = fixBrokenLayout(value.layout || [], this.lists);
       this.stash = value.stash || [];

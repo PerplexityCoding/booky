@@ -8,6 +8,7 @@ import App from "./App.vue";
 const isProduction = process.env.NODE_ENV === "production";
 
 Vue.config.productionTip = !isProduction;
+Vue.config.performance = !isProduction;
 
 async function main() {
   if (isProduction) {

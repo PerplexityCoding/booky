@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     icon() {
-      return getIcon(this.src);
+      return this.src;
     },
   },
 };
