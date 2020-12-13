@@ -50,6 +50,7 @@ module.exports = {
   },
   configureWebpack: {
     devtool: isDevelopment ? "cheap-module-source-map" : "source-map",
+    plugins: webpackPlugins,
   },
   chainWebpack: (config) => {
     if (config.plugins.has("prefetch-index")) {
