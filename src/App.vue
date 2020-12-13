@@ -136,14 +136,17 @@ export default {
         const hasFavIcon = changedInfo.favIconUrl != null;
         const tabItem = this.tabs.filter((tab) => tab.tabId === tabId)[0];
 
-        if (tab) {
-          tabItem.body = tab.title;
-        }
-        if (hasFavIcon) {
-          tabItem.icon = changedInfo.favIconUrl;
-        }
+        // only current window
+        if (tabItem) {
+          if (tab) {
+            tabItem.body = tab.title;
+          }
+          if (hasFavIcon) {
+            tabItem.icon = changedInfo.favIconUrl;
+          }
 
-        tabItem.href = tab.url;
+          tabItem.href = tab.url;
+        }
       });
     },
     async loadLists(listsId) {
