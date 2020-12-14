@@ -263,6 +263,7 @@ export default {
         font-size: 14px;
         font-weight: 500;
         letter-spacing: 0.05rem;
+        @include fontColor(--accent);
       }
     }
 

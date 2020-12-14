@@ -16,7 +16,7 @@
       <settings-icon />
     </button>
 
-    <h1>Book-keeper</h1>
+    <h1 class="logo">Book-keeper</h1>
   </header>
 </template>
 
@@ -77,6 +77,10 @@ header {
   align-items: center;
   justify-content: center;
   padding: 5px 10px;
+
+  .logo {
+    @include fontColor(--accent);
+  }
 }
 
 .lock-btn,

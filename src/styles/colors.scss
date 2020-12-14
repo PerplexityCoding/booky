@@ -32,11 +32,13 @@
   @include defineColorHSL(--font-color-white, 38, 100%, 97%);
   @include defineColorHSL(--red, 350, 100%, 65%);
   @include defineColorHSL(--green, 141, 100%, 58%);
+  @include defineColorHSL(--accent, 78, 100%, 77%);
 
   @media (prefers-color-scheme: dark) {
+    @include defineColorHSL(--accent, 78, 79%, 51%);
     @include defineColorHSL(--primary-color1, 240, 3%, 17%);
     @include defineColorHSL(--primary-color2, 218, 9%, 27%);
-    @include defineColorHSL(--primary-color3, 215, 15%, 43%);
+    @include defineColorHSL(--primary-color3, 215, 44%, 35%);
     @include defineColorHSL(--header-color, 226, 25%, 33%);
     @include defineColorHSL(--font-color, 308, 4%, 11%);
   }
@@ -52,8 +54,10 @@
   @include defineColorHSL(--font-color-white, 301, 32%, 95%);
   @include defineColorHSL(--red, 350, 100%, 65%);
   @include defineColorHSL(--green, 141, 100%, 58%);
+  @include defineColorHSL(--accent, 64, 100%, 74%);
 
   @media (prefers-color-scheme: dark) {
+    @include defineColorHSL(--accent, 64, 62%, 56%);
     @include defineColorHSL(--primary-color1, 248, 16%, 21%);
     @include defineColorHSL(--primary-color2, 204, 61%, 23%);
     @include defineColorHSL(--primary-color3, 197, 4%, 31%);
