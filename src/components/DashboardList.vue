@@ -29,8 +29,8 @@
         :class="{ 'lock-btn-unlocked': !listLocked || !locked }"
         @click="toggleLock"
       >
-        <lock-icon :size="iconSize" v-if="listLocked && locked" />
-        <unlock-icon :size="iconSize" v-else />
+        <lock-icon v-if="listLocked && locked" :size="iconSize" />
+        <unlock-icon v-else :size="iconSize" />
       </button>
     </header>
     <div
@@ -261,8 +261,7 @@ export default {
 
       ::v-deep .input {
         font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.05rem;
+        letter-spacing: 0.035rem;
         @include fontColor(--accent);
       }
     }

@@ -28,7 +28,8 @@
     "512": "assets/images/android-chrome-512x512.png"
   },
   "web_accessible_resources": [
-    "*.png"
+    "*.png",
+    "*.woff2"
   ],
   "background": {
     "scripts": ["js/background.js"],

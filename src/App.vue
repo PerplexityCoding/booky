@@ -211,6 +211,7 @@ export default {
 <style lang="scss">
 @import "./styles/colors.scss";
 @import "./styles/mixins.scss";
+@import "./styles/fonts.scss";
 
 * {
   box-sizing: border-box;
@@ -270,7 +271,7 @@ button {
 @import "./styles/mixins.scss";
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, "Segoe UI", Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
