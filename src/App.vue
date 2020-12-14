@@ -279,7 +279,7 @@ button {
   flex-direction: column;
   position: fixed;
   grid-template-columns: 40px auto max(min(400px, 12%), 225px);
-  grid-template-rows: 40px 106px calc(100% - 146px);
+  grid-template-rows: 40px 138px calc(100% - 178px);
   top: 0;
   bottom: 0;
   left: 0;

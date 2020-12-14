@@ -163,5 +163,6 @@ export default {
 .dashboard {
   @include backgroundColor(--primary-color1);
   overflow: auto;
+  margin-top: -16px;
 }
 </style>
