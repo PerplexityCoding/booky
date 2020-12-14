@@ -22,15 +22,15 @@
         class="delete-btn"
         @click="$emit('delete-list', list.id)"
       >
-        <x-circle-icon />
+        <x-circle-icon :size="iconSize" />
       </button>
       <button
         class="lock-btn"
         :class="{ 'lock-btn-unlocked': !listLocked || !locked }"
         @click="toggleLock"
       >
-        <lock-icon v-if="listLocked && locked" />
-        <unlock-icon v-else />
+        <lock-icon :size="iconSize" v-if="listLocked && locked" />
+        <unlock-icon :size="iconSize" v-else />
       </button>
     </header>
     <div
@@ -128,6 +128,7 @@ export default {
         showOnTop: true,
       },
       isHover: false,
+      iconSize: "20",
     };
   },
   methods: {
@@ -239,8 +240,8 @@ export default {
 
 .dashboard-list {
   @include backgroundColor(--primary-color2);
-  padding: 5px;
-  border-radius: 2px;
+  padding: 6px 8px;
+  border-radius: 4px;
 
   .dnd-list-container {
     min-height: 45px;
@@ -259,13 +260,15 @@ export default {
       width: 100%;
 
       ::v-deep .input {
-        font-size: 15px;
-        font-weight: bold;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.05rem;
       }
     }
 
     & .delete-btn {
       @include fontColor(--font-color-white);
+      margin-right: 4px;
 
       &:hover {
         color: var(--red);
@@ -274,9 +277,9 @@ export default {
   }
 
   .dashboard-draggable-item {
-    border-radius: 2px;
+    border-radius: 4px;
     @include fontColor(--font-color);
-    padding-top: 5px;
+    padding-top: 8px;
 
     a {
       @include fontColor(--font-color);

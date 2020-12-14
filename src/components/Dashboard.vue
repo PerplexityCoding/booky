@@ -4,8 +4,8 @@
       :layout="layout"
       :cell-size="cellSize"
       :max-column-count="maxColumnCount"
-      :outer-margin="10"
-      :margin="5"
+      :outer-margin="outerMargin"
+      :margin="margin"
       :default-size="defaultSize"
       :bubble-up="bubbleUp"
       :resizable="false"
@@ -73,12 +73,14 @@ export default {
         h: 2,
       },
       maxColumnCount: 8,
+      outerMargin: 16,
+      margin: 8,
     };
   },
   mounted() {
     const calcSize = () =>
       (this.cellSize.w = Math.max(
-        Math.floor(this.$el.offsetWidth / this.maxColumnCount) - 7,
+        Math.floor(this.$el.offsetWidth / this.maxColumnCount) - 11,
         150
       ));
     calcSize();

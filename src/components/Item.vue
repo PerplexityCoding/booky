@@ -19,7 +19,7 @@
       class="delete-btn"
       @click.prevent.stop="$emit('delete-item', item)"
     >
-      <x-circle-icon />
+      <x-circle-icon size="20" />
     </button>
   </component>
 </template>
@@ -76,12 +76,12 @@ export default {
 .item {
   @include backgroundColor(--primary-color3);
   @include fontColor(--font-color-white);
-  padding: 6px;
+  padding: 4px 8px;
   width: 100%;
-  min-width: 150px;
+  min-width: 140px;
   height: 44px;
   display: flex !important;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
   align-items: center;
 
