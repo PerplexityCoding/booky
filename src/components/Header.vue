@@ -80,6 +80,7 @@ header {
 
   .logo {
     @include fontColor(--accent);
+    padding: 0.3rem;
   }
 }
 
